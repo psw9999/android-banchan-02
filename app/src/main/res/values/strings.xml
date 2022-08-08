@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Banchan</string>
+
+    <string name="ordering_appbar_title">ORDERING</string>
 </resources>
