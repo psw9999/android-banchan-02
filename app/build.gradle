@@ -9,6 +9,11 @@ plugins {
 android {
     compileSdk 32
 
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
+
     defaultConfig {
         applicationId "com.example.banchan"
         minSdk 21
