@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="greyscale_default">#828282</color>
+    <color name="greyscale_line">#DDDDDD</color>
+    <color name="greyscale_surface">#F8F7F7</color>
+    <color name="greyscale_black30">#4D000000</color>
+
+    <color name="primary_accent">#F46700</color>
+    <color name="primary_main">#F9BA70</color>
+    <color name="primary_disabled">#FCDCB7</color>
+    <color name="primary_surface">#FBF5E0</color>
 </resources>
