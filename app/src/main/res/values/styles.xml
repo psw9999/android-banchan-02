@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="tv_bold_20" parent="TextAppearance.AppCompat" >
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="tv_bold_20.AppbarTitle">
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>

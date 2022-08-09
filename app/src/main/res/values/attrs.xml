@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="OrderingAppBar">
+        <attr name="cartCount" format="integer" />
+        <attr name="isShipping" format="boolean" />
+    </declare-styleable>
+</resources>
