@@ -15,6 +15,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="tv_bold_16" parent="TextAppearance.AppCompat" >
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
     <style name="home_tab_layout" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabBackground">@drawable/bg_home_tab</item>
         <item name="tabMode">scrollable</item>
