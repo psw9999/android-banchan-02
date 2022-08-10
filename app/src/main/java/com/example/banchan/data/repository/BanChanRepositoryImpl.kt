@@ -6,7 +6,6 @@ import com.example.banchan.data.response.side.SideResponse
 import com.example.banchan.data.response.soup.SoupResponse
 import com.example.banchan.data.source.remote.BanChanRemoteDataSource
 import com.example.banchan.domain.model.BestModel
-import com.example.banchan.domain.repository.BanChanRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -14,7 +13,7 @@ import javax.inject.Inject
 class BanChanRepositoryImpl @Inject constructor(
     private val banChanRemoteDataSource: BanChanRemoteDataSource,
     private val ioDispatcher: CoroutineDispatcher
-) : BanChanRepository{
+) : BanChanRepository {
 
     override suspend fun getBest(): Result<List<BestModel>> =
         withContext(ioDispatcher) {

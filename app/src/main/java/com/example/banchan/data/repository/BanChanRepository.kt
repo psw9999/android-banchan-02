@@ -1,4 +1,4 @@
-package com.example.banchan.domain.repository
+package com.example.banchan.data.repository
 
 import com.example.banchan.data.response.detail.DetailResponse
 import com.example.banchan.data.response.main.MainResponse
