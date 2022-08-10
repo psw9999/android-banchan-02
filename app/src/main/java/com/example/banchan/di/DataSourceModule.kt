@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -17,9 +16,8 @@ object DataSourceModule {
     @Singleton
     @Provides
     fun provideBanChanRemoteDataSource(
-        banChanApi : BanChanApi,
-        ioDispatcher: CoroutineDispatcher
+        banChanApi : BanChanApi
     ) : BanChanDataSource {
-        return BanChanRemoteDataSource(banChanApi, ioDispatcher)
+        return BanChanRemoteDataSource(banChanApi)
     }
 }
