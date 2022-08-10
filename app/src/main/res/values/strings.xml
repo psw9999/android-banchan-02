@@ -3,6 +3,12 @@
 
     <string name="ordering_appbar_title">ORDERING</string>
 
+    <string name="home_best_subtitle">기획전</string>
+    <string name="home_best_title">한 번 주문하면\n두 번 반하는 반찬들</string>
+    <string name="home_main_cook_title">모두가 좋아하는 \n든든한 메인 요리</string>
+    <string name="home_soup_title">정성이 담긴\n뜨끈뜨끈 국물 요리</string>
+    <string name="home_side_title">식탁을 풍성하게\n정갈한 밑반찬</string>
+
     <string-array name="home_tab_title_array">
         <item>기획전</item>
         <item>든든한 메인요리</item>
