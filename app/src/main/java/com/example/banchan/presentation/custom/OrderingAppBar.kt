@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.customview
+package com.example.banchan.presentation.custom
 
 import android.content.Context
 import android.content.res.TypedArray

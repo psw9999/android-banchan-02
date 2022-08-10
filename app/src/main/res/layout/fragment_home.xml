@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".presentation.home.HomeFragment">
 
-        <com.example.banchan.presentation.customview.OrderingAppBar
+        <com.example.banchan.presentation.custom.OrderingAppBar
             android:id="@+id/ab_home"
             android:layout_width="match_parent"
             android:layout_height="56dp"
