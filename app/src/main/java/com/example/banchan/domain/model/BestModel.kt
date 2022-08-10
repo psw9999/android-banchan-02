@@ -1,4 +1,4 @@
-package com.example.banchan.data.response
+package com.example.banchan.domain.model
 
 data class BestModel(
     val title : String,

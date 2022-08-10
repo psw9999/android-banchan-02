@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.home.adaper
+package com.example.banchan.presentation.adapter.home
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

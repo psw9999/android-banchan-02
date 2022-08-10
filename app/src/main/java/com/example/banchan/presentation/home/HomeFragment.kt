@@ -3,7 +3,7 @@ package com.example.banchan.presentation.home
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentHomeBinding
 import com.example.banchan.presentation.base.BaseFragment
-import com.example.banchan.presentation.home.adaper.HomeViewPagerAdapter
+import com.example.banchan.presentation.adapter.home.HomeViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
