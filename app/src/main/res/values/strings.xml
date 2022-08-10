@@ -9,6 +9,10 @@
     <string name="home_soup_title">정성이 담긴\n뜨끈뜨끈 국물 요리</string>
     <string name="home_side_title">식탁을 풍성하게\n정갈한 밑반찬</string>
 
+    <string name="home_error">데이터 로드에 실패하였습니다.</string>
+    <string name="home_error_btn_reload">다시 시도</string>
+    <string name="home_empty">주문 할 수 있는 음식이 없어요.</string>
+
     <string-array name="home_tab_title_array">
         <item>기획전</item>
         <item>든든한 메인요리</item>
