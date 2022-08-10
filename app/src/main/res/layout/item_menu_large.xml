@@ -13,7 +13,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -40,10 +40,13 @@
             style="@style/tv_normal_14.Black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@{item.title}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_banchan"
+            app:layout_constraintBottom_toTopOf="@id/tv_content"
+            app:layout_constraintStart_toEndOf="@id/iv_banchan"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="오리주물럭" />
 
         <TextView
@@ -52,8 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.description}"
-            app:layout_constraintBottom_toTopOf="@id/tv_discount"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_display_price"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="감칠맛 나는 양념" />
 
@@ -67,7 +70,7 @@
             android:visibility="@{item.discountPercent == null ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toStartOf="@id/tv_display_price"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_content"
             app:layout_constraintTop_toTopOf="@id/tv_display_price"
             tools:text="20%" />
 
@@ -78,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:text="@{item.discountPercent == null ? item.originPrice : item.discountPrice}"
+            app:layout_constraintBottom_toTopOf="@id/tv_origin_price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_discount"
             app:layout_constraintTop_toBottomOf="@id/tv_content"
@@ -92,7 +96,8 @@
             android:background="@drawable/background_line"
             android:text="@{item.originPrice}"
             android:visibility="@{item.discountPercent == null ? View.GONE : View.VISIBLE}"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_content"
             app:layout_constraintTop_toBottomOf="@id/tv_display_price"
             tools:text="1234원" />
     </androidx.constraintlayout.widget.ConstraintLayout>

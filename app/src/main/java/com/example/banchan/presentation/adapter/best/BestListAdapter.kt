@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
-import com.example.banchan.domain.model.BestListItem
 import com.example.banchan.databinding.ItemBestListBinding
 import com.example.banchan.databinding.ItemHomeHeaderBinding
+import com.example.banchan.domain.model.BestListItem
 import com.example.banchan.presentation.adapter.menu.MenuAdapter
 
 class BestListAdapter :
@@ -84,6 +84,6 @@ class BestContentViewHolder(
 
         val menuAdapter = MenuAdapter()
         binding.rvBestList.adapter = menuAdapter
-        menuAdapter.submitList(bestModel.bestItem.items)
+        menuAdapter.submitList(bestModel.bestItem.items) {}
     }
 }

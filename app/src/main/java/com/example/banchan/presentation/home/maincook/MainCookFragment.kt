@@ -1,60 +1,65 @@
 package com.example.banchan.presentation.home.maincook
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.banchan.R
+import com.example.banchan.data.response.ItemListModel
+import com.example.banchan.databinding.FragmentMainCookBinding
+import com.example.banchan.fakeData
+import com.example.banchan.presentation.base.BaseFragment
+import com.example.banchan.presentation.home.maincook.adapter.Filter
+import com.example.banchan.presentation.home.maincook.adapter.MainAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment_main_cook) {
+    private val viewModel by viewModels<MainCookViewModel>()
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MainCookFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class MainCookFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private val mainAdapter by lazy {
+        MainAdapter {
+            changeListMode(it)
+            viewModel.changeMode(it)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_cook, container, false)
-    }
+    override fun initViews() {
+        binding.rvMain.apply {
+            adapter = mainAdapter
+            itemAnimator = null
+        }
+        changeListMode(Filter.Grid)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainCookFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MainCookFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.fake.collect {
+                    mainAdapter.submitList(it)
                 }
             }
+        }
+    }
+
+    override fun observe() {
+    }
+
+    private fun changeListMode(type: Filter) {
+        if (type == Filter.Linear) {
+            binding.rvMain.layoutManager = LinearLayoutManager(requireActivity())
+        } else {
+            binding.rvMain.layoutManager = GridLayoutManager(requireActivity(), 2)
+            (binding.rvMain.layoutManager as GridLayoutManager).spanSizeLookup =
+                object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return when (mainAdapter.getItemViewType(position)) {
+                            MainAdapter.HEADER_VIEW_TYPE -> 2
+                            else -> 1
+                        }
+                    }
+                }
+        }
     }
 }

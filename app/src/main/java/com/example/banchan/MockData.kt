@@ -1,10 +1,10 @@
 package com.example.banchan
 
+import com.example.banchan.domain.model.BestListItem
 import com.example.banchan.domain.model.BestModel
 import com.example.banchan.domain.model.ItemModel
-import com.example.banchan.domain.model.BestListItem
 
-val fakeItem = listOf(
+var fakeData: MutableList<ItemModel> = mutableListOf(
     ItemModel(
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
@@ -13,7 +13,8 @@ val fakeItem = listOf(
         originPrice = "15,800",
         discountPrice = "12,640원",
         discountPercent = "20%"
-    ), ItemModel(
+    ),
+    ItemModel(
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
@@ -22,7 +23,8 @@ val fakeItem = listOf(
         discountPrice = "12,640원",
         discountPercent = "20%",
         isCartAdded = true
-    ), ItemModel(
+    ),
+    ItemModel(
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
@@ -30,16 +32,38 @@ val fakeItem = listOf(
         originPrice = "15,800",
         discountPrice = null,
         discountPercent = null
-    ), ItemModel(
+    ),
+    ItemModel(
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
         description = "감칠맛 나는 매콤한 양념",
         originPrice = "15,800",
-        discountPrice = "12,640원",
-        discountPercent = "20%",
-        isCartAdded = true
-    ), ItemModel(
+        discountPrice = null,
+        discountPercent = null
+    ),
+    ItemModel(
+        detailHash = "HBDEF",
+        image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+        title = "오리 주물럭_반조리",
+        description = "감칠맛 나는 매콤한 양념",
+        originPrice = "15,800",
+        discountPrice = null,
+        discountPercent = null
+    ),
+    ItemModel(
+        detailHash = "HBDEF",
+        image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+        title = "오리 주물럭_반조리",
+        description = "감칠맛 나는 매콤한 양념",
+        originPrice = "15,800",
+        discountPrice = null,
+        discountPercent = null
+    )
+)
+
+val fakeItem = listOf(
+    ItemModel(
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
@@ -51,7 +75,7 @@ val fakeItem = listOf(
 )
 
 val fakeBestItem: List<BestListItem> = listOf(
-    BestListItem.BestHeader(),
+    BestListItem.BestHeader,
     BestListItem.BestContent(
         BestModel(
             title = "풍성한 고기반찬",
