@@ -2,4 +2,12 @@
     <string name="app_name">Banchan</string>
 
     <string name="ordering_appbar_title">ORDERING</string>
+
+    <string-array name="home_tab_title_array">
+        <item>기획전</item>
+        <item>든든한 메인요리</item>
+        <item>뜨끈한 국물요리</item>
+        <item>정갈한 밑반찬</item>
+    </string-array>
+
 </resources>
