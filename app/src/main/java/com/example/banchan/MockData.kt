@@ -1,12 +1,11 @@
 package com.example.banchan
 
-import com.example.banchan.data.response.BestModel
-import com.example.banchan.data.response.ItemModel
-import com.example.banchan.data.response.best.BestListItem
+import com.example.banchan.domain.model.BestModel
+import com.example.banchan.domain.model.ItemModel
+import com.example.banchan.domain.model.BestListItem
 
 val fakeItem = listOf(
     ItemModel(
-        id = 1,
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
@@ -15,7 +14,6 @@ val fakeItem = listOf(
         discountPrice = "12,640원",
         discountPercent = "20%"
     ), ItemModel(
-        id = 2,
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
@@ -25,7 +23,6 @@ val fakeItem = listOf(
         discountPercent = "20%",
         isCartAdded = true
     ), ItemModel(
-        id = 3,
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
@@ -34,7 +31,6 @@ val fakeItem = listOf(
         discountPrice = null,
         discountPercent = null
     ), ItemModel(
-        id = 4,
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
@@ -44,7 +40,6 @@ val fakeItem = listOf(
         discountPercent = "20%",
         isCartAdded = true
     ), ItemModel(
-        id = 5,
         detailHash = "HBDEF",
         image = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
         title = "오리 주물럭_반조리",
@@ -56,7 +51,7 @@ val fakeItem = listOf(
 )
 
 val fakeBestItem: List<BestListItem> = listOf(
-    BestListItem.BestHeader,
+    BestListItem.BestHeader(),
     BestListItem.BestContent(
         BestModel(
             title = "풍성한 고기반찬",

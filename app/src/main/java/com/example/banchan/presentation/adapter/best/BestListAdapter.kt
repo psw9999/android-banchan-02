@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.home.best.adapter
+package com.example.banchan.presentation.adapter.best
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
-import com.example.banchan.data.response.best.BestListItem
+import com.example.banchan.domain.model.BestListItem
 import com.example.banchan.databinding.ItemBestListBinding
 import com.example.banchan.databinding.ItemHomeHeaderBinding
-import com.example.banchan.ui.adapter.MenuAdapter
+import com.example.banchan.presentation.adapter.menu.MenuAdapter
 
 class BestListAdapter :
     ListAdapter<BestListItem, RecyclerView.ViewHolder>(diffUtil) {

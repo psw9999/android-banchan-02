@@ -1,7 +1,6 @@
-package com.example.banchan.data.response
+package com.example.banchan.domain.model
 
 data class ItemModel(
-    val id: Int,
     val description: String,
     val detailHash: String,
     val image: String,

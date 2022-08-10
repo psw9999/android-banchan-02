@@ -1,6 +1,6 @@
 package com.example.banchan.di
 
-import com.example.banchan.remote.BanChanApi
+import com.example.banchan.data.api.BanChanApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

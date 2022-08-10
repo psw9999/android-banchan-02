@@ -2,7 +2,7 @@ package com.example.banchan.extension
 
 import android.view.View
 import androidx.databinding.BindingAdapter
-import com.example.banchan.presentation.customview.OrderingAppBar
+import com.example.banchan.presentation.custom.OrderingAppBar
 
 @BindingAdapter("app:cartCount")
 fun OrderingAppBar.cartCount(cartCount: Int) {

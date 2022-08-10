@@ -1,6 +1,4 @@
-package com.example.banchan.data.response.best
-
-import com.example.banchan.data.response.BestModel
+package com.example.banchan.domain.model
 
 sealed class BestListItem {
     object BestHeader : BestListItem()

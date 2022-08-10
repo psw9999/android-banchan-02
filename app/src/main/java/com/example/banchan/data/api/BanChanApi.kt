@@ -1,4 +1,4 @@
-package com.example.banchan.remote
+package com.example.banchan.data.api
 
 import com.example.banchan.data.response.best.BestResponse
 import com.example.banchan.data.response.detail.DetailResponse

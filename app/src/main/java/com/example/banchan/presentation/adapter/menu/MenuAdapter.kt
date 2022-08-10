@@ -1,10 +1,10 @@
-package com.example.banchan.ui.adapter
+package com.example.banchan.presentation.adapter.menu
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.banchan.data.response.ItemModel
+import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.databinding.ItemMenuBinding
 
 class MenuAdapter : ListAdapter<ItemModel, MenuViewHolder>(DiffCallback()) {
@@ -25,7 +25,7 @@ class MenuAdapter : ListAdapter<ItemModel, MenuViewHolder>(DiffCallback()) {
     companion object {
         class DiffCallback : DiffUtil.ItemCallback<ItemModel>() {
             override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.detailHash == newItem.detailHash
             }
 
             override fun areItemsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {

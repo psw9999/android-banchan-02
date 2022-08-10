@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.example.banchan.data.response.ItemModel" />
+            type="com.example.banchan.domain.model.ItemModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
