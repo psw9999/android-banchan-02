@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
 import com.example.banchan.databinding.MenuFilterBinding
-import com.example.banchan.ui.OptionAdapter
+import com.example.banchan.presentation.custom.OptionAdapter
 
 class MainFilterViewHolder(private val binding: MenuFilterBinding) :
     RecyclerView.ViewHolder(binding.root) {

@@ -20,7 +20,7 @@
         app:layout_constraintStart_toEndOf="@id/iv_grid"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.banchan.ui.MenuSpinner
+    <com.example.banchan.presentation.custom.MenuSpinner
         android:id="@+id/spinner_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

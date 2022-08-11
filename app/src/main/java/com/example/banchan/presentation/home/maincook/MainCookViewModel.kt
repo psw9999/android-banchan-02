@@ -15,10 +15,10 @@ import javax.inject.Inject
 class MainCookViewModel @Inject constructor(
     private val getMainDishesUseCase: GetMainDishesUseCase
 ) : ViewModel() {
-    private val filter = MutableStateFlow(Type.Grid)
-    val fake = filter.map { filter ->
-        listOf(ItemListModel.Header(filter)) + getMainDishesUseCase().map {
-            if (filter == Type.Grid) {
+    private val type = MutableStateFlow(Type.Grid)
+    val menus = type.map { type ->
+        listOf(ItemListModel.Header(type)) + getMainDishesUseCase().map {
+            if (type == Type.Grid) {
                 ItemListModel.SmallItem(it)
             } else {
                 ItemListModel.LargeItem(it)
@@ -28,7 +28,7 @@ class MainCookViewModel @Inject constructor(
 
     fun changeType(type: Type) {
         viewModelScope.launch {
-            filter.emit(type)
+            this@MainCookViewModel.type.emit(type)
         }
     }
 }

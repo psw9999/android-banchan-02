@@ -9,7 +9,7 @@
     android:paddingVertical="8dp">
 
     <TextView
-        android:id="@+id/tv_issue_type"
+        android:id="@+id/tv_filter_type"
         style="@style/tv_normal_14.Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

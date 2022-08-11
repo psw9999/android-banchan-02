@@ -37,7 +37,7 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fake.collect {
+                viewModel.menus.collect {
                     mainAdapter.submitList(it) {
                         changeListType((it[0] as ItemListModel.Header).currentType)
                     }
