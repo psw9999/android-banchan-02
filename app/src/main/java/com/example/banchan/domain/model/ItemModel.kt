@@ -1,5 +1,7 @@
 package com.example.banchan.domain.model
 
+import com.example.banchan.presentation.home.maincook.adapter.Type
+
 data class ItemModel(
     val description: String,
     val detailHash: String,
@@ -10,3 +12,9 @@ data class ItemModel(
     val title: String,
     val isCartAdded: Boolean = false
 )
+
+sealed class ItemListModel {
+    data class Header(val currentType: Type) : ItemListModel()
+    data class SmallItem(val item: ItemModel) : ItemListModel()
+    data class LargeItem(val item: ItemModel) : ItemListModel()
+}

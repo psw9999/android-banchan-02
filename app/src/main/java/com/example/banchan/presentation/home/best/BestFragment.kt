@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentBestBinding
 import com.example.banchan.fakeBestItem
+import com.example.banchan.presentation.adapter.best.BestListAdapter
 import com.example.banchan.presentation.base.BaseFragment
-import com.example.banchan.presentation.home.best.adapter.BestListAdapter
 import com.example.banchan.util.dimen.dpToPx
 
 class BestFragment : BaseFragment<FragmentBestBinding>(R.layout.fragment_best) {
