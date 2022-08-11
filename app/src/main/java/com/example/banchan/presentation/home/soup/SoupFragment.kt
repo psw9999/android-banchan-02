@@ -10,7 +10,7 @@ import com.example.banchan.databinding.FragmentSoupBinding
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.home.maincook.adapter.MainAdapter
 import com.example.banchan.presentation.home.maincook.adapter.SpacingItemDecorator
-import com.example.banchan.presentation.home.soup.adapter.SoupAdapter
+import com.example.banchan.presentation.adapter.home.CommonAdapter
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class SoupFragment : BaseFragment<FragmentSoupBinding>(R.layout.fragment_soup) {
     private val viewModel by viewModels<SoupViewModel>()
     private val soupAdapter by lazy {
-        SoupAdapter {
+        CommonAdapter {
             viewModel.changeFilter(it)
         }
     }

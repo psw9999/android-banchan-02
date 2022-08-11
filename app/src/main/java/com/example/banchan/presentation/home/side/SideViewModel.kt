@@ -1,8 +1,8 @@
-package com.example.banchan.presentation.home.soup
+package com.example.banchan.presentation.home.side
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.banchan.domain.usecase.GetSoupDishesUseCase
+import com.example.banchan.domain.usecase.GetSideDishesUseCase
 import com.example.banchan.presentation.home.maincook.Filter
 import com.example.banchan.presentation.adapter.home.CommonItemListModel
 import com.example.banchan.util.ext.toNum
@@ -13,12 +13,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SoupViewModel @Inject constructor(
-    private val getSoupDishesUseCase: GetSoupDishesUseCase
+class SideViewModel @Inject constructor(
+    private val getSideDishesUseCase: GetSideDishesUseCase
 ) : ViewModel() {
     private val filter = MutableStateFlow(Filter.NORMAL)
     val menus = filter.map { filter ->
-        val soupDishes = getSoupDishesUseCase()
+        val soupDishes = getSideDishesUseCase()
         listOf(CommonItemListModel.Header(soupDishes.size, filter)) + soupDishes.run {
             when (filter) {
                 Filter.PRICE_LOW -> sortedWith(compareBy {
@@ -37,7 +37,7 @@ class SoupViewModel @Inject constructor(
 
     fun changeFilter(filter: Filter) {
         viewModelScope.launch {
-            this@SoupViewModel.filter.emit(filter)
+            this@SideViewModel.filter.emit(filter)
         }
     }
 }
