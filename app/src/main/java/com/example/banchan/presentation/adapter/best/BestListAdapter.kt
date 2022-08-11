@@ -84,6 +84,6 @@ class BestContentViewHolder(
 
         val menuAdapter = MenuAdapter()
         binding.rvBestList.adapter = menuAdapter
-        menuAdapter.submitList(bestModel.bestItem.items) {}
+        menuAdapter.submitList(bestModel.bestItem.items)
     }
 }
