@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.example.banchan.domain.model.ItemModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_banchan"
+            imageUrl="@{item.image}"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/iv_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@{item.cartAdded ? @drawable/ic_circle_checked : @drawable/ic_circle_cart}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_banchan"
+            app:layout_constraintEnd_toEndOf="@id/iv_banchan" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/tv_normal_14.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{item.title}"
+            app:layout_constraintBottom_toTopOf="@id/tv_content"
+            app:layout_constraintStart_toEndOf="@id/iv_banchan"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="오리주물럭" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            style="@style/tv_normal_12.GreyDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.description}"
+            app:layout_constraintBottom_toTopOf="@id/tv_display_price"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="감칠맛 나는 양념" />
+
+        <TextView
+            android:id="@+id/tv_discount"
+            style="@style/tv_normal_14.Sale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@{item.discountPercent}"
+            android:visibility="@{item.discountPercent == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintEnd_toStartOf="@id/tv_display_price"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/tv_content"
+            app:layout_constraintTop_toTopOf="@id/tv_display_price"
+            tools:text="20%" />
+
+        <TextView
+            android:id="@+id/tv_display_price"
+            style="@style/tv_normal_14.Black"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="@{item.discountPercent == null ? item.originPrice : item.discountPrice}"
+            app:layout_constraintBottom_toTopOf="@id/tv_origin_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_discount"
+            app:layout_constraintTop_toBottomOf="@id/tv_content"
+            tools:text="1234원" />
+
+        <TextView
+            android:id="@+id/tv_origin_price"
+            style="@style/tv_normal_12.GreyDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/background_line"
+            android:text="@{item.originPrice}"
+            android:visibility="@{item.discountPercent == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_display_price"
+            tools:text="1234원" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

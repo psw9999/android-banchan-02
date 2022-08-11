@@ -13,6 +13,8 @@
     <string name="home_error_btn_reload">다시 시도</string>
     <string name="home_empty">주문 할 수 있는 음식이 없어요.</string>
 
+    <string name="total_format">총 %d개 상품</string>
+
     <string-array name="home_tab_title_array">
         <item>기획전</item>
         <item>든든한 메인요리</item>
