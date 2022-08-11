@@ -32,8 +32,8 @@ class MainFilterViewHolder(private val binding: MenuFilterBinding) :
         )
         binding.spinnerMain.setSelection(currentFilter.ordinal)
         binding.spinnerMain.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                when (p2) {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                when (position) {
                     Filter.NORMAL.ordinal -> onFilterChanged(Filter.NORMAL)
                     Filter.PRICE_HIGH.ordinal -> onFilterChanged(Filter.PRICE_HIGH)
                     Filter.PRICE_LOW.ordinal -> onFilterChanged(Filter.PRICE_LOW)

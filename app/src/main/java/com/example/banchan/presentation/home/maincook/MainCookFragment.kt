@@ -35,7 +35,9 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
             addItemDecoration(SpacingItemDecorator(dpToPx(requireActivity(), 4)))
         }
         changeListType(Type.Grid)
+    }
 
+    override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.menus.collect {
@@ -45,9 +47,6 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
                 }
             }
         }
-    }
-
-    override fun observe() {
     }
 
     private fun changeListType(type: Type) {
