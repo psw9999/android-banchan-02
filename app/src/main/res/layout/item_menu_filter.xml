@@ -19,7 +19,7 @@
         tools:text="기본 정렬순" />
 
     <ImageView
-        android:id="@+id/img_check_icon"
+        android:id="@+id/iv_check_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_check"

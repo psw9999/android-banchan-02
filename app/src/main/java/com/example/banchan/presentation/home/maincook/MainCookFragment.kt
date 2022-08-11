@@ -22,9 +22,10 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
     private val viewModel by viewModels<MainCookViewModel>()
 
     private val mainAdapter by lazy {
-        MainAdapter {
-            viewModel.changeType(it)
-        }
+        MainAdapter(
+            onTypeChanged = { viewModel.changeType(it) },
+            onFilterChanged = { viewModel.changeFilter(it) }
+        )
     }
 
     override fun initViews() {

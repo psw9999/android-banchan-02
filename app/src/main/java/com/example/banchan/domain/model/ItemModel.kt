@@ -1,5 +1,6 @@
 package com.example.banchan.domain.model
 
+import com.example.banchan.presentation.home.maincook.Filter
 import com.example.banchan.presentation.home.maincook.adapter.Type
 
 data class ItemModel(
@@ -14,7 +15,7 @@ data class ItemModel(
 )
 
 sealed class ItemListModel {
-    data class Header(val currentType: Type) : ItemListModel()
+    data class Header(val currentType: Type, val currentFilter: Filter) : ItemListModel()
     data class SmallItem(val item: ItemModel) : ItemListModel()
     data class LargeItem(val item: ItemModel) : ItemListModel()
 }

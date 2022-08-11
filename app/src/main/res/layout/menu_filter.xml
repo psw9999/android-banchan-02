@@ -20,10 +20,14 @@
         app:layout_constraintStart_toEndOf="@id/iv_grid"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.banchan.presentation.custom.MenuSpinner
+    <Spinner
         android:id="@+id/spinner_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:dropDownWidth="145dp"
+        android:dropDownVerticalOffset="40dp"
+        android:popupBackground="@drawable/background_spinner"
+        android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,25 +6,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
 import com.example.banchan.databinding.MenuFilterBinding
 import com.example.banchan.presentation.custom.OptionAdapter
+import com.example.banchan.presentation.home.maincook.Filter
 
 class MainFilterViewHolder(private val binding: MenuFilterBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(currentFilter: Type, onClick: (Type) -> Unit) {
+    fun bind(currentType: Type, onTypeChanged: (Type) -> Unit, currentFilter: Filter, onFilterChanged: (Filter) -> Unit) {
         val grayColor = binding.root.resources.getColor(
             R.color.greyscale_default, null
         )
         val blackColor = binding.root.resources.getColor(
             R.color.black, null
         )
-        binding.spinnerMain.adapter = OptionAdapter(binding.root.context, listOf("안녕", "안녕"))
+        binding.spinnerMain.adapter = OptionAdapter(
+            binding.root.context,
+            binding.root.resources.getStringArray(R.array.spinner_array)
+        )
         binding.ivList.setOnClickListener {
-            onClick(Type.Linear)
+            onTypeChanged(Type.Linear)
         }
         binding.ivGrid.setOnClickListener {
-            onClick(Type.Grid)
+            onTypeChanged(Type.Grid)
         }
 
-        when (currentFilter) {
+        when (currentType) {
             Type.Grid -> {
                 binding.ivGrid.setColorFilter(blackColor)
                 binding.ivList.setColorFilter(grayColor)
