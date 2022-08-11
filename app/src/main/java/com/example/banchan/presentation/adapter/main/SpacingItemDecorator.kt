@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.home.maincook.adapter
+package com.example.banchan.presentation.adapter.main
 
 import android.graphics.Rect
 import android.view.View

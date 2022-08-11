@@ -1,7 +1,7 @@
 package com.example.banchan.domain.model
 
 import com.example.banchan.presentation.home.maincook.Filter
-import com.example.banchan.presentation.home.maincook.adapter.Type
+import com.example.banchan.presentation.adapter.main.Type
 
 data class ItemModel(
     val description: String,

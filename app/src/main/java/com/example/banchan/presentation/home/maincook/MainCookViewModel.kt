@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.domain.model.ItemListModel
 import com.example.banchan.domain.usecase.GetMainDishesUseCase
-import com.example.banchan.presentation.home.maincook.adapter.Type
+import com.example.banchan.presentation.adapter.main.Type
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
