@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.home.maincook.adapter
+package com.example.banchan.presentation.home.soup.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,24 +6,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
-import com.example.banchan.databinding.MenuFilterBinding
+import com.example.banchan.databinding.TotalFilterBinding
 import com.example.banchan.presentation.custom.FilterAdapter
 import com.example.banchan.presentation.home.maincook.Filter
 
-class MainFilterViewHolder(private val binding: MenuFilterBinding) :
+class TotalFilterViewViewHolder(private val binding: TotalFilterBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(
-        currentType: Type,
-        onTypeChanged: (Type) -> Unit,
-        currentFilter: Filter,
-        onFilterChanged: (Filter) -> Unit
-    ) {
-        val grayColor = binding.root.resources.getColor(
-            R.color.greyscale_default, null
-        )
-        val blackColor = binding.root.resources.getColor(
-            R.color.black, null
-        )
+    fun bind(currentFilter: Filter, total: Int, onFilterChanged: (Filter) -> Unit) {
+        binding.tvTotal.text = binding.root.resources.getString(R.string.total_format, total)
 
         binding.spinnerMain.adapter = FilterAdapter(
             binding.root.context,
@@ -44,33 +34,14 @@ class MainFilterViewHolder(private val binding: MenuFilterBinding) :
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
-
-        binding.ivList.setOnClickListener {
-            onTypeChanged(Type.Linear)
-        }
-        binding.ivGrid.setOnClickListener {
-            onTypeChanged(Type.Grid)
-        }
-
-        when (currentType) {
-            Type.Grid -> {
-                binding.ivGrid.setColorFilter(blackColor)
-                binding.ivList.setColorFilter(grayColor)
-            }
-            Type.Linear -> {
-                binding.ivGrid.setColorFilter(grayColor)
-                binding.ivList.setColorFilter(blackColor)
-            }
-        }
     }
 
     companion object {
-        fun create(parent: ViewGroup) = MainFilterViewHolder(
-            MenuFilterBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+        fun create(parent: ViewGroup) =
+            TotalFilterViewViewHolder(
+                TotalFilterBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
             )
-        )
     }
 }

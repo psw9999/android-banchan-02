@@ -22,9 +22,10 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
     private val viewModel by viewModels<MainCookViewModel>()
 
     private val mainAdapter by lazy {
-        MainAdapter {
-            viewModel.changeType(it)
-        }
+        MainAdapter(
+            onTypeChanged = { viewModel.changeType(it) },
+            onFilterChanged = { viewModel.changeFilter(it) }
+        )
     }
 
     override fun initViews() {
@@ -34,7 +35,9 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
             addItemDecoration(SpacingItemDecorator(dpToPx(requireActivity(), 4)))
         }
         changeListType(Type.Grid)
+    }
 
+    override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.menus.collect {
@@ -44,9 +47,6 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
                 }
             }
         }
-    }
-
-    override fun observe() {
     }
 
     private fun changeListType(type: Type) {

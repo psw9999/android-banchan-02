@@ -5,12 +5,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.domain.model.ItemListModel
+import com.example.banchan.presentation.home.maincook.Filter
 
 enum class Type {
     Grid, Linear
 }
 
-class MainAdapter(private val onFilterChange: (Type) -> Unit) :
+class MainAdapter(private val onTypeChanged: (Type) -> Unit, private val onFilterChanged: (Filter) -> Unit) :
     ListAdapter<ItemListModel, RecyclerView.ViewHolder>(DiffCallback()) {
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
@@ -40,7 +41,7 @@ class MainAdapter(private val onFilterChange: (Type) -> Unit) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = getItem(position)) {
             is ItemListModel.Header ->
-                (holder as MainFilterViewHolder).bind(item.currentType, onFilterChange)
+                (holder as MainFilterViewHolder).bind(item.currentType, onTypeChanged, item.currentFilter, onFilterChanged)
             is ItemListModel.LargeItem -> {
                 (holder as LargeMenuViewHolder).bind(item.item) {}
             }
