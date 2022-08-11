@@ -1,12 +1,12 @@
-package com.example.banchan.presentation.home.maincook.adapter
+package com.example.banchan.presentation.adapter.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.banchan.databinding.ItemMenuMediumBinding
+import com.example.banchan.databinding.ItemMenuLargeBinding
 import com.example.banchan.domain.model.ItemModel
 
-class MediumMenuViewHolder(private val binding: ItemMenuMediumBinding) :
+class LargeMenuViewHolder(private val binding: ItemMenuLargeBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: ItemModel, onClick: (String) -> Unit) {
         binding.item = item
@@ -15,8 +15,8 @@ class MediumMenuViewHolder(private val binding: ItemMenuMediumBinding) :
     }
 
     companion object {
-        fun create(parent: ViewGroup) = MediumMenuViewHolder(
-            ItemMenuMediumBinding.inflate(
+        fun create(parent: ViewGroup) = LargeMenuViewHolder(
+            ItemMenuLargeBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

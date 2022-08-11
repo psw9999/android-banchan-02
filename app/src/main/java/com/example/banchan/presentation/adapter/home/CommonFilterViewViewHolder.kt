@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.home.soup.adapter
+package com.example.banchan.presentation.adapter.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,7 @@ import com.example.banchan.databinding.TotalFilterBinding
 import com.example.banchan.presentation.custom.FilterAdapter
 import com.example.banchan.presentation.home.maincook.Filter
 
-class TotalFilterViewViewHolder(private val binding: TotalFilterBinding) :
+class CommonFilterViewViewHolder(private val binding: TotalFilterBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(currentFilter: Filter, total: Int, onFilterChanged: (Filter) -> Unit) {
         binding.tvTotal.text = binding.root.resources.getString(R.string.total_format, total)
@@ -38,7 +38,7 @@ class TotalFilterViewViewHolder(private val binding: TotalFilterBinding) :
 
     companion object {
         fun create(parent: ViewGroup) =
-            TotalFilterViewViewHolder(
+            CommonFilterViewViewHolder(
                 TotalFilterBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )

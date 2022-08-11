@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.home.maincook.adapter
+package com.example.banchan.presentation.adapter.main
 
 import android.view.LayoutInflater
 import android.view.View
