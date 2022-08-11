@@ -75,7 +75,7 @@ val fakeItem = listOf(
 )
 
 val fakeBestItem: List<BestListItem> = listOf(
-    BestListItem.BestHeader,
+    BestListItem.BestHeader(),
     BestListItem.BestContent(
         BestModel(
             title = "풍성한 고기반찬",
