@@ -2,13 +2,14 @@ package com.example.banchan.presentation.home.soup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.banchan.R
 import com.example.banchan.domain.usecase.GetSoupDishesUseCase
-import com.example.banchan.presentation.home.maincook.Filter
 import com.example.banchan.presentation.adapter.home.CommonItemListModel
+import com.example.banchan.presentation.home.maincook.Filter
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,10 +17,38 @@ import javax.inject.Inject
 class SoupViewModel @Inject constructor(
     private val getSoupDishesUseCase: GetSoupDishesUseCase
 ) : ViewModel() {
-    private val filter = MutableStateFlow(Filter.NORMAL)
-    val menus = filter.map { filter ->
+    private var filter = Filter.NORMAL
+    private val _dishes =
+        MutableStateFlow(
+            listOf(
+                CommonItemListModel.CommonHeader(titleStrRes = R.string.home_soup_title),
+                CommonItemListModel.Loading
+            )
+        )
+    val dishes = _dishes.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            _dishes.emit(makeItemModel(filter))
+        }
+    }
+
+    fun changeFilter(changedFilter: Filter) {
+        viewModelScope.launch {
+            filter = changedFilter
+            _dishes.emit(makeItemModel(filter))
+        }
+    }
+
+    private suspend fun makeItemModel(filter: Filter): List<CommonItemListModel> {
         val soupDishes = getSoupDishesUseCase()
-        listOf(CommonItemListModel.Header(soupDishes.size, filter)) + soupDishes.run {
+        val preList = mutableListOf(
+            CommonItemListModel.CommonHeader(titleStrRes = R.string.home_soup_title),
+            CommonItemListModel.Filter(soupDishes.size, filter)
+        )
+        if (soupDishes.isEmpty()) preList.add(CommonItemListModel.Empty)
+
+        return preList + soupDishes.run {
             when (filter) {
                 Filter.PRICE_LOW -> sortedWith(compareBy {
                     it.discountPrice.toNum() ?: it.originPrice.toNum()
@@ -32,12 +61,6 @@ class SoupViewModel @Inject constructor(
             }
         }.map {
             CommonItemListModel.SmallItem(it)
-        }
-    }
-
-    fun changeFilter(filter: Filter) {
-        viewModelScope.launch {
-            this@SoupViewModel.filter.emit(filter)
         }
     }
 }

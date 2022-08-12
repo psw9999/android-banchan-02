@@ -88,7 +88,7 @@ class BestListAdapter :
         getItem(position).let { bestListItem ->
             when (bestListItem) {
                 is BestListItem.BestHeader -> (holder as HomeHeaderViewHolder).bind(
-                    bestListItem.isSubTitleVisible, bestListItem.title
+                    bestListItem.isSubTitleVisible, bestListItem.titleStrRes
                 )
                 is BestListItem.BestLoading -> (holder as HomeLoadingViewHolder)
                 is BestListItem.BestEmpty -> (holder as HomeEmptyViewHolder)

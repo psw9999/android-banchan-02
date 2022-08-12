@@ -8,11 +8,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentMainCookBinding
-import com.example.banchan.domain.model.ItemListModel
-import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.adapter.main.MainAdapter
 import com.example.banchan.presentation.adapter.main.SpacingItemDecorator
 import com.example.banchan.presentation.adapter.main.Type
+import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,8 +22,12 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
 
     private val mainAdapter by lazy {
         MainAdapter(
-            onTypeChanged = { viewModel.changeType(it) },
-            onFilterChanged = { viewModel.changeFilter(it) }
+            onTypeChanged = {
+                viewModel.changeType(it)
+            },
+            onFilterChanged = {
+                viewModel.changeFilter(it)
+            }
         )
     }
 
@@ -40,9 +43,9 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.menus.collect {
+                viewModel.dishes.collect {
                     mainAdapter.submitList(it) {
-                        changeListType((it[0] as ItemListModel.Header).currentType)
+                        changeListType(viewModel.type)
                     }
                 }
             }
@@ -60,7 +63,7 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
                     object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
                             return when (mainAdapter.getItemViewType(position)) {
-                                MainAdapter.HEADER_VIEW_TYPE -> 2
+                                MainAdapter.HEADER_VIEW_TYPE, MainAdapter.FILTER_VIEW_TYPE, MainAdapter.EMPTY_VIEW_TYPE, MainAdapter.ERROR_VIEW_TYPE, MainAdapter.LOADING_VIEW_TYPE -> 2
                                 else -> 1
                             }
                         }
