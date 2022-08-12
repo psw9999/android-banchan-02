@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentMainCookBinding
+import com.example.banchan.presentation.adapter.main.CommonSpacingItemDecorator
+import com.example.banchan.presentation.adapter.main.GridSpacingItemDecorator
 import com.example.banchan.presentation.adapter.main.MainAdapter
-import com.example.banchan.presentation.adapter.main.SpacingItemDecorator
 import com.example.banchan.presentation.adapter.main.Type
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.util.dimen.dpToPx
@@ -35,7 +36,6 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
         binding.rvMain.apply {
             adapter = mainAdapter
             itemAnimator = null
-            addItemDecoration(SpacingItemDecorator(dpToPx(requireActivity(), 4)))
         }
         changeListType(Type.Grid)
     }
@@ -52,13 +52,42 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
         }
     }
 
+    private val commonSpacingItemDecorator by lazy {
+        CommonSpacingItemDecorator(
+            dpToPx(
+                requireActivity(),
+                12
+            )
+        )
+    }
+    private val gridSpacingItemDecorator by lazy {
+        GridSpacingItemDecorator(
+            dpToPx(
+                requireActivity(),
+                12
+            )
+        )
+    }
+
     private fun changeListType(type: Type) {
         when (type) {
             Type.Linear -> {
-                binding.rvMain.layoutManager = LinearLayoutManager(requireActivity())
+                binding.rvMain.apply {
+                    layoutManager = LinearLayoutManager(requireActivity())
+                    if (itemDecorationCount != 0) {
+                        removeItemDecorationAt(0)
+                    }
+                    addItemDecoration(commonSpacingItemDecorator)
+                }
             }
             Type.Grid -> {
-                binding.rvMain.layoutManager = GridLayoutManager(requireActivity(), 2)
+                binding.rvMain.apply {
+                    layoutManager = GridLayoutManager(requireActivity(), 2)
+                    if (itemDecorationCount != 0) {
+                        removeItemDecorationAt(0)
+                    }
+                    addItemDecoration(gridSpacingItemDecorator)
+                }
                 (binding.rvMain.layoutManager as GridLayoutManager).spanSizeLookup =
                     object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {

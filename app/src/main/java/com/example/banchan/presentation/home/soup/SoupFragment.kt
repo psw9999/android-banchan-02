@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentSoupBinding
 import com.example.banchan.presentation.adapter.home.CommonAdapter
-import com.example.banchan.presentation.adapter.main.SpacingItemDecorator
+import com.example.banchan.presentation.adapter.main.GridSpacingItemDecorator
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +27,7 @@ class SoupFragment : BaseFragment<FragmentSoupBinding>(R.layout.fragment_soup) {
         binding.rvSoup.apply {
             adapter = soupAdapter
             itemAnimator = null
-            addItemDecoration(SpacingItemDecorator(dpToPx(requireActivity(), 4)))
+            addItemDecoration(GridSpacingItemDecorator(dpToPx(requireActivity(), 12)))
         }
 
         (binding.rvSoup.layoutManager as GridLayoutManager).spanSizeLookup =
