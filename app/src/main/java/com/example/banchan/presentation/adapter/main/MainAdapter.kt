@@ -18,7 +18,8 @@ enum class Type {
 
 class MainAdapter(
     private val onTypeChanged: (Type) -> Unit,
-    private val onFilterChanged: (Filter) -> Unit
+    private val onFilterChanged: (Filter) -> Unit,
+    private val basketClickListener: (ItemModel) -> Unit
 ) :
     ListAdapter<MainItemListModel, RecyclerView.ViewHolder>(DiffCallback()) {
     override fun getItemViewType(position: Int): Int {
@@ -77,15 +78,35 @@ class MainAdapter(
                     onFilterChanged
                 )
             is MainItemListModel.LargeItem -> {
-                (holder as LargeMenuViewHolder).bind(item.item) {}
+                (holder as LargeMenuViewHolder).bind(item.item, basketClickListener)
             }
             is MainItemListModel.SmallItem -> {
-                (holder as MediumMenuViewHolder).bind(item.item) {}
+                (holder as MediumMenuViewHolder).bind(item.item, basketClickListener)
             }
             else -> {
 
             }
         }
+    }
+
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if(payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            val mainListItem = getItem(position)
+            if(payloads[0] as Boolean && mainListItem is MainItemListModel.SmallItem) {
+                (holder as MediumMenuViewHolder).setItem(mainListItem.item)
+            } else if(payloads[0] as Boolean && mainListItem is MainItemListModel.LargeItem) {
+                (holder as LargeMenuViewHolder).setItem(mainListItem.item)
+            } else {
+                super.onBindViewHolder(holder, position, payloads)
+            }
+        }
+        super.onBindViewHolder(holder, position, payloads)
     }
 
     companion object {
@@ -115,6 +136,21 @@ class MainAdapter(
                 newItem: MainItemListModel
             ): Boolean {
                 return oldItem == newItem
+            }
+
+            override fun getChangePayload(
+                oldItem: MainItemListModel,
+                newItem: MainItemListModel
+            ): Any? {
+                return if(oldItem is MainItemListModel.SmallItem && newItem is MainItemListModel.SmallItem) {
+                    if (oldItem.item.isCartAdded != newItem.item.isCartAdded) true
+                    else null
+                } else if(oldItem is MainItemListModel.LargeItem && newItem is MainItemListModel.LargeItem){
+                    if (oldItem.item.isCartAdded != newItem.item.isCartAdded) true
+                    else null
+                } else {
+                    null
+                }
             }
         }
     }
