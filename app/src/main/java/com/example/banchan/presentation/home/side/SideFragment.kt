@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentSoupBinding
 import com.example.banchan.presentation.base.BaseFragment
-import com.example.banchan.presentation.adapter.main.MainAdapter
-import com.example.banchan.presentation.adapter.main.SpacingItemDecorator
+import com.example.banchan.presentation.adapter.main.GridSpacingItemDecorator
 import com.example.banchan.presentation.adapter.home.CommonAdapter
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,14 +27,14 @@ class SideFragment : BaseFragment<FragmentSoupBinding>(R.layout.fragment_soup) {
         binding.rvSoup.apply {
             adapter = sideAdapter
             itemAnimator = null
-            addItemDecoration(SpacingItemDecorator(dpToPx(requireActivity(), 4)))
+            addItemDecoration(GridSpacingItemDecorator(dpToPx(requireActivity(), 12)))
         }
 
         (binding.rvSoup.layoutManager as GridLayoutManager).spanSizeLookup =
             object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
                     return when (sideAdapter.getItemViewType(position)) {
-                        MainAdapter.HEADER_VIEW_TYPE -> 2
+                        CommonAdapter.HEADER_VIEW_TYPE, CommonAdapter.FILTER_VIEW_TYPE, CommonAdapter.EMPTY_VIEW_TYPE, CommonAdapter.ERROR_VIEW_TYPE, CommonAdapter.LOADING_VIEW_TYPE -> 2
                         else -> 1
                     }
                 }
@@ -45,7 +44,7 @@ class SideFragment : BaseFragment<FragmentSoupBinding>(R.layout.fragment_soup) {
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.menus.collect {
+                viewModel.dishes.collect {
                     sideAdapter.submitList(it)
                 }
             }
