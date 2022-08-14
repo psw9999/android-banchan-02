@@ -8,5 +8,5 @@ data class ItemModel(
     val discountPrice: String? = null,
     val originPrice: String,
     val title: String,
-    var isCartAdded: Boolean = false
+    val isCartAdded: Boolean = false
 )
