@@ -1,9 +1,6 @@
 package com.example.banchan.di
 
-import com.example.banchan.data.repository.BanChanRepository
-import com.example.banchan.data.repository.BanChanRepositoryImpl
-import com.example.banchan.data.repository.BasketRepository
-import com.example.banchan.data.repository.BasketRepositoryImpl
+import com.example.banchan.data.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -25,4 +22,10 @@ abstract class RepositoryModule {
     abstract fun bindBasketRepository(
         basketRepositoryImpl: BasketRepositoryImpl
     ): BasketRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindRecentlyProductRepository(
+        recentlyProductRepositoryImpl: RecentlyProductRepositoryImpl
+    ): RecentlyProductRepository
 }

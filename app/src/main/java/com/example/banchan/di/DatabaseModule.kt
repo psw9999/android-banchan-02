@@ -2,9 +2,9 @@ package com.example.banchan.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.banchan.data.source.local.BanChanDatabase
-import com.example.banchan.data.source.local.BasketDao
+import com.example.banchan.data.source.local.basket.BasketDao
+import com.example.banchan.data.source.local.recent.RecentlyProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,4 +29,9 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideBasketDao(database: BanChanDatabase): BasketDao = database.basketDao()
+
+    @Singleton
+    @Provides
+    fun provideRecentlyProductDao(database: BanChanDatabase): RecentlyProductDao =
+        database.recentlyProductDao()
 }

@@ -1,6 +1,6 @@
 package com.example.banchan.data.repository
 
-import com.example.banchan.data.source.local.BasketItem
+import com.example.banchan.data.source.local.basket.BasketItem
 import kotlinx.coroutines.flow.Flow
 
 interface BasketRepository {

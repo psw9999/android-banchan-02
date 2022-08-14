@@ -1,7 +1,7 @@
 package com.example.banchan.data.repository
 
-import com.example.banchan.data.source.local.BasketItem
-import com.example.banchan.data.source.local.BasketLocalDataSource
+import com.example.banchan.data.source.local.basket.BasketItem
+import com.example.banchan.data.source.local.basket.BasketLocalDataSource
 import javax.inject.Inject
 
 class BasketRepositoryImpl @Inject constructor(
