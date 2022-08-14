@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class HistoryItem(
     @PrimaryKey(autoGenerate = true)
-    val itemId: Long,
-    val historyId: Long,
+    val itemId: Long = 0,
+    val historyId: Long = 0,
     val imageUrl: String,
     val count: Int,
     val originPrice: Int,

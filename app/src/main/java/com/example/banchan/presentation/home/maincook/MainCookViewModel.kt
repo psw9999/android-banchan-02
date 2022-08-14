@@ -2,6 +2,8 @@ package com.example.banchan.presentation.home.maincook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.banchan.data.repository.HistoryRepository
+import com.example.banchan.data.source.local.history.HistoryItem
 import com.example.banchan.domain.usecase.GetMainDishesUseCase
 import com.example.banchan.presentation.adapter.main.MainItemListModel
 import com.example.banchan.presentation.adapter.main.Type
@@ -14,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainCookViewModel @Inject constructor(
-    private val getMainDishesUseCase: GetMainDishesUseCase
+    private val getMainDishesUseCase: GetMainDishesUseCase,
+    private val historyRepository: HistoryRepository
 ) : ViewModel() {
     var type = Type.Grid
         private set
@@ -26,6 +29,28 @@ class MainCookViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _dishes.emit(makeItemModel(type, filter))
+        }
+
+        viewModelScope.launch {
+            historyRepository.insertHistoryWithItems(
+                listOf(
+                    HistoryItem(
+                        imageUrl = "s",
+                        originPrice = 1,
+                        count = 1,
+                        name = "s"
+                    ),
+                    HistoryItem(
+                        imageUrl = "s",
+                        originPrice = 1,
+                        count = 1,
+                        name = "s"
+                    )
+                )
+            )
+            historyRepository.getHistoryWithItems().collect {
+                println(it)
+            }
         }
     }
 
