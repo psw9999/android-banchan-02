@@ -1,11 +1,11 @@
 package com.example.banchan.data.repository
 
+import com.example.banchan.data.source.BasketDataSource
 import com.example.banchan.data.source.local.basket.BasketItem
-import com.example.banchan.data.source.local.basket.BasketLocalDataSource
 import javax.inject.Inject
 
 class BasketRepositoryImpl @Inject constructor(
-    private val localDataSource: BasketLocalDataSource
+    private val localDataSource: BasketDataSource
 ) : BasketRepository {
     override fun getBasketItems() = localDataSource.getBasketItems()
 
