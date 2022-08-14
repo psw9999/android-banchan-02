@@ -15,11 +15,23 @@
 
     <string name="total_format">총 %d개 상품</string>
 
+    <string name="bottom_sheet_basket_title">장바구니 담기</string>
+    <string name="bottom_sheet_basket_cancel">취소</string>
+    <string name="bottom_sheet_sum_amount">%,d원</string>
+    <string name="bottom_sheet_basket_count">%d개 담기</string>
+
+    <string name="dialog_basket_comment">선택한 상품이 장바구니에 담겼습니다.</string>
+    <string name="dialog_basket_check">장바구니 확인</string>
+    <string name="dialog_basket_continue">계속 쇼핑하기</string>
+
     <string-array name="home_tab_title_array">
         <item>기획전</item>
         <item>든든한 메인요리</item>
         <item>뜨끈한 국물요리</item>
         <item>정갈한 밑반찬</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

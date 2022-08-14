@@ -8,19 +8,24 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentSoupBinding
 import com.example.banchan.presentation.adapter.home.CommonAdapter
+import com.example.banchan.presentation.adapter.home.CommonItemListModel
 import com.example.banchan.presentation.adapter.main.GridSpacingItemDecorator
-import com.example.banchan.presentation.base.BaseFragment
+import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SoupFragment : BaseFragment<FragmentSoupBinding>(R.layout.fragment_soup) {
+class SoupFragment : HomeTabFragment<FragmentSoupBinding>(R.layout.fragment_soup) {
+
     private val viewModel by viewModels<SoupViewModel>()
     private val soupAdapter by lazy {
-        CommonAdapter {
-            viewModel.changeFilter(it)
-        }
+        CommonAdapter(
+            { viewModel.changeFilter(it) },
+            basketIconClickListener
+        )
     }
 
     override fun initViews() {
@@ -44,7 +49,19 @@ class SoupFragment : BaseFragment<FragmentSoupBinding>(R.layout.fragment_soup) {
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.dishes.collect {
+                viewModel.dishes.combine(basketViewModel.basketList) { dishes, basketList ->
+                    dishes.map { dish ->
+                        if (dish is CommonItemListModel.SmallItem) {
+                            dish.copy(
+                                item = dish.item.copy(
+                                    isCartAdded = dish.item.detailHash in basketList.map { it.detailHash }
+                                )
+                            )
+                        } else {
+                            dish
+                        }
+                    }
+                }.collectLatest {
                     soupAdapter.submitList(it)
                 }
             }

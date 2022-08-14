@@ -9,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.banchan.R
 import com.example.banchan.databinding.ActivityMainBinding
+import com.example.banchan.presentation.basket.BasketFragment
+import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import com.example.banchan.presentation.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -31,22 +33,35 @@ class MainActivity : AppCompatActivity() {
         this.lifecycleScope.launch {
             this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.currentFragment.collectLatest {
-                    // 추후 다른 Fragment 생성 후 수정 예정
-                    val fragment = when(it) {
-                        FragmentType.Home -> HomeFragment()
-                        FragmentType.Cart -> HomeFragment()
-                        FragmentType.OrderDetail -> HomeFragment()
-                        FragmentType.ProductDetail -> HomeFragment()
-                        FragmentType.RecentlyViewedProduct -> HomeFragment()
-                    }
-                    supportFragmentManager.commit {
-                        setReorderingAllowed(true)
-                        if(it != FragmentType.Home) addToBackStack(it.tag)
-                        replace(R.id.layout_main_container, fragment, it.tag)
+                    val targetFragment = supportFragmentManager.findFragmentByTag(it.tag)
+                    if (targetFragment == null) {
+                        // 추후 다른 Fragment 생성 후 수정 예정
+                        val fragment = when (it) {
+                            FragmentType.Home -> HomeFragment()
+                            FragmentType.Basket -> BasketFragment()
+                            FragmentType.OrderDetail -> HomeFragment()
+                            FragmentType.ProductDetail -> ProductDetailFragment()
+                            FragmentType.RecentlyViewedProduct -> HomeFragment()
+                        }
+                        supportFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            if (it != FragmentType.Home) addToBackStack(it.tag)
+                            replace(R.id.layout_main_container, fragment, it.tag)
+                        }
                     }
                 }
             }
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        when(supportFragmentManager.findFragmentById(R.id.layout_main_container)?.tag) {
+            FragmentType.Home.tag -> mainViewModel.setCurrentFragment(FragmentType.Home)
+            FragmentType.Basket.tag -> mainViewModel.setCurrentFragment(FragmentType.Basket)
+            FragmentType.OrderDetail.tag -> mainViewModel.setCurrentFragment(FragmentType.OrderDetail)
+            FragmentType.ProductDetail.tag -> mainViewModel.setCurrentFragment(FragmentType.ProductDetail)
+            FragmentType.RecentlyViewedProduct.tag -> mainViewModel.setCurrentFragment(FragmentType.RecentlyViewedProduct)
+        }
+    }
 }

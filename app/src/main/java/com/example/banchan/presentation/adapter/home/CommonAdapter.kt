@@ -9,7 +9,10 @@ import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.presentation.adapter.main.MediumMenuViewHolder
 import com.example.banchan.presentation.home.maincook.Filter
 
-class CommonAdapter(private val onFilterChanged: (Filter) -> Unit) :
+class CommonAdapter(
+    private val onFilterChanged: (Filter) -> Unit,
+    private val basketClickListener: (ItemModel) -> Unit
+) :
     ListAdapter<CommonItemListModel, RecyclerView.ViewHolder>(DiffCallback()) {
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
@@ -60,10 +63,27 @@ class CommonAdapter(private val onFilterChanged: (Filter) -> Unit) :
                     onFilterChanged
                 )
             is CommonItemListModel.SmallItem -> {
-                (holder as MediumMenuViewHolder).bind(item.item) {}
+                (holder as MediumMenuViewHolder).bind(item.item, basketClickListener)
             }
             else -> {
 
+            }
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if(payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            val commonListItem = getItem(position)
+            if (payloads[0] as Boolean && commonListItem is CommonItemListModel.SmallItem) {
+                (holder as MediumMenuViewHolder).setItem(commonListItem.item)
+            } else {
+                super.onBindViewHolder(holder, position, payloads)
             }
         }
     }
@@ -92,6 +112,18 @@ class CommonAdapter(private val onFilterChanged: (Filter) -> Unit) :
                 newItem: CommonItemListModel
             ): Boolean {
                 return oldItem == newItem
+            }
+
+            override fun getChangePayload(
+                oldItem: CommonItemListModel,
+                newItem: CommonItemListModel
+            ): Any? {
+                return if (oldItem is CommonItemListModel.SmallItem && newItem is CommonItemListModel.SmallItem) {
+                    if (oldItem.item.isCartAdded != newItem.item.isCartAdded) true
+                    else null
+                } else {
+                    null
+                }
             }
         }
     }

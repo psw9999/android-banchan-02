@@ -20,7 +20,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-
     <style name="home_tab_layout" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabBackground">@drawable/bg_home_tab</item>
         <item name="tabMode">scrollable</item>
@@ -31,6 +30,17 @@
         <item name="tabPaddingTop">8dp</item>
         <item name="tabPaddingBottom">10dp</item>
         <item name="tabTextAppearance">@style/tv_bold_14</item>
+    </style>
+
+    <style name="common_button_style" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@color/primary_main</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:inset">16dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>
