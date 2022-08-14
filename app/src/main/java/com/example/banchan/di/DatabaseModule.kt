@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.banchan.data.source.local.BanChanDatabase
 import com.example.banchan.data.source.local.basket.BasketDao
+import com.example.banchan.data.source.local.history.HistoryDao
 import com.example.banchan.data.source.local.recent.RecentlyProductDao
 import dagger.Module
 import dagger.Provides
@@ -34,4 +35,9 @@ object DatabaseModule {
     @Provides
     fun provideRecentlyProductDao(database: BanChanDatabase): RecentlyProductDao =
         database.recentlyProductDao()
+
+    @Singleton
+    @Provides
+    fun provideHistoryDao(database: BanChanDatabase): HistoryDao =
+        database.historyDao()
 }

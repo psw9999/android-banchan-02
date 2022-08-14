@@ -28,4 +28,10 @@ abstract class RepositoryModule {
     abstract fun bindRecentlyProductRepository(
         recentlyProductRepositoryImpl: RecentlyProductRepositoryImpl
     ): RecentlyProductRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindHistoryRepository(
+        historyRepositoryImpl: HistoryRepositoryImpl
+    ): HistoryRepository
 }
