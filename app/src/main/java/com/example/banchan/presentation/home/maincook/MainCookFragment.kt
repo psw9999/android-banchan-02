@@ -8,17 +8,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentMainCookBinding
-import com.example.banchan.presentation.adapter.main.CommonSpacingItemDecorator
-import com.example.banchan.presentation.adapter.main.GridSpacingItemDecorator
-import com.example.banchan.presentation.adapter.main.MainAdapter
-import com.example.banchan.presentation.adapter.main.Type
-import com.example.banchan.presentation.base.BaseFragment
+import com.example.banchan.presentation.adapter.main.*
+import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment_main_cook) {
+class MainCookFragment : HomeTabFragment<FragmentMainCookBinding>(R.layout.fragment_main_cook) {
+
     private val viewModel by viewModels<MainCookViewModel>()
 
     private val mainAdapter by lazy {
@@ -28,7 +28,8 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
             },
             onFilterChanged = {
                 viewModel.changeFilter(it)
-            }
+            },
+            basketIconClickListener
         )
     }
 
@@ -43,7 +44,25 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.dishes.collect {
+                viewModel.dishes.combine(basketViewModel.basketList) { dishes, basketList ->
+                    dishes.map { dish ->
+                        if (dish is MainItemListModel.SmallItem) {
+                            dish.copy(
+                                item = dish.item.copy(
+                                    isCartAdded = dish.item.detailHash in basketList.map { it.detailHash }
+                                )
+                            )
+                        } else if (dish is MainItemListModel.LargeItem) {
+                            dish.copy(
+                                item = dish.item.copy(
+                                    isCartAdded = dish.item.detailHash in basketList.map { it.detailHash }
+                                )
+                            )
+                        } else {
+                            dish
+                        }
+                    }
+                }.collectLatest {
                     mainAdapter.submitList(it) {
                         changeListType(viewModel.type)
                     }
@@ -60,6 +79,7 @@ class MainCookFragment : BaseFragment<FragmentMainCookBinding>(R.layout.fragment
             )
         )
     }
+
     private val gridSpacingItemDecorator by lazy {
         GridSpacingItemDecorator(
             dpToPx(
