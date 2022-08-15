@@ -29,7 +29,8 @@ class MainCookFragment : HomeTabFragment<FragmentMainCookBinding>(R.layout.fragm
             onFilterChanged = {
                 viewModel.changeFilter(it)
             },
-            basketIconClickListener
+            basketIconClickListener,
+            detailClickListener
         )
     }
 

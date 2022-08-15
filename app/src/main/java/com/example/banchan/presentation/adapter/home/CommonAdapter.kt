@@ -11,7 +11,8 @@ import com.example.banchan.presentation.home.maincook.Filter
 
 class CommonAdapter(
     private val onFilterChanged: (Filter) -> Unit,
-    private val basketClickListener: (ItemModel) -> Unit
+    private val basketClickListener: (ItemModel) -> Unit,
+    private val productDetailListener: (ItemModel) -> Unit
 ) :
     ListAdapter<CommonItemListModel, RecyclerView.ViewHolder>(DiffCallback()) {
     override fun getItemViewType(position: Int): Int {
@@ -63,7 +64,11 @@ class CommonAdapter(
                     onFilterChanged
                 )
             is CommonItemListModel.SmallItem -> {
-                (holder as MediumMenuViewHolder).bind(item.item, basketClickListener)
+                (holder as MediumMenuViewHolder).bind(
+                    item.item,
+                    basketClickListener,
+                    productDetailListener
+                )
             }
             else -> {
 

@@ -16,8 +16,10 @@ import com.example.banchan.presentation.adapter.home.HomeHeaderViewHolder
 import com.example.banchan.presentation.adapter.home.HomeLoadingViewHolder
 import com.example.banchan.presentation.adapter.menu.MenuAdapter
 
-class BestListAdapter(private val basketClickListener: (ItemModel) -> Unit) :
-    ListAdapter<BestListItem, RecyclerView.ViewHolder>(diffUtil) {
+class BestListAdapter(
+    private val basketClickListener: (ItemModel) -> Unit,
+    private val productDetailListener: (ItemModel) -> Unit
+) : ListAdapter<BestListItem, RecyclerView.ViewHolder>(diffUtil) {
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<BestListItem>() {
@@ -49,6 +51,7 @@ class BestListAdapter(private val basketClickListener: (ItemModel) -> Unit) :
             is BestListItem.BestError -> R.layout.item_home_error
             is BestListItem.BestLoading -> R.layout.item_home_loading
             is BestListItem.BestEmpty -> R.layout.item_home_empty
+            else -> throw UnsupportedOperationException("Unknown view")
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -59,7 +62,7 @@ class BestListAdapter(private val basketClickListener: (ItemModel) -> Unit) :
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                ), viewPool, basketClickListener
+                ), viewPool, basketClickListener, productDetailListener
             )
             R.layout.item_home_empty -> HomeEmptyViewHolder.create(parent)
             R.layout.item_home_error -> HomeErrorViewHolder.create(parent)
@@ -79,6 +82,7 @@ class BestListAdapter(private val basketClickListener: (ItemModel) -> Unit) :
                 is BestListItem.BestContent -> (holder as BestContentViewHolder).initBind(
                     bestListItem
                 )
+                else -> throw UnsupportedOperationException("Unknown view")
             }
         }
     }
@@ -104,7 +108,8 @@ class BestListAdapter(private val basketClickListener: (ItemModel) -> Unit) :
 class BestContentViewHolder(
     private val binding: ItemBestListBinding,
     private val pool: RecyclerView.RecycledViewPool,
-    private val basketClickListener: (ItemModel) -> Unit
+    private val basketClickListener: (ItemModel) -> Unit,
+    private val productDetailListener: (ItemModel) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun initBind(bestModel: BestListItem.BestContent) {
@@ -117,7 +122,7 @@ class BestContentViewHolder(
             }
         binding.rvBestList.layoutManager = layoutManager
 
-        val menuAdapter = MenuAdapter(basketClickListener)
+        val menuAdapter = MenuAdapter(basketClickListener, productDetailListener)
         binding.rvBestList.adapter = menuAdapter
         menuAdapter.submitList(bestModel.bestItem.items)
     }

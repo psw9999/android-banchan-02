@@ -9,9 +9,10 @@ import com.example.banchan.domain.model.ItemModel
 class MediumMenuViewHolder(private val binding: ItemMenuMediumBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ItemModel, cartClick: (ItemModel) -> Unit) {
+    fun bind(item: ItemModel, cartClick: (ItemModel) -> Unit, productClick: (ItemModel) -> Unit) {
         binding.item = item
         binding.ivCart.setOnClickListener { cartClick(item) }
+        binding.root.setOnClickListener { productClick(item) }
         binding.executePendingBindings()
     }
 
