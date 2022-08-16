@@ -24,6 +24,10 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="tv_normal_32" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">32sp</item>
+    </style>
+
     <style name="tv_normal_14.Sale">
         <item name="android:textColor">
             @color/primary_accent

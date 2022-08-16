@@ -36,8 +36,6 @@
         <item name="backgroundTint">@color/primary_main</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginEnd">16dp</item>
         <item name="android:inset">16dp</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
