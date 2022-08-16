@@ -26,8 +26,10 @@ class ProductDetailViewModel @Inject constructor(
                 if (result.isSuccess) {
                     val detailModel = result.getOrThrow().toDetailModel(name)
                     _productDetail.emit(ResponseState.Success(detailModel))
-                } else {
+                } else if(result.isFailure) {
                     _productDetail.emit(ResponseState.Error(result.exceptionOrNull()))
+                } else {
+
                 }
             }
         }
