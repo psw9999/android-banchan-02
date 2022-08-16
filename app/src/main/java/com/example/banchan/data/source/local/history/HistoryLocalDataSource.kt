@@ -18,6 +18,12 @@ class HistoryLocalDataSource @Inject constructor(
         Result.failure<Exception>(exception)
     }
 
+    override fun getHistoryWithItemsById(id: Int) = historyDao.getHistoryWithItemsById(id).map {
+        Result.success(it)
+    }.catch { exception ->
+        Result.failure<Exception>(exception)
+    }
+
     override suspend fun insertHistoryWithItems(items: List<HistoryItem>) = runCatching {
         withContext(ioDispatcher) {
             historyDao.insertHistoryWithItems(items)
