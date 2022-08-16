@@ -8,8 +8,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HistoryDao {
-    @Query("select * from history left join historyitem on historyitem.historyId = history.id")
-    fun getHistoryWithItems(): Flow<Map<History, List<HistoryItem>>>
+    @Query("select * from history")
+    fun getHistoryWithItems(): Flow<List<HistoryWithItems>>
+
+    @Query("select * from history where history.id = :id")
+    fun getHistoryWithItemsById(id: Int): Flow<HistoryWithItems>
 
     @Insert
     suspend fun insertHistory(history: History): Long
