@@ -24,7 +24,8 @@ class SoupFragment : HomeTabFragment<FragmentSoupBinding>(R.layout.fragment_soup
     private val soupAdapter by lazy {
         CommonAdapter(
             { viewModel.changeFilter(it) },
-            basketIconClickListener
+            basketIconClickListener,
+            detailClickListener
         )
     }
 

@@ -23,7 +23,8 @@ class SideFragment : HomeTabFragment<FragmentSoupBinding>(R.layout.fragment_soup
     private val sideAdapter by lazy {
         CommonAdapter(
             { viewModel.changeFilter(it) },
-            basketIconClickListener
+            basketIconClickListener,
+            detailClickListener
         )
     }
 

@@ -52,6 +52,7 @@ class BanChanRemoteDataSource @Inject constructor(
     override suspend fun getDetail(hash: String): Result<DetailResponse> =
         kotlin.runCatching {
             val result = service.getDetail(hash)
+            if (result.hash != hash) return Result.failure(Exception("서비스 오류"))
             result
         }
 }

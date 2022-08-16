@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best) {
 
     private val bestViewModel: BestViewModel by viewModels()
-    private val bestListAdapter by lazy { BestListAdapter(basketIconClickListener) }
+    private val bestListAdapter by lazy { BestListAdapter(basketIconClickListener, detailClickListener) }
 
     override fun onStart() {
         super.onStart()

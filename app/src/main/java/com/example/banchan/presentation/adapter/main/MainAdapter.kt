@@ -19,7 +19,8 @@ enum class Type {
 class MainAdapter(
     private val onTypeChanged: (Type) -> Unit,
     private val onFilterChanged: (Filter) -> Unit,
-    private val basketClickListener: (ItemModel) -> Unit
+    private val basketClickListener: (ItemModel) -> Unit,
+    private val productDetailListener: (ItemModel) -> Unit
 ) :
     ListAdapter<MainItemListModel, RecyclerView.ViewHolder>(DiffCallback()) {
     override fun getItemViewType(position: Int): Int {
@@ -78,10 +79,18 @@ class MainAdapter(
                     onFilterChanged
                 )
             is MainItemListModel.LargeItem -> {
-                (holder as LargeMenuViewHolder).bind(item.item, basketClickListener)
+                (holder as LargeMenuViewHolder).bind(
+                    item.item,
+                    basketClickListener,
+                    productDetailListener
+                )
             }
             is MainItemListModel.SmallItem -> {
-                (holder as MediumMenuViewHolder).bind(item.item, basketClickListener)
+                (holder as MediumMenuViewHolder).bind(
+                    item.item,
+                    basketClickListener,
+                    productDetailListener
+                )
             }
             else -> {
 

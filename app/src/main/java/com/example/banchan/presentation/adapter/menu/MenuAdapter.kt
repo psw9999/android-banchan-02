@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.databinding.ItemMenuBinding
 
-class MenuAdapter(private val basketClickListener: (ItemModel) -> Unit) :
-    ListAdapter<ItemModel, MenuViewHolder>(DiffCallback()) {
+class MenuAdapter(
+    private val basketClickListener: (ItemModel) -> Unit,
+    private val productDetailListener: (ItemModel) -> Unit
+) : ListAdapter<ItemModel, MenuViewHolder>(DiffCallback()) {
 
     companion object {
         class DiffCallback : DiffUtil.ItemCallback<ItemModel>() {
@@ -37,7 +39,7 @@ class MenuAdapter(private val basketClickListener: (ItemModel) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        holder.bind(getItem(position), basketClickListener)
+        holder.bind(getItem(position), basketClickListener, productDetailListener)
     }
 
     override fun onBindViewHolder(

@@ -7,9 +7,14 @@ import com.example.banchan.databinding.ItemMenuBinding
 class MenuViewHolder(private val binding: ItemMenuBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ItemModel, basketClickListener: (ItemModel) -> Unit) {
+    fun bind(
+        item: ItemModel,
+        basketClickListener: (ItemModel) -> Unit,
+        productDetailListener: (ItemModel) -> Unit
+    ) {
         binding.item = item
         binding.ivMenuBasket.setOnClickListener{ basketClickListener.invoke(item) }
+        binding.root.setOnClickListener { productDetailListener.invoke(item) }
     }
 
     fun setItem(item: ItemModel) {
