@@ -10,7 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.banchan.R
 import com.example.banchan.databinding.ActivityMainBinding
 import com.example.banchan.presentation.basket.BasketFragment
-import com.example.banchan.presentation.detail.DetailFragment
+import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import com.example.banchan.presentation.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
                         val fragment = when (it) {
                             FragmentType.Home -> HomeFragment()
                             FragmentType.Basket -> BasketFragment()
-                            FragmentType.OrderDetail -> DetailFragment()
-                            FragmentType.ProductDetail -> HomeFragment()
+                            FragmentType.OrderDetail -> HomeFragment()
+                            FragmentType.ProductDetail -> ProductDetailFragment()
                             FragmentType.RecentlyViewedProduct -> HomeFragment()
                         }
                         supportFragmentManager.commit {

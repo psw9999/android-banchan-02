@@ -1,23 +1,37 @@
 package com.example.banchan.di
 
-import com.example.banchan.data.repository.BanChanRepositoryImpl
-import com.example.banchan.data.source.remote.BanChanRemoteDataSource
-import com.example.banchan.data.repository.BanChanRepository
+import com.example.banchan.data.repository.*
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class RepositoryModule {
+abstract class RepositoryModule {
 
     @Singleton
-    @Provides
-    fun provideBanChanRepository(
-        banChanDataSource: BanChanRemoteDataSource
-    ): BanChanRepository {
-        return BanChanRepositoryImpl(banChanDataSource)
-    }
+    @Binds
+    abstract fun bindBanChanRepository(
+        banChanRepositoryImpl: BanChanRepositoryImpl
+    ): BanChanRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindBasketRepository(
+        basketRepositoryImpl: BasketRepositoryImpl
+    ): BasketRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindRecentlyProductRepository(
+        recentlyProductRepositoryImpl: RecentlyProductRepositoryImpl
+    ): RecentlyProductRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindHistoryRepository(
+        historyRepositoryImpl: HistoryRepositoryImpl
+    ): HistoryRepository
 }

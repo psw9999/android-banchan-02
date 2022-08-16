@@ -5,6 +5,7 @@ import com.example.banchan.data.response.detail.DetailResponse
 import com.example.banchan.data.response.main.MainResponse
 import com.example.banchan.data.response.side.SideResponse
 import com.example.banchan.data.response.soup.SoupResponse
+import com.example.banchan.data.source.BanChanDataSource
 import com.example.banchan.domain.model.BestModel
 import javax.inject.Inject
 
