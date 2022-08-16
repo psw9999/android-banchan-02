@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Banchan" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -38,6 +38,11 @@
         <item name="android:textColor">@color/greyscale_default</item>
     </style>
 
+    <style name="tv_normal_14.GreyDefault">
+        <item name="android:textColor">@color/greyscale_default</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
     <style name="AppBottomSheetDialogTheme"
         parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>

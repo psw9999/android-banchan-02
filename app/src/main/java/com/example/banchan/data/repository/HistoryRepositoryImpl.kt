@@ -15,4 +15,8 @@ class HistoryRepositoryImpl @Inject constructor(
         runCatching {
             localDataSource.insertHistoryWithItems(items)
         }
+
+    override suspend fun updateAllHistory() {
+        localDataSource.updateAllHistory()
+    }
 }

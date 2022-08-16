@@ -1,10 +1,9 @@
 package com.example.banchan.data.source.local.history
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
+import com.example.banchan.util.DEFAULT_DELIVERY_TIME
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 @Dao
 interface HistoryDao {
@@ -16,6 +15,23 @@ interface HistoryDao {
 
     @Insert
     suspend fun insertHistory(history: History): Long
+
+    @Query("select * from history")
+    suspend fun getAllHistory(): List<History>
+
+    @Update
+    suspend fun updateHistory(history: History)
+
+    @Transaction
+    suspend fun updateAllHistory(time: Int) {
+        val history = getAllHistory()
+        history.forEach {
+            val calTime =
+                DEFAULT_DELIVERY_TIME - ((Date().time - it.date.time) / (1000 * 60)).toInt()
+            val remainTime = if (calTime >= 0) calTime else 0
+            updateHistory(it.copy(remainTime = remainTime))
+        }
+    }
 
     @Insert
     suspend fun insertHistoryItem(vararg historyItem: HistoryItem)

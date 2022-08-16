@@ -14,6 +14,13 @@
     <string name="home_empty">주문 할 수 있는 음식이 없어요.</string>
 
     <string name="total_format">총 %d개 상품</string>
+    <string name="total_price">총 결제 금액</string>
+    <string name="delivery_fee">배송료</string>
+    <string name="order_price">상품 주문 금액</string>
+    <string name="order_success">주문이 접수되었습니다.</string>
+    <string name="delivery_success">배송이 완료되었습니다.</string>
+    <string name="remain_delivery_time">배송까지 남은 시간</string>
+    <string name="order_menu">주문한 상품</string>
 
     <string name="bottom_sheet_basket_title">장바구니 담기</string>
     <string name="bottom_sheet_basket_cancel">취소</string>
@@ -30,6 +37,11 @@
         <item>뜨끈한 국물요리</item>
         <item>정갈한 밑반찬</item>
     </string-array>
+
+    <string name="count_format">%d개</string>
+    <string name="total_count_format">총 %d 개</string>
+    <string name="minute_format">%d분</string>
+    <string name="amount_format">%d원</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
