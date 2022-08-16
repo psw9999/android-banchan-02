@@ -9,11 +9,13 @@ class RecentlyProductRepositoryImpl @Inject constructor(
 ) : RecentlyProductRepository {
     override fun getRecentlyProducts() = localDataSource.getRecentlyProducts()
 
-    override suspend fun insertRecentlyProduct(vararg recentlyProduct: RecentlyProduct) {
-        localDataSource.insertRecentlyProduct(*recentlyProduct)
-    }
+    override suspend fun insertRecentlyProduct(vararg recentlyProduct: RecentlyProduct): Result<Unit> =
+        runCatching {
+            localDataSource.insertRecentlyProduct(*recentlyProduct)
+        }
 
-    override suspend fun updateRecentlyProduct(vararg recentlyProduct: RecentlyProduct) {
-        localDataSource.updateRecentlyProduct(*recentlyProduct)
-    }
+    override suspend fun updateRecentlyProduct(vararg recentlyProduct: RecentlyProduct): Result<Unit> =
+        runCatching {
+            localDataSource.updateRecentlyProduct(*recentlyProduct)
+        }
 }

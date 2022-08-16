@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface RecentlyProductRepository {
     fun getRecentlyProducts(): Flow<Result<List<RecentlyProduct>>>
-    suspend fun insertRecentlyProduct(vararg recentlyProduct: RecentlyProduct)
-    suspend fun updateRecentlyProduct(vararg recentlyProduct: RecentlyProduct)
+    suspend fun insertRecentlyProduct(vararg recentlyProduct: RecentlyProduct): Result<Unit>
+    suspend fun updateRecentlyProduct(vararg recentlyProduct: RecentlyProduct): Result<Unit>
 }

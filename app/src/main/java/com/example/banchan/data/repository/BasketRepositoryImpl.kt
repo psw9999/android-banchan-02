@@ -9,11 +9,11 @@ class BasketRepositoryImpl @Inject constructor(
 ) : BasketRepository {
     override fun getBasketItems() = localDataSource.getBasketItems()
 
-    override suspend fun insertBasketItem(vararg basketItem: BasketItem) {
+    override suspend fun insertBasketItem(vararg basketItem: BasketItem): Result<Unit> = runCatching {
         localDataSource.insertBasketItem(*basketItem)
     }
 
-    override suspend fun updateBasketItem(vararg basketItem: BasketItem) {
+    override suspend fun updateBasketItem(vararg basketItem: BasketItem): Result<Unit> = runCatching {
         localDataSource.updateBasketItem(*basketItem)
     }
 }
