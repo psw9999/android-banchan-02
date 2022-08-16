@@ -9,7 +9,8 @@ class HistoryRepositoryImpl @Inject constructor(
 ) : HistoryRepository {
     override fun getHistoryWithItems() = localDataSource.getHistoryWithItems()
 
-    override suspend fun insertHistoryWithItems(items: List<HistoryItem>) {
-        localDataSource.insertHistoryWithItems(items)
-    }
+    override suspend fun insertHistoryWithItems(items: List<HistoryItem>): Result<Unit> =
+        runCatching {
+            localDataSource.insertHistoryWithItems(items)
+        }
 }
