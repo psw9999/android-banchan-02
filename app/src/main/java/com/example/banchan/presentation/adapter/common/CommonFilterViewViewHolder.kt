@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.adapter.home
+package com.example.banchan.presentation.adapter.common
 
 import android.view.LayoutInflater
 import android.view.View
