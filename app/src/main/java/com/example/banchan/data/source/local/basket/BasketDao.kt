@@ -1,4 +1,4 @@
-package com.example.banchan.data.source.local
+package com.example.banchan.data.source.local.basket
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
