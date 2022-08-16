@@ -4,7 +4,7 @@ import com.example.banchan.data.source.local.basket.BasketItem
 import kotlinx.coroutines.flow.Flow
 
 interface BasketRepository {
-    fun getBasketItems(): Flow<List<BasketItem>>
+    fun getBasketItems(): Flow<Result<List<BasketItem>>>
     suspend fun insertBasketItem(vararg basketItem: BasketItem)
     suspend fun updateBasketItem(vararg basketItem: BasketItem)
 }
