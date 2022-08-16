@@ -16,8 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainCookViewModel @Inject constructor(
-    private val getMainDishesUseCase: GetMainDishesUseCase,
-    private val historyRepository: HistoryRepository
+    private val getMainDishesUseCase: GetMainDishesUseCase
 ) : ViewModel() {
     var type = Type.Grid
         private set
@@ -29,28 +28,6 @@ class MainCookViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             _dishes.emit(makeItemModel(type, filter))
-        }
-
-        viewModelScope.launch {
-            historyRepository.insertHistoryWithItems(
-                listOf(
-                    HistoryItem(
-                        imageUrl = "s",
-                        originPrice = 1,
-                        count = 1,
-                        name = "s"
-                    ),
-                    HistoryItem(
-                        imageUrl = "s",
-                        originPrice = 1,
-                        count = 1,
-                        name = "s"
-                    )
-                )
-            )
-            historyRepository.getHistoryWithItems().collect {
-                println(it)
-            }
         }
     }
 
