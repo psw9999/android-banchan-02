@@ -17,8 +17,7 @@ abstract class HomeTabFragment<DB : ViewDataBinding>(@LayoutRes val layout: Int)
     protected val basketViewModel: BasketViewModel by activityViewModels()
 
     protected val detailClickListener: ((ItemModel)->Unit) = { itemModel ->
-        mainViewModel.setProductName(itemModel.title)
-        mainViewModel.setDetailHash(itemModel.detailHash)
+        basketViewModel.setSelectedBasketItem(itemModel)
         mainViewModel.setCurrentFragment(FragmentType.ProductDetail)
     }
 
