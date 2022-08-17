@@ -11,6 +11,7 @@ import com.example.banchan.R
 import com.example.banchan.databinding.ActivityMainBinding
 import com.example.banchan.presentation.basket.BasketFragment
 import com.example.banchan.presentation.home.HomeFragment
+import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     if (targetFragment == null) {
                         // 추후 다른 Fragment 생성 후 수정 예정
                         val fragment = when (it) {
-                            FragmentType.Home -> HomeFragment()
+                            FragmentType.Home -> OrderSuccessFragment()
                             FragmentType.Basket -> BasketFragment()
                             FragmentType.OrderDetail -> HomeFragment()
                             FragmentType.ProductDetail -> ProductDetailFragment()

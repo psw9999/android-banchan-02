@@ -31,6 +31,10 @@ class OrderSuccessFragment :
                 footerAdapter
             )
         }
+
+        binding.toolbarRefresh.setOnClickListener {
+            viewModel.refresh()
+        }
     }
 
     override fun observe() {

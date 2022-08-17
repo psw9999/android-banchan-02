@@ -9,5 +9,5 @@ data class History(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val date: Date = Date(),
-    val remainTime: Int = 20
+    val remainTime: Int = 5
 )
