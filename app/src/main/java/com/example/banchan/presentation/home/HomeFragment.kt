@@ -29,7 +29,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 basketViewModel.basketFlow.collectLatest { result ->
                     result.onSuccess { binding.abHome.setCartCount(it.size) }
-                    result.onFailure { requireContext().toast("장바구니 불러오기에 실패하였습니다.") }
+                    result.onFailure { requireContext().toast(getString(R.string.basket_get_error)) }
                 }
             }
         }

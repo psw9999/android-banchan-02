@@ -56,14 +56,14 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(R.layou
                 launch {
                     basketViewModel.basketFlow.collectLatest { result ->
                         result.onSuccess { binding.abProductDetail.setCartCount(it.size) }
-                        result.onFailure { requireContext().toast("장바구니 불러오기에 실패하였습니다.") }
+                        result.onFailure { requireContext().toast(getString(R.string.basket_get_error)) }
                     }
                 }
 
                 launch {
                     basketViewModel.isInsertSuccess.collectLatest { isInsertSuccess ->
                         if (isInsertSuccess) showDialog()
-                        else requireContext().toast("장바구니 저장 중 오류가 발생하였습니다.")
+                        else requireContext().toast(getString(R.string.basket_insert_error))
                     }
                 }
             }

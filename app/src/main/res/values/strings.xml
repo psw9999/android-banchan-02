@@ -38,6 +38,10 @@
     <string name="product_detail_delivery_fee">배송비</string>
     <string name="product_detail_amount">수량</string>
 
+    <string name="basket_insert_error">장바구니 저장 중 오류가 발생하였습니다.</string>
+    <string name="basket_get_error">장바구니 불러오기 중 오류가 발생하였습니다.</string>
+
+
     <string-array name="home_tab_title_array">
         <item>기획전</item>
         <item>든든한 메인요리</item>
