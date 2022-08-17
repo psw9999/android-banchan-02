@@ -10,3 +10,11 @@ fun ImageView.setImageFromUrl(url: String) {
         .load(url)
         .into(this)
 }
+
+@BindingAdapter("sectionUrl")
+fun ImageView.setSectionImage(url: String) {
+    Glide.with(this.context)
+        .load(url)
+        .override(1000,1000)
+        .into(this)
+}

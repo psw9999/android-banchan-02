@@ -24,6 +24,13 @@
     <string name="dialog_basket_check">장바구니 확인</string>
     <string name="dialog_basket_continue">계속 쇼핑하기</string>
 
+    <string name="product_detail_discount_percent">%d%%</string>
+    <string name="product_detail_price">%,d원</string>
+    <string name="product_detail_point">적립금</string>
+    <string name="product_detail_delivery_info">배송정보</string>
+    <string name="product_detail_delivery_fee">배송비</string>
+    <string name="product_detail_amount">수량</string>
+
     <string-array name="home_tab_title_array">
         <item>기획전</item>
         <item>든든한 메인요리</item>

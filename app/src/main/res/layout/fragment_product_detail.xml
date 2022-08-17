@@ -13,10 +13,28 @@
         tools:context=".presentation.productdetail.ProductDetailFragment">
 
         <com.example.banchan.presentation.custom.OrderingAppBar
-            android:id="@+id/ab_detail"
+            android:id="@+id/ab_product_detail"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_product_detail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ab_product_detail"/>
+
+        <ProgressBar
+            android:id="@+id/pb_detail_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_product_detail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ab_product_detail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
