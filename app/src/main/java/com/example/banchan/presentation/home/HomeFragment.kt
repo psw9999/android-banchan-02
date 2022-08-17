@@ -9,6 +9,7 @@ import com.example.banchan.databinding.FragmentHomeBinding
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.adapter.home.HomeViewPagerAdapter
 import com.example.banchan.presentation.main.BasketViewModel
+import com.example.banchan.util.ext.toast
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -26,8 +27,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                basketViewModel.basketList.collectLatest {
-                    binding.abHome.setCartCount(it.size)
+                basketViewModel.basketFlow.collectLatest { result ->
+                    result.onSuccess { binding.abHome.setCartCount(it.size) }
+                    result.onFailure { requireContext().toast("장바구니 불러오기에 실패하였습니다.") }
                 }
             }
         }
