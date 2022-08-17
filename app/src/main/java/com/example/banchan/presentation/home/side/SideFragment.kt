@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentSoupBinding
 import com.example.banchan.presentation.adapter.home.CommonAdapter
-import com.example.banchan.presentation.adapter.home.CommonItemListModel
 import com.example.banchan.presentation.adapter.main.GridSpacingItemDecorator
 import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -49,19 +47,7 @@ class SideFragment : HomeTabFragment<FragmentSoupBinding>(R.layout.fragment_soup
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.dishes.combine(basketViewModel.basketList) { dishes, basketList ->
-                    dishes.map { dish ->
-                        if (dish is CommonItemListModel.SmallItem) {
-                            dish.copy(
-                                item = dish.item.copy(
-                                    isCartAdded = dish.item.detailHash in basketList.map { it.detailHash }
-                                )
-                            )
-                        } else {
-                            dish
-                        }
-                    }
-                }.collectLatest {
+                viewModel.commonListItems.collectLatest {
                     sideAdapter.submitList(it)
                 }
             }
