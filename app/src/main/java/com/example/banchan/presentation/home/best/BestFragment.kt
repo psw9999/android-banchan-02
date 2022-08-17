@@ -9,14 +9,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentBestBinding
-import com.example.banchan.domain.model.BestListItem
-import com.example.banchan.domain.model.BestModel
 import com.example.banchan.presentation.adapter.best.BestListAdapter
 import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -25,11 +22,6 @@ class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best
     private val bestViewModel: BestViewModel by viewModels()
     private val bestListAdapter by lazy { BestListAdapter(basketIconClickListener, detailClickListener) }
 
-    override fun onStart() {
-        super.onStart()
-        bestViewModel.getBestDishes()
-    }
-
     override fun initViews() {
         initRecyclerView()
     }
@@ -37,27 +29,9 @@ class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    bestViewModel.bestDishes.combine(basketViewModel.basketList) { bestDishes, basketList ->
-                        bestDishes.map { dish ->
-                            if (dish is BestListItem.BestContent) {
-                                dish.copy(
-                                    bestItem = BestModel(
-                                        title = dish.bestItem.title,
-                                        items = dish.bestItem.items.map { model ->
-                                            model.copy(
-                                                isCartAdded = model.detailHash in basketList.map { it.detailHash }
-                                            )
-                                        }
-                                    )
-                                )
-                            }
-                            else {
-                                dish
-                            }
-                        }
-                    }.collectLatest {
-                        bestListAdapter.submitList(it)
-                    }
+                bestViewModel.bestListItems.collectLatest {
+                    bestListAdapter.submitList(it)
+                }
             }
         }
     }
