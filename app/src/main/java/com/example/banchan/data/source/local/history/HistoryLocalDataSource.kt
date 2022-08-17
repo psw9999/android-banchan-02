@@ -3,6 +3,7 @@ package com.example.banchan.data.source.local.history
 import com.example.banchan.data.source.HistoryDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -27,6 +28,12 @@ class HistoryLocalDataSource @Inject constructor(
     override suspend fun insertHistoryWithItems(items: List<HistoryItem>) = runCatching {
         withContext(ioDispatcher) {
             historyDao.insertHistoryWithItems(items)
+        }
+    }
+
+    override suspend fun updateAllHistory() {
+        withContext(ioDispatcher) {
+            historyDao.updateAllHistory(1)
         }
     }
 }

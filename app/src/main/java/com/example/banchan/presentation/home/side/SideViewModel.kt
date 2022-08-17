@@ -6,7 +6,7 @@ import com.example.banchan.R
 import com.example.banchan.data.source.local.basket.BasketItem
 import com.example.banchan.domain.usecase.basket.GetBasketItemUseCase
 import com.example.banchan.domain.usecase.home.GetSideDishesUseCase
-import com.example.banchan.presentation.adapter.home.CommonItemListModel
+import com.example.banchan.presentation.adapter.common.CommonItemListModel
 import com.example.banchan.presentation.home.maincook.Filter
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel

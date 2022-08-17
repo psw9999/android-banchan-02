@@ -10,8 +10,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.banchan.R
 import com.example.banchan.databinding.ActivityMainBinding
 import com.example.banchan.presentation.basket.BasketFragment
-import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import com.example.banchan.presentation.home.HomeFragment
+import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
+import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        when(supportFragmentManager.findFragmentById(R.id.layout_main_container)?.tag) {
+        when (supportFragmentManager.findFragmentById(R.id.layout_main_container)?.tag) {
             FragmentType.Home.tag -> mainViewModel.setCurrentFragment(FragmentType.Home)
             FragmentType.Basket.tag -> mainViewModel.setCurrentFragment(FragmentType.Basket)
             FragmentType.OrderDetail.tag -> mainViewModel.setCurrentFragment(FragmentType.OrderDetail)

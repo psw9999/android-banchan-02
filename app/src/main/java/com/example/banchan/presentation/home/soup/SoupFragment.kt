@@ -7,7 +7,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentSoupBinding
-import com.example.banchan.presentation.adapter.home.CommonAdapter
+import com.example.banchan.presentation.adapter.common.CommonAdapter
 import com.example.banchan.presentation.adapter.main.GridSpacingItemDecorator
 import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
