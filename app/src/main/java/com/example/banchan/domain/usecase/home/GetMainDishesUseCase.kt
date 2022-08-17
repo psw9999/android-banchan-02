@@ -1,4 +1,4 @@
-package com.example.banchan.domain.usecase
+package com.example.banchan.domain.usecase.home
 
 import com.example.banchan.data.repository.BanChanRepository
 import com.example.banchan.domain.model.ItemModel

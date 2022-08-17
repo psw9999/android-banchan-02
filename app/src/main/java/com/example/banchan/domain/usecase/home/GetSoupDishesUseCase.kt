@@ -1,12 +1,12 @@
-package com.example.banchan.domain.usecase
+package com.example.banchan.domain.usecase.home
 
 import com.example.banchan.data.repository.BanChanRepository
 import com.example.banchan.domain.model.ItemModel
 import javax.inject.Inject
 
-class GetSideDishesUseCase @Inject constructor(
+class GetSoupDishesUseCase @Inject constructor(
     private val repository: BanChanRepository
 ) {
     suspend operator fun invoke(): List<ItemModel> =
-        repository.getSide().getOrThrow().toSoupModel()
+        repository.getSoup().getOrThrow().toSoupModel()
 }
