@@ -5,10 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.banchan.databinding.BottomsheetBasketBinding
-import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.presentation.main.BasketViewModel
+import com.example.banchan.util.ext.toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class BasketBottomSheet : BottomSheetDialogFragment() {
 
@@ -33,6 +38,22 @@ class BasketBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBottomSheet()
+        observe()
+    }
+
+    private fun observe() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                basketViewModel.isInsertSuccess.collectLatest { isInsertSuccess ->
+                    if (isInsertSuccess) {
+                        showDialog()
+                        this@BasketBottomSheet.dismiss()
+                    } else {
+                        requireContext().toast("장바구니 저장 중 오류가 발생하였습니다.")
+                    }
+                }
+            }
+        }
     }
 
     private fun initBottomSheet() {
@@ -42,20 +63,7 @@ class BasketBottomSheet : BottomSheetDialogFragment() {
             this.dismiss()
         }
         binding.btnBasketAdd.setOnClickListener {
-            //TODO : 장바구니 DB에 저장하는 로직
-            with(basketViewModel) {
-                addBasketList(
-                    BasketModel(
-                        count = selectedBasketCount.value!!,
-                        image = selectedBasketItem.value!!.image,
-                        price = selectedBasketItem.value!!.originPrice,
-                        name = selectedBasketItem.value!!.title,
-                        detailHash = selectedBasketItem.value!!.detailHash
-                    )
-                )
-            }
-            this.dismiss()
-            showDialog()
+            basketViewModel.insertSelectedBasketItem()
         }
     }
 

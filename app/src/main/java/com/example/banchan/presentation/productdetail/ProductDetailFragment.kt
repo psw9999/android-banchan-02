@@ -9,17 +9,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.example.banchan.R
+import com.example.banchan.data.source.local.recent.RecentlyProduct
 import com.example.banchan.databinding.FragmentProductDetailBinding
-import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.domain.model.ProductDetailModel
 import com.example.banchan.domain.model.ResponseState
 import com.example.banchan.presentation.adapter.productdetail.*
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.dialog.BasketCheckDialog
 import com.example.banchan.presentation.main.BasketViewModel
+import com.example.banchan.util.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(R.layout.fragment_product_detail) {
@@ -29,10 +31,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(R.layou
 
     private val onMinusClick: (()->Unit) = { basketViewModel.basketCountDecrease() }
     private val onPlusClick: (()->Unit) = { basketViewModel.basketCountIncrease() }
-    private val onBasketAddClick: (()->Unit) = {
-        addBasket()
-        showDialog()
-    }
+    private val onBasketAddClick: (()->Unit) = { basketViewModel.insertSelectedBasketItem() }
 
     private val thumbnailAdapter by lazy { ProductDetailThumbNailAdapter() }
     private val productDetailAdapter by lazy { ProductInfoAdapter(onMinusClick, onPlusClick, onBasketAddClick) }
@@ -55,8 +54,16 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(R.layou
                 }
 
                 launch {
-                    basketViewModel.basketList.collectLatest {
-                        binding.abProductDetail.setCartCount(it.size)
+                    basketViewModel.basketFlow.collectLatest { result ->
+                        result.onSuccess { binding.abProductDetail.setCartCount(it.size) }
+                        result.onFailure { requireContext().toast(getString(R.string.basket_get_error)) }
+                    }
+                }
+
+                launch {
+                    basketViewModel.isInsertSuccess.collectLatest { isInsertSuccess ->
+                        if (isInsertSuccess) showDialog()
+                        else requireContext().toast(getString(R.string.basket_insert_error))
                     }
                 }
             }
@@ -73,6 +80,10 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(R.layou
             basketViewModel.selectedBasketItem.value!!.detailHash,
             basketViewModel.selectedBasketItem.value!!.title
         )
+        productDetailViewModel.insertProductDetail(RecentlyProduct(
+            basketViewModel.selectedBasketItem.value!!.detailHash,
+            Date()
+        ))
     }
 
     override fun initViews() {
@@ -87,20 +98,6 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(R.layou
         thumbnailAdapter.setThumbImageUrls(productDetail.thumbImages)
         productDetailAdapter.setProductInfo(productDetail, basketViewModel.selectedBasketCount.value!!)
         productDetailSectionAdapter.setSectionList(productDetail.detailSection)
-    }
-
-    private fun addBasket() {
-        with(basketViewModel) {
-            addBasketList(
-                BasketModel(
-                    count = selectedBasketCount.value!!,
-                    image = selectedBasketItem.value!!.image,
-                    price = selectedBasketItem.value!!.originPrice,
-                    name = selectedBasketItem.value!!.title,
-                    detailHash = selectedBasketItem.value!!.detailHash
-                )
-            )
-        }
     }
 
     private fun showDialog() {

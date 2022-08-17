@@ -2,21 +2,23 @@ package com.example.banchan.presentation.home.maincook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.banchan.data.repository.HistoryRepository
-import com.example.banchan.data.source.local.history.HistoryItem
-import com.example.banchan.domain.usecase.GetMainDishesUseCase
+import com.example.banchan.data.source.local.basket.BasketItem
+import com.example.banchan.domain.usecase.basket.GetBasketItemUseCase
+import com.example.banchan.domain.usecase.home.GetMainDishesUseCase
 import com.example.banchan.presentation.adapter.main.MainItemListModel
 import com.example.banchan.presentation.adapter.main.Type
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainCookViewModel @Inject constructor(
-    private val getMainDishesUseCase: GetMainDishesUseCase
+    private val getMainDishesUseCase: GetMainDishesUseCase,
+    private val getBasketItemUseCase: GetBasketItemUseCase
 ) : ViewModel() {
     var type = Type.Grid
         private set
@@ -24,6 +26,14 @@ class MainCookViewModel @Inject constructor(
     private val _dishes =
         MutableStateFlow(listOf(MainItemListModel.MainHeader(), MainItemListModel.Loading))
     val dishes = _dishes.asStateFlow()
+
+    val mainItemListModel =
+        combine(dishes, getBasketItemUseCase()) { dishes, basketList ->
+            basketList.onSuccess {
+                return@combine checkIsCartAdded(dishes, it)
+            }
+            dishes
+        }
 
     init {
         viewModelScope.launch {
@@ -73,6 +83,29 @@ class MainCookViewModel @Inject constructor(
                 }
             }
     }
+
+    private fun checkIsCartAdded(
+        dishes: List<MainItemListModel>,
+        basketList: List<BasketItem>
+    ): List<MainItemListModel> =
+        dishes.map { dish ->
+            if (dish is MainItemListModel.SmallItem) {
+                dish.copy(
+                    item = dish.item.copy(
+                        isCartAdded = dish.item.detailHash in basketList.map { it.hash }
+                    )
+                )
+            } else if (dish is MainItemListModel.LargeItem) {
+                dish.copy(
+                    item = dish.item.copy(
+                        isCartAdded = dish.item.detailHash in basketList.map { it.hash }
+                    )
+                )
+            } else {
+                dish
+            }
+        }
+
 }
 
 enum class Filter {
