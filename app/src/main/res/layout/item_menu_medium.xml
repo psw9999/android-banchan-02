@@ -47,7 +47,7 @@
             tools:text="오리주물럭" />
 
         <TextView
-            android:id="@+id/tv_content"
+            android:id="@+id/tv_item_count"
             style="@style/tv_normal_12.GreyDefault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,14 +65,14 @@
             android:layout_marginEnd="4dp"
             android:text="@{item.discountPercent}"
             android:visibility="@{item.discountPercent == null ? View.GONE : View.VISIBLE}"
-            app:layout_constraintEnd_toStartOf="@id/tv_display_price"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_total"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_display_price"
+            app:layout_constraintTop_toTopOf="@id/tv_item_total"
             tools:text="20%" />
 
         <TextView
-            android:id="@+id/tv_display_price"
+            android:id="@+id/tv_item_total"
             style="@style/tv_normal_14.Black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             android:text="@{item.discountPercent == null ? item.originPrice : item.discountPrice}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_discount"
-            app:layout_constraintTop_toBottomOf="@id/tv_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_count"
             tools:text="1234원" />
 
         <TextView
@@ -93,7 +93,7 @@
             android:text="@{item.originPrice}"
             android:visibility="@{item.discountPercent == null ? View.GONE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_display_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_total"
             tools:text="1234원" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

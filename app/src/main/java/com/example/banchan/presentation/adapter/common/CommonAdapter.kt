@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.adapter.home
+package com.example.banchan.presentation.adapter.common
 
 import android.view.ViewGroup
 import androidx.annotation.StringRes
@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.domain.model.ItemModel
+import com.example.banchan.presentation.adapter.home.HomeEmptyViewHolder
+import com.example.banchan.presentation.adapter.home.HomeHeaderViewHolder
+import com.example.banchan.presentation.adapter.home.HomeLoadingViewHolder
 import com.example.banchan.presentation.adapter.main.MediumMenuViewHolder
 import com.example.banchan.presentation.home.maincook.Filter
 

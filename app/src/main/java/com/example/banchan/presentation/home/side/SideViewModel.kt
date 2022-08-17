@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.R
 import com.example.banchan.domain.usecase.GetSideDishesUseCase
-import com.example.banchan.presentation.adapter.home.CommonItemListModel
+import com.example.banchan.presentation.adapter.common.CommonItemListModel
 import com.example.banchan.presentation.home.maincook.Filter
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
