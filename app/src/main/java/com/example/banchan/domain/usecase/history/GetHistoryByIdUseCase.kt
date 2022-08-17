@@ -1,4 +1,4 @@
-package com.example.banchan.domain.usecase
+package com.example.banchan.domain.usecase.history
 
 import com.example.banchan.data.repository.HistoryRepository
 import javax.inject.Inject

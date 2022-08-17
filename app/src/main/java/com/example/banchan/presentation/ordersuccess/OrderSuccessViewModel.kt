@@ -3,8 +3,8 @@ package com.example.banchan.presentation.ordersuccess
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.source.local.history.HistoryItem
-import com.example.banchan.domain.usecase.GetHistoryByIdUseCase
-import com.example.banchan.domain.usecase.UpdateHistoryUseCase
+import com.example.banchan.domain.usecase.history.GetHistoryByIdUseCase
+import com.example.banchan.domain.usecase.history.UpdateHistoryUseCase
 import com.example.banchan.util.DEFAULT_DELIVERY_FEE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

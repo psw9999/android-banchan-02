@@ -57,7 +57,8 @@ class BasketViewModel @Inject constructor(
             insertBasketItemUseCase.invoke(
                 BasketItem(
                     hash = selectedBasketItem.value!!.detailHash,
-                    count = _selectedBasketCount.value!!,
+                    count = selectedBasketCount.value!!,
+                    name = selectedBasketItem.value!!.title,
                     isSelected = true,
                 )
             )
