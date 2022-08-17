@@ -2,7 +2,7 @@ package com.example.banchan
 
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import com.example.banchan.data.repository.HistoryRepository
+import com.example.banchan.domain.usecase.UpdateHistoryUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -12,14 +12,14 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OrderService : LifecycleService() {
     @Inject
-    lateinit var historyRepository: HistoryRepository
+    lateinit var updateHistoryUseCase: UpdateHistoryUseCase
 
     override fun onCreate() {
         super.onCreate()
 
         lifecycleScope.launch {
             while (isActive) {
-                historyRepository.updateAllHistory()
+                updateHistoryUseCase()
                 delay(1000 * 60)
             }
         }

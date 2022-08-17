@@ -4,15 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.source.local.history.HistoryItem
 import com.example.banchan.domain.usecase.GetHistoryByIdUseCase
+import com.example.banchan.domain.usecase.UpdateHistoryUseCase
+import com.example.banchan.util.DEFAULT_DELIVERY_FEE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OrderSuccessViewModel @Inject constructor(
-    private val getHistoryByIdUseCase: GetHistoryByIdUseCase
+    private val getHistoryByIdUseCase: GetHistoryByIdUseCase,
+    private val updateHistoryUseCase: UpdateHistoryUseCase
 ) : ViewModel() {
     val history = getHistoryByIdUseCase(1)
     val headerUiState = history.map { result ->
@@ -38,12 +42,11 @@ class OrderSuccessViewModel @Inject constructor(
     )
     val footerUiState = history.map { result ->
         result.getOrNull()?.let {
-            val defaultDeliveryFee = 2500
             val orderPrice = it.items.sumOf { item -> item.originPrice * item.count }
             OrderCommonListModel.Footer(
                 orderPrice = orderPrice,
-                deliveryFee = defaultDeliveryFee,
-                totalPrice = orderPrice + defaultDeliveryFee
+                deliveryFee = DEFAULT_DELIVERY_FEE,
+                totalPrice = orderPrice + DEFAULT_DELIVERY_FEE
             )
         }
     }.stateIn(
@@ -51,6 +54,12 @@ class OrderSuccessViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = OrderCommonListModel.Footer(0, 0, 0)
     )
+
+    fun refresh() {
+        viewModelScope.launch {
+            updateHistoryUseCase()
+        }
+    }
 }
 
 sealed interface OrderCommonListModel {
