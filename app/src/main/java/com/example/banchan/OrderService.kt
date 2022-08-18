@@ -2,7 +2,7 @@ package com.example.banchan
 
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import com.example.banchan.domain.usecase.UpdateHistoryUseCase
+import com.example.banchan.domain.usecase.history.UpdateHistoryUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive

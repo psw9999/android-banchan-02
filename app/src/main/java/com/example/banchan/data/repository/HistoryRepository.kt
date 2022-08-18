@@ -1,6 +1,5 @@
 package com.example.banchan.data.repository
 
-import com.example.banchan.data.source.local.history.History
 import com.example.banchan.data.source.local.history.HistoryItem
 import com.example.banchan.data.source.local.history.HistoryWithItems
 import kotlinx.coroutines.flow.Flow

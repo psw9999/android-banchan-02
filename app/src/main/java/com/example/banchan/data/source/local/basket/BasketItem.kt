@@ -8,5 +8,6 @@ data class BasketItem(
     @PrimaryKey
     val hash: String,
     val count: Int,
+    val name: String,
     val isSelected: Boolean
 )
