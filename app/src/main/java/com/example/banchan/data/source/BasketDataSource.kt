@@ -7,4 +7,7 @@ interface BasketDataSource {
     fun getBasketItems(): Flow<Result<List<BasketItem>>>
     suspend fun insertBasketItem(vararg basketItem: BasketItem): Result<Unit>
     suspend fun updateBasketItem(vararg basketItem: BasketItem): Result<Unit>
+    suspend fun updateAllBasketIsSelected(isSelected: Int): Result<Unit>
+    suspend fun deleteBasketItem(vararg basketItem: BasketItem): Result<Unit>
+    suspend fun deleteSelectedBasketItem(): Result<Unit>
 }

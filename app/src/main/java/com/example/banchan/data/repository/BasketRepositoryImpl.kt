@@ -16,4 +16,17 @@ class BasketRepositoryImpl @Inject constructor(
     override suspend fun updateBasketItem(vararg basketItem: BasketItem): Result<Unit> = runCatching {
         localDataSource.updateBasketItem(*basketItem)
     }
+
+    override suspend fun updateAllBasketIsSelected(isSelected: Int): Result<Unit> = runCatching {
+        localDataSource.updateAllBasketIsSelected(isSelected)
+    }
+
+    override suspend fun deleteBasketItem(vararg basketItem: BasketItem): Result<Unit> = runCatching {
+        localDataSource.deleteBasketItem(*basketItem)
+    }
+
+    override suspend fun deleteSelectedBasketItem(): Result<Unit> = runCatching {
+        localDataSource.deleteSelectedBasketItem()
+    }
+
 }
