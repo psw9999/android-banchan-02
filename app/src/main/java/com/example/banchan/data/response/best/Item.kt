@@ -21,15 +21,15 @@ data class Item(
     val sPrice: String,
     val title: String
 ) {
-    fun toItemModel() : ItemModel {
+    fun toItemModel(): ItemModel {
         return ItemModel(
             title = title,
             description = description,
             detailHash = detailHash,
             image = image,
             originPrice = nPrice ?: sPrice,
-            discountPrice = if(nPrice!=null) sPrice else null,
-            discountPercent = if(nPrice!=null) "${calculationPercent(nPrice, sPrice)}%" else null
+            discountPrice = if (nPrice != null) sPrice else null,
+            discountPercent = if (nPrice != null) "${calculationPercent(nPrice, sPrice)}%" else null
         )
     }
 

@@ -39,6 +39,7 @@
         <entry key="app/src/main/res/layout/item_home_header.xml" value="0.33410672853828305" />
         <entry key="app/src/main/res/layout/item_home_loading.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_menu.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_menu_large.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_menu_medium.xml" value="0.12708333333333333" />
         <entry key="app/src/main/res/layout/item_order_header.xml" value="0.10507246376811594" />
         <entry key="app/src/main/res/layout/item_order_success.xml" value="0.24414715719063546" />
