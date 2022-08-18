@@ -10,7 +10,6 @@ import com.example.banchan.presentation.adapter.main.Type
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,10 +24,9 @@ class MainCookViewModel @Inject constructor(
     private var filter = Filter.NORMAL
     private val _dishes =
         MutableStateFlow(listOf(MainItemListModel.MainHeader(), MainItemListModel.Loading))
-    val dishes = _dishes.asStateFlow()
 
     val mainItemListModel =
-        combine(dishes, getBasketItemUseCase()) { dishes, basketList ->
+        combine(_dishes, getBasketItemUseCase()) { dishes, basketList ->
             basketList.onSuccess {
                 return@combine checkIsCartAdded(dishes, it)
             }
