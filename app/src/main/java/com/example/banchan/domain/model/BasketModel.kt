@@ -5,6 +5,6 @@ data class BasketModel(
     val count : Int,
     val isChecked : Boolean = true,
     val name : String,
-    val price : String,
+    val price : Int,
     val image : String
 )
