@@ -8,5 +8,6 @@ import java.util.*
 data class RecentlyProduct(
     @PrimaryKey
     val hash: String,
+    val name: String,
     val recentlyTime: Date
 )

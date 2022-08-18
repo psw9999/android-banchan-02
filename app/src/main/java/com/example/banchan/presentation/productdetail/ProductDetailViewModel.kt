@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.domain.model.ProductDetailModel
 import com.example.banchan.domain.model.ResponseState
-import com.example.banchan.domain.usecase.SaveRecentProduct
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
+import com.example.banchan.domain.usecase.recently.SaveRecentProduct
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -31,7 +31,7 @@ class ProductDetailViewModel @AssistedInject constructor(
                 if (result.isSuccess) {
                     val detailModel = result.getOrNull()?.toDetailModel(name)
                     detailModel?.let {
-                        saveRecentProduct(hash)
+                        saveRecentProduct(hash, name)
                         _productDetail.emit(ResponseState.Success(detailModel))
                     }
                 } else if (result.isFailure) {
