@@ -14,7 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="168dp"
-        android:layout_height="264dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_banchan"
@@ -51,45 +51,16 @@
             tools:text="오리주물럭" />
 
         <TextView
-            android:id="@+id/tv_item_count"
-            style="@style/tv_normal_12.GreyDefault"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{item.description}"
-            app:layout_constraintBottom_toTopOf="@id/tv_discount"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:text="감칠맛 나는 양념" />
-
-        <TextView
-            android:id="@+id/tv_discount"
-            style="@style/tv_normal_14.Sale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:text="@{item.discountPercent}"
-            android:visibility="@{item.discountPercent == null ? View.GONE : View.VISIBLE}"
-            app:layout_constraintEnd_toStartOf="@id/tv_item_total"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_item_total"
-            tools:text="20%" />
-
-        <TextView
             android:id="@+id/tv_item_total"
             style="@style/tv_normal_14.Black"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{item.discountPercent == null ? item.originPrice : item.discountPrice}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_discount"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_count"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="1234원" />
 
         <TextView
@@ -101,8 +72,8 @@
             android:background="@drawable/background_line"
             android:text="@{item.originPrice}"
             android:visibility="@{item.discountPercent == null ? View.GONE : View.VISIBLE}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_total"
+            app:layout_constraintStart_toEndOf="@id/tv_item_total"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="1234원" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,4 +1,3 @@
-
 package com.example.banchan.presentation.productdetail
 
 import android.view.View
@@ -9,11 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.example.banchan.R
-import com.example.banchan.data.source.local.recent.RecentlyProduct
 import com.example.banchan.databinding.FragmentProductDetailBinding
 import com.example.banchan.domain.model.ProductDetailModel
 import com.example.banchan.domain.model.ResponseState
-import com.example.banchan.presentation.adapter.productdetail.*
+import com.example.banchan.presentation.adapter.productdetail.ProductDetailSectionAdapter
+import com.example.banchan.presentation.adapter.productdetail.ProductDetailThumbNailAdapter
+import com.example.banchan.presentation.adapter.productdetail.ProductInfoAdapter
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.dialog.BasketCheckDialog
 import com.example.banchan.presentation.main.BasketViewModel
@@ -21,20 +21,36 @@ import com.example.banchan.util.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(R.layout.fragment_product_detail) {
+class ProductDetailFragment :
+    BaseFragment<FragmentProductDetailBinding>(R.layout.fragment_product_detail) {
+
+    @Inject
+    lateinit var factory: ProductDetailViewModel.HashAssistedFactory
 
     private val basketViewModel: BasketViewModel by activityViewModels()
-    private val productDetailViewModel: ProductDetailViewModel by viewModels()
+    private val productDetailViewModel: ProductDetailViewModel by viewModels {
+        ProductDetailViewModel.provideFactory(
+            assistedFactory = factory,
+            hash = basketViewModel.selectedBasketItem.value?.detailHash ?: "",
+            name = basketViewModel.selectedBasketItem.value?.title ?: ""
+        )
+    }
 
-    private val onMinusClick: (()->Unit) = { basketViewModel.basketCountDecrease() }
-    private val onPlusClick: (()->Unit) = { basketViewModel.basketCountIncrease() }
-    private val onBasketAddClick: (()->Unit) = { basketViewModel.insertSelectedBasketItem() }
+    private val onMinusClick: (() -> Unit) = { basketViewModel.basketCountDecrease() }
+    private val onPlusClick: (() -> Unit) = { basketViewModel.basketCountIncrease() }
+    private val onBasketAddClick: (() -> Unit) = { basketViewModel.insertSelectedBasketItem() }
 
     private val thumbnailAdapter by lazy { ProductDetailThumbNailAdapter() }
-    private val productDetailAdapter by lazy { ProductInfoAdapter(onMinusClick, onPlusClick, onBasketAddClick) }
+    private val productDetailAdapter by lazy {
+        ProductInfoAdapter(
+            onMinusClick,
+            onPlusClick,
+            onBasketAddClick
+        )
+    }
     private val productDetailSectionAdapter by lazy { ProductDetailSectionAdapter() }
 
     override fun observe() {
@@ -74,29 +90,21 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(R.layou
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        productDetailViewModel.getProductDetail(
-            basketViewModel.selectedBasketItem.value!!.detailHash,
-            basketViewModel.selectedBasketItem.value!!.title
-        )
-        productDetailViewModel.insertProductDetail(RecentlyProduct(
-            basketViewModel.selectedBasketItem.value!!.detailHash,
-            Date()
-        ))
-    }
-
     override fun initViews() {
         initRecyclerView()
     }
 
     private fun initRecyclerView() {
-        binding.rvProductDetail.adapter = ConcatAdapter(thumbnailAdapter, productDetailAdapter, productDetailSectionAdapter)
+        binding.rvProductDetail.adapter =
+            ConcatAdapter(thumbnailAdapter, productDetailAdapter, productDetailSectionAdapter)
     }
 
     private fun setRecyclerViewData(productDetail: ProductDetailModel) {
         thumbnailAdapter.setThumbImageUrls(productDetail.thumbImages)
-        productDetailAdapter.setProductInfo(productDetail, basketViewModel.selectedBasketCount.value!!)
+        productDetailAdapter.setProductInfo(
+            productDetail,
+            basketViewModel.selectedBasketCount.value!!
+        )
         productDetailSectionAdapter.setSectionList(productDetail.detailSection)
     }
 
