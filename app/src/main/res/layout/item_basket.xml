@@ -61,6 +61,7 @@
             tools:text="6,000원" />
 
         <com.example.banchan.presentation.custom.AmountCounter
+            android:id="@+id/basket_amount_counter"
             android:layout_width="88dp"
             android:layout_height="24dp"
             android:layout_marginTop="8dp"
@@ -69,6 +70,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_basket_item_price" />
 
         <ImageView
+            android:id="@+id/iv_basket_item_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
