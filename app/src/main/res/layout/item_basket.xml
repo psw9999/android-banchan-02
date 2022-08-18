@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="basketModel"
+            type="com.example.banchan.domain.model.BasketModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="154dp"
+        android:background="@{basketModel.checked ? @color/white : @color/greyscale_surface}">
+
+        <ImageView
+            android:id="@+id/cb_basket_item"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="16dp"
+            android:src="@{basketModel.checked ? @drawable/ic_checkbox_checked : @drawable/ic_checkbox_empty}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_basket_item"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            imageUrl="@{basketModel.image}"
+            app:layout_constraintStart_toEndOf="@id/cb_basket_item"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_basket_item_name"
+            style="@style/tv_normal_14.Black"
+            android:layout_width="160dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:text="@{basketModel.name}"
+            app:layout_constraintStart_toEndOf="@id/iv_basket_item"
+            app:layout_constraintTop_toTopOf="@id/iv_basket_item"
+            tools:text="오리주물럭" />
+
+        <TextView
+            android:id="@+id/tv_basket_item_price"
+            style="@style/tv_normal_14.Black"
+            android:layout_width="160dp"
+            android:layout_height="24dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:text="@{@string/basket_amount(basketModel.price)}"
+            app:layout_constraintStart_toStartOf="@id/tv_basket_item_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_basket_item_name"
+            tools:text="6,000원" />
+
+        <com.example.banchan.presentation.custom.AmountCounter
+            android:layout_width="88dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            app:amount="@{basketModel.count}"
+            app:layout_constraintStart_toStartOf="@id/tv_basket_item_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_basket_item_price" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/tv_normal_14.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textStyle="bold"
+            android:text="@{@string/basket_amount(basketModel.price * basketModel.count)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="6,000원" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:backgroundTint="@color/greyscale_black30"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
