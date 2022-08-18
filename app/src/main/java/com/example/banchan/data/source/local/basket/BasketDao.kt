@@ -13,4 +13,14 @@ interface BasketDao {
 
     @Update
     fun updateBasketItem(vararg basketItem: BasketItem)
+
+    @Query("UPDATE basketitem SET isSelected = :isSelected")
+    fun updateAllBasketIsSelected(isSelected: Int)
+
+    @Delete
+    fun deleteBasketItem(vararg basketItem: BasketItem)
+
+    @Query("DELETE FROM basketitem WHERE isSelected = 1")
+    fun deleteSelectedBasketItem()
+
 }
