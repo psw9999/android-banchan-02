@@ -31,7 +31,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
         basketViewModel.updateAllBasketIsSelected(isSelected)
     }
 
-    private val onClickSeletedDeleteBtn: (() -> Unit) = {
+    private val onClickSelectedDeleteBtn: (() -> Unit) = {
         basketViewModel.deleteSelectedBasketItems()
     }
 
@@ -42,7 +42,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
     private val basketListTabAdapter by lazy {
         BasketTabAdapter(
             onClickCheckBoxTab,
-            onClickSeletedDeleteBtn
+            onClickSelectedDeleteBtn
         )
     }
     private val basketListAdapter by lazy { BasketListAdapter(onCheckBoxClick, onClickDeleteBtn) }

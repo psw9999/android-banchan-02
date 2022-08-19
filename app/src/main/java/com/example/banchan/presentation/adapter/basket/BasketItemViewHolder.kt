@@ -11,8 +11,8 @@ class BasketItemViewHolder(private val binding: ItemBasketBinding) :
 
     fun initBind(
         basketModel: BasketModel,
-        onCheckBoxClick : ((BasketModel)->Unit),
-        onClickDeleteBtn: ((BasketModel)->Unit)
+        onCheckBoxClick: ((BasketModel) -> Unit),
+        onClickDeleteBtn: ((BasketModel) -> Unit)
     ) {
         binding.basketModel = basketModel
         binding.cbBasketItem.setOnClickListener { onCheckBoxClick(basketModel) }
@@ -21,8 +21,8 @@ class BasketItemViewHolder(private val binding: ItemBasketBinding) :
 
     fun refreshBind(
         basketModel: BasketModel,
-        onCheckBoxClick : ((BasketModel)->Unit),
-        onClickDeleteBtn: ((BasketModel)->Unit)
+        onCheckBoxClick: ((BasketModel) -> Unit),
+        onClickDeleteBtn: ((BasketModel) -> Unit)
     ) {
         binding.basketModel = basketModel
         binding.cbBasketItem.setOnClickListener { onCheckBoxClick(basketModel) }
