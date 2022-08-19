@@ -29,4 +29,23 @@ class BasketLocalDataSource @Inject constructor(
             basketDao.updateBasketItem(*basketItem)
         }
     }
+
+    override suspend fun updateAllBasketIsSelected(isSelected: Int) = runCatching {
+        withContext(ioDispatcher) {
+            basketDao.updateAllBasketIsSelected(isSelected)
+        }
+    }
+
+    override suspend fun deleteBasketItem(vararg basketItem: BasketItem) = runCatching {
+        withContext(ioDispatcher) {
+            basketDao.deleteBasketItem(*basketItem)
+        }
+    }
+
+    override suspend fun deleteSelectedBasketItem() = runCatching {
+        withContext(ioDispatcher) {
+            basketDao.deleteSelectedBasketItem()
+        }
+    }
+
 }

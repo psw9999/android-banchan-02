@@ -9,8 +9,25 @@ import com.example.banchan.domain.model.BasketModel
 class BasketItemViewHolder(private val binding: ItemBasketBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun binding(basketModel: BasketModel) {
+    fun initBind(
+        basketModel: BasketModel,
+        onCheckBoxClick: ((BasketModel) -> Unit),
+        onClickDeleteBtn: ((BasketModel) -> Unit)
+    ) {
         binding.basketModel = basketModel
+        binding.cbBasketItem.setOnClickListener { onCheckBoxClick(basketModel) }
+        binding.ivBasketItemDelete.setOnClickListener { onClickDeleteBtn(basketModel) }
+    }
+
+    fun refreshBind(
+        basketModel: BasketModel,
+        onCheckBoxClick: ((BasketModel) -> Unit),
+        onClickDeleteBtn: ((BasketModel) -> Unit)
+    ) {
+        binding.basketModel = basketModel
+        binding.cbBasketItem.setOnClickListener { onCheckBoxClick(basketModel) }
+        binding.ivBasketItemDelete.setOnClickListener { onClickDeleteBtn(basketModel) }
+        binding.executePendingBindings()
     }
 
     companion object {
