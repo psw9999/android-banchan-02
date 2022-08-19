@@ -9,6 +9,8 @@ import com.example.banchan.databinding.FragmentHomeBinding
 import com.example.banchan.presentation.adapter.home.HomeViewPagerAdapter
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.main.BasketViewModel
+import com.example.banchan.presentation.main.FragmentType
+import com.example.banchan.presentation.main.MainViewModel
 import com.example.banchan.util.ext.toast
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,11 +19,14 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
-
+    private val mainViewModel: MainViewModel by activityViewModels()
     private val basketViewModel: BasketViewModel by activityViewModels()
 
     override fun initViews() {
         initViewPager()
+        binding.abHome.setOnCartClickListener {
+            mainViewModel.setCurrentFragment(FragmentType.Basket)
+        }
     }
 
     override fun observe() {
