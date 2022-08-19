@@ -10,7 +10,6 @@ import com.example.banchan.domain.model.RecentlyProductModel
 import com.example.banchan.domain.usecase.basket.*
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import com.example.banchan.domain.usecase.recently.GetRecentProductUseCase
-import com.example.banchan.domain.usecase.recently.GetRecentlyItemUseCase
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -68,7 +67,6 @@ class BasketViewModel @Inject constructor(
                 }
             }
 
-
     val recentlyProductFlow: Flow<List<RecentlyProductModel>> = getRecentProductUseCase()
 
     val basketAmountSumFlow: Flow<OrderModel> =
@@ -76,11 +74,13 @@ class BasketViewModel @Inject constructor(
             .map { basketList ->
                 var amount = 0
                 basketList.forEach { basketItem ->
-                    checkDetailApiMap(basketItem.hash)
-                    detailApiMap[basketItem.hash]?.let { detailResponse ->
-                        val priceList = detailResponse.data.prices
-                        amount += if (priceList.size == 1) (priceList[0].toNum() * basketItem.count)
-                                  else (priceList[1].toNum() * basketItem.count)
+                    if (basketItem.isSelected) {
+                        checkDetailApiMap(basketItem.hash)
+                        detailApiMap[basketItem.hash]?.let { detailResponse ->
+                            val priceList = detailResponse.data.prices
+                            amount += if (priceList.size == 1) (priceList[0].toNum() * basketItem.count)
+                            else (priceList[1].toNum() * basketItem.count)
+                        }
                     }
                 }
                 if (amount >= 40000) OrderModel(orderPrice = amount, deliveryFee = 0)
