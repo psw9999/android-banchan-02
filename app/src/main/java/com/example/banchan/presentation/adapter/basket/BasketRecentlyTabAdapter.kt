@@ -1,6 +1,5 @@
 package com.example.banchan.presentation.adapter.basket
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.domain.model.RecentlyProductModel
@@ -10,17 +9,32 @@ class BasketRecentlyTabAdapter(private val onClickRecentlyTab: () -> Unit) :
 
     private var recentlyViewedList: List<RecentlyProductModel> = listOf()
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setRecentlyViewedList(recentlyViewedList: List<RecentlyProductModel>) {
         this.recentlyViewedList = recentlyViewedList
-        notifyDataSetChanged()
+        notifyItemChanged(0, true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasketRecentlyTabHolder =
         BasketRecentlyTabHolder.create(parent)
 
     override fun onBindViewHolder(holder: BasketRecentlyTabHolder, position: Int) {
-        holder.bind(recentlyViewedList, onClickRecentlyTab)
+        holder.initBind(recentlyViewedList, onClickRecentlyTab)
+    }
+
+    override fun onBindViewHolder(
+        holder: BasketRecentlyTabHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            if (payloads[0] as Boolean) {
+                holder.refreshBind(recentlyViewedList)
+            } else {
+                super.onBindViewHolder(holder, position, payloads)
+            }
+        }
     }
 
     override fun getItemCount(): Int = 1
