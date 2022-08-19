@@ -39,13 +39,28 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
         basketViewModel.deleteBasketItem(basketModel)
     }
 
+    private val onClickMinusBtn: ((BasketModel) -> Unit) = { basketModel ->
+        basketViewModel.decreaseBasketCount(basketModel)
+    }
+
+    private val onClickPlusBtn: ((BasketModel) -> Unit) = { basketModel ->
+        basketViewModel.increaseBasketCount(basketModel)
+    }
+
     private val basketListTabAdapter by lazy {
         BasketTabAdapter(
             onClickCheckBoxTab,
             onClickSelectedDeleteBtn
         )
     }
-    private val basketListAdapter by lazy { BasketListAdapter(onCheckBoxClick, onClickDeleteBtn) }
+    private val basketListAdapter by lazy {
+        BasketListAdapter(
+            onCheckBoxClick,
+            onClickDeleteBtn,
+            onClickMinusBtn,
+            onClickPlusBtn
+        )
+    }
     private val basketOrderAdapter by lazy { BasketOrderAdapter() }
     private val basketRecentlyTabAdapter by lazy { BasketRecentlyTabAdapter() }
 
@@ -79,6 +94,12 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                             binding.pbBasketLoading.visibility = View.INVISIBLE
                             binding.rvBasketList.visibility = View.VISIBLE
                         }
+                    }
+                }
+
+                launch {
+                    basketViewModel.basketAmountSumFlow.collectLatest {
+                        basketOrderAdapter.setOrderModel(it)
                     }
                 }
             }
