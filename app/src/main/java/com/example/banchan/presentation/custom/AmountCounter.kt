@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import com.example.banchan.R
 import com.example.banchan.databinding.AmountCounterBinding
+import com.example.banchan.util.dimen.dpToPx
 
 class AmountCounter(
     context: Context,
@@ -31,12 +32,23 @@ class AmountCounter(
 
     private fun setTypeArray(typedArray: TypedArray) {
         setAmount(typedArray.getInteger(R.styleable.AmountCounter_amount, 1))
+        setSize(
+            typedArray.getDimensionPixelSize(
+                R.styleable.AmountCounter_size,
+                dpToPx(this.context, 30)
+            )
+        )
     }
 
     fun setAmount(amount: Int) {
         if (amount < 1) binding.amount = 1
         else if (amount > 99) binding.amount = 99
         else binding.amount = amount
+    }
+
+    fun setSize(size: Int) {
+        binding.fabPlus.customSize = size
+        binding.fabMinus.customSize = size
     }
 
     fun setOnMinusClickListener(listener: OnClickListener) {
