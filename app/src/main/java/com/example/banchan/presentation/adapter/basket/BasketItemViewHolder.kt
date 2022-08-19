@@ -11,16 +11,16 @@ class BasketItemViewHolder(private val binding: ItemBasketBinding) :
 
     fun initBind(
         basketModel: BasketModel,
-        onCheckBoxClick : ((BasketModel)->Unit),
-        onClickDeleteBtn: ((BasketModel)->Unit),
+        onCheckBoxClick: ((BasketModel) -> Unit),
+        onClickDeleteBtn: ((BasketModel) -> Unit),
         onClickMinusBtn: ((BasketModel) -> Unit),
         onClickPlusBtn: ((BasketModel) -> Unit)
     ) {
         binding.basketModel = basketModel
         binding.cbBasketItem.setOnClickListener { onCheckBoxClick(basketModel) }
         binding.ivBasketItemDelete.setOnClickListener { onClickDeleteBtn(basketModel) }
-        binding.basketAmountCounter.setOnMinusClickListener{ onClickMinusBtn(basketModel) }
-        binding.basketAmountCounter.setOnPlusClickListener{ onClickPlusBtn(basketModel) }
+        binding.basketAmountCounter.setOnMinusClickListener { onClickMinusBtn(basketModel) }
+        binding.basketAmountCounter.setOnPlusClickListener { onClickPlusBtn(basketModel) }
     }
 
     companion object {
