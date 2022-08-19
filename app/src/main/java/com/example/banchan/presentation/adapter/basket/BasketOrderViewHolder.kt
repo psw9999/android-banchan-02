@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.databinding.ItemBasketOrderBinding
+import com.example.banchan.domain.model.OrderModel
 
 class BasketOrderViewHolder(private val binding: ItemBasketOrderBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind() {
+    fun bind(orderModel: OrderModel) {
+        binding.orderModel = orderModel
     }
 
     companion object {

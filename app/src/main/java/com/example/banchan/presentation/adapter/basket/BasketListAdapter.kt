@@ -7,7 +7,9 @@ import com.example.banchan.domain.model.BasketModel
 
 class BasketListAdapter(
     private val onCheckBoxClick: ((BasketModel) -> Unit),
-    private val onClickDeleteBtn: ((BasketModel) -> Unit)
+    private val onClickDeleteBtn: ((BasketModel) -> Unit),
+    private val onClickMinusBtn: ((BasketModel) -> Unit),
+    private val onClickPlusBtn: ((BasketModel) -> Unit)
 ) : ListAdapter<BasketModel, BasketItemViewHolder>(diffUtil) {
 
     companion object {
@@ -30,7 +32,13 @@ class BasketListAdapter(
         BasketItemViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: BasketItemViewHolder, position: Int) {
-        holder.initBind(getItem(position), onCheckBoxClick, onClickDeleteBtn)
+        holder.initBind(
+            getItem(position),
+            onCheckBoxClick,
+            onClickDeleteBtn,
+            onClickMinusBtn,
+            onClickPlusBtn
+        )
     }
 
     override fun onBindViewHolder(
@@ -41,10 +49,12 @@ class BasketListAdapter(
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
-            if (payloads[0] as Boolean) holder.refreshBind(
+            if (payloads[0] as Boolean) holder.initBind(
                 getItem(position),
                 onCheckBoxClick,
-                onClickDeleteBtn
+                onClickDeleteBtn,
+                onClickMinusBtn,
+                onClickPlusBtn
             )
             else super.onBindViewHolder(holder, position, payloads)
         }
