@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 class BasketTabAdapter(
     private val onClickCheckBoxTab: ((Int)->Unit),
-    private val onClickSeletedDeleteBtn: (()->Unit)
+    private val onClickSelectedDeleteBtn: (()->Unit)
 ) : RecyclerView.Adapter<BasketTabViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasketTabViewHolder
         = BasketTabViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: BasketTabViewHolder, position: Int) {
-        holder.bind(onClickCheckBoxTab, onClickSeletedDeleteBtn)
+        holder.bind(onClickCheckBoxTab, onClickSelectedDeleteBtn)
     }
 
     override fun getItemCount(): Int = 1

@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.response.detail.DetailResponse
 import com.example.banchan.data.source.local.basket.BasketItem
-import com.example.banchan.data.source.local.recent.RecentlyProduct
 import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.domain.model.OrderModel
 import com.example.banchan.domain.model.RecentlyProductModel
 import com.example.banchan.domain.usecase.basket.*
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
+import com.example.banchan.domain.usecase.recently.GetRecentProductUseCase
 import com.example.banchan.domain.usecase.recently.GetRecentlyItemUseCase
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BasketViewModel @Inject constructor(
     private val getBasketItemUseCase: GetBasketItemUseCase,
-    private val getRecentlyItemUseCase: GetRecentlyItemUseCase,
+    private val getRecentProductUseCase: GetRecentProductUseCase,
     private val getProductDetailUseCase: GetProductDetailUseCase,
     private val updateBasketItemUseCase: UpdateBasketItemUseCase,
     private val updateAllBasketIsSelectedUseCase: UpdateAllBasketIsSelectedUseCase,
@@ -37,20 +37,14 @@ class BasketViewModel @Inject constructor(
             listOf()
         }
 
-    private val recentlyProductDbFlow: Flow<List<RecentlyProduct>> =
-        getRecentlyItemUseCase().map { result ->
-            result.onSuccess { return@map it }
-            listOf()
-        }
-
     private val _isBasketLoading = MutableStateFlow<Boolean>(true)
     private val _isRecentlyLoading = MutableStateFlow<Boolean>(true)
 
-    fun setIsBasketLoading(isLoading: Boolean){
+    fun setIsBasketLoading(isLoading: Boolean) {
         _isBasketLoading.value = isLoading
     }
 
-    fun setIsRecentlyLoading(isLoading: Boolean){
+    fun setIsRecentlyLoading(isLoading: Boolean) {
         _isRecentlyLoading.value = isLoading
     }
 
@@ -59,7 +53,7 @@ class BasketViewModel @Inject constructor(
             isBasketLoading || isRecentlyLoading
         }
 
-    private val detailApiMap: MutableMap<String,DetailResponse> = mutableMapOf()
+    private val detailApiMap: MutableMap<String, DetailResponse> = mutableMapOf()
 
     val basketItemFlow: Flow<List<BasketModel>> =
         basketDbFlow
@@ -74,17 +68,8 @@ class BasketViewModel @Inject constructor(
                 }
             }
 
-    val recentlyProductFlow: Flow<List<RecentlyProductModel>> =
-        recentlyProductDbFlow
-            .map { basketList ->
-                return@map basketList.mapNotNull { recentlyItem ->
-                    checkDetailApiMap(recentlyItem.hash)
-                    return@mapNotNull detailApiMap[recentlyItem.hash]?.toRecentlyProductModel(
-                        name = recentlyItem.name,
-                        time = "5분 전"
-                    )
-                }
-            }
+
+    val recentlyProductFlow: Flow<List<RecentlyProductModel>> = getRecentProductUseCase()
 
     val basketAmountSumFlow: Flow<OrderModel> =
         basketDbFlow

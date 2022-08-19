@@ -1,7 +1,7 @@
 package com.example.banchan.presentation.basket
 
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -14,14 +14,16 @@ import com.example.banchan.presentation.adapter.basket.BasketOrderAdapter
 import com.example.banchan.presentation.adapter.basket.BasketRecentlyTabAdapter
 import com.example.banchan.presentation.adapter.basket.BasketTabAdapter
 import com.example.banchan.presentation.base.BaseFragment
+import com.example.banchan.presentation.main.FragmentType
+import com.example.banchan.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_basket) {
-
-    private val basketViewModel: BasketViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val basketViewModel: BasketViewModel by activityViewModels()
 
     private val onCheckBoxClick: ((BasketModel) -> Unit) = { basketModel ->
         basketViewModel.updateBasketItem(basketModel)
@@ -62,10 +64,17 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
         )
     }
     private val basketOrderAdapter by lazy { BasketOrderAdapter() }
-    private val basketRecentlyTabAdapter by lazy { BasketRecentlyTabAdapter() }
+    private val basketRecentlyTabAdapter by lazy {
+        BasketRecentlyTabAdapter {
+            mainViewModel.setCurrentFragment(FragmentType.RecentlyViewedProduct)
+        }
+    }
 
     override fun initViews() {
         initRecyclerView()
+        binding.tbBasketBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun observe() {
