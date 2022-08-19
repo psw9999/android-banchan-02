@@ -43,6 +43,8 @@
             android:layout_marginStart="16dp"
             android:gravity="center_vertical"
             android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{basketModel.name}"
             app:layout_constraintStart_toEndOf="@id/iv_basket_item"
             app:layout_constraintTop_toTopOf="@id/iv_basket_item"
