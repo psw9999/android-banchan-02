@@ -17,6 +17,8 @@ import com.example.banchan.presentation.adapter.productdetail.ProductInfoAdapter
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.dialog.BasketCheckDialog
 import com.example.banchan.presentation.main.BasketViewModel
+import com.example.banchan.presentation.main.FragmentType
+import com.example.banchan.presentation.main.MainViewModel
 import com.example.banchan.util.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -30,6 +32,7 @@ class ProductDetailFragment :
     @Inject
     lateinit var factory: ProductDetailViewModel.HashAssistedFactory
 
+    private val mainViewModel: MainViewModel by activityViewModels()
     private val basketViewModel: BasketViewModel by activityViewModels()
     private val productDetailViewModel: ProductDetailViewModel by viewModels {
         ProductDetailViewModel.provideFactory(
@@ -92,6 +95,9 @@ class ProductDetailFragment :
 
     override fun initViews() {
         initRecyclerView()
+        binding.abProductDetail.setOnCartClickListener {
+            mainViewModel.setCurrentFragment(FragmentType.Basket)
+        }
     }
 
     private fun initRecyclerView() {
