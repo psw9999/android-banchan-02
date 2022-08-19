@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="recentlyProductModel"
+            type="com.example.banchan.domain.model.RecentlyProductItemModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="128dp"
+        android:layout_height="200dp"
+        android:paddingEnd="8dp">
+
+        <ImageView
+            android:id="@+id/iv_basket_recently_item"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            imageUrl="@{recentlyProductModel.image}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars"/>
+
+        <TextView
+            android:id="@+id/tv_recently_product_name"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            style="@style/tv_normal_14"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            android:text="@{recentlyProductModel.name}"
+            app:layout_constraintTop_toBottomOf="@id/iv_basket_recently_item"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="오리주물럭_반조리"/>
+
+        <TextView
+            android:id="@+id/tv_recently_product_display_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/tv_normal_14"
+            android:text="@{recentlyProductModel.discountPrice == null ? @string/basket_amount(recentlyProductModel.originPrice) : @string/basket_amount(recentlyProductModel.discountPrice)}"
+            app:layout_constraintTop_toBottomOf="@id/tv_recently_product_name"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="12,640원"/>
+
+        <TextView
+            android:id="@+id/tv_recently_product_origin_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/tv_normal_12.GreyDefault"
+            android:background="@drawable/background_line"
+            android:layout_marginStart="4dp"
+            android:text="@{@string/basket_amount(recentlyProductModel.discountPrice)}"
+            android:visibility="@{recentlyProductModel.discountPrice == null ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintTop_toTopOf="@id/tv_recently_product_display_price"
+            app:layout_constraintBottom_toBottomOf="@id/tv_recently_product_display_price"
+            app:layout_constraintStart_toEndOf="@id/tv_recently_product_display_price"
+            tools:text="15,800원"/>
+
+        <TextView
+            android:id="@+id/tv_recently_viewed_time"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
+            android:textColor="@color/greyscale_default"
+            android:text="@{recentlyProductModel.viewedTime}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recently_product_display_price"
+            tools:text="1분전" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
