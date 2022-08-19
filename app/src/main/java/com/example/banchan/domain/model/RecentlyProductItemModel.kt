@@ -1,6 +1,6 @@
 package com.example.banchan.domain.model
 
-data class RecentlyProductModel(
+data class RecentlyProductItemModel(
     val detailHash : String,
     val image : String,
     val name : String,

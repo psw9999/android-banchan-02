@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.databinding.ItemBasketRecentlyProductBinding
-import com.example.banchan.domain.model.RecentlyProductModel
+import com.example.banchan.domain.model.RecentlyProductItemModel
 
 class BasketRecentlyItemHolder(private val binding: ItemBasketRecentlyProductBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(recentlyProductModel: RecentlyProductModel) {
-        binding.recentlyProductModel = recentlyProductModel
+    fun bind(recentlyProductItemModel: RecentlyProductItemModel) {
+        binding.recentlyProductModel = recentlyProductItemModel
     }
 
     companion object {

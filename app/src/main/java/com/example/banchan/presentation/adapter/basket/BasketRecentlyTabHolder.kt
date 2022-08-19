@@ -5,18 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.databinding.ItemBasketRecentlyTabBinding
-import com.example.banchan.domain.model.RecentlyProductModel
+import com.example.banchan.domain.model.RecentlyProductItemModel
 
 class BasketRecentlyTabHolder(private val binding: ItemBasketRecentlyTabBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     val adapter: BasketRecentlyItemAdapter by lazy { BasketRecentlyItemAdapter() }
 
-    fun bind(recentlyProductList: List<RecentlyProductModel>) {
+    fun bind(recentlyProductList: List<RecentlyProductItemModel>) {
         initRecyclerView(recentlyProductList)
     }
 
-    private fun initRecyclerView(recentlyProductList: List<RecentlyProductModel>) {
+    private fun initRecyclerView(recentlyProductList: List<RecentlyProductItemModel>) {
         binding.rvBasketRecentlyList.layoutManager =
             LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvBasketRecentlyList.adapter = adapter

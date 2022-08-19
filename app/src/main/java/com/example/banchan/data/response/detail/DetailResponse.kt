@@ -2,7 +2,7 @@ package com.example.banchan.data.response.detail
 
 import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.domain.model.ProductDetailModel
-import com.example.banchan.domain.model.RecentlyProductModel
+import com.example.banchan.domain.model.RecentlyProductItemModel
 import com.example.banchan.util.calcul.calculationPercent
 import com.example.banchan.util.ext.toNum
 import kotlinx.serialization.Serializable
@@ -39,8 +39,8 @@ data class DetailResponse(
         )
     }
 
-    fun toRecentlyProductModel(name: String, time: String): RecentlyProductModel {
-        return RecentlyProductModel(
+    fun toRecentlyProductModel(name: String, time: String): RecentlyProductItemModel {
+        return RecentlyProductItemModel(
             detailHash = hash,
             image = data.thumbImages[0],
             name = name,
