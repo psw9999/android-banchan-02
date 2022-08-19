@@ -13,6 +13,7 @@ import com.example.banchan.presentation.basket.BasketFragment
 import com.example.banchan.presentation.home.HomeFragment
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
+import com.example.banchan.presentation.recentlyproduct.RecentlyProductFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                             FragmentType.Basket -> BasketFragment()
                             FragmentType.OrderDetail -> HomeFragment()
                             FragmentType.ProductDetail -> ProductDetailFragment()
-                            FragmentType.RecentlyViewedProduct -> HomeFragment()
+                            FragmentType.RecentlyViewedProduct -> RecentlyProductFragment()
                         }
                         supportFragmentManager.commit {
                             setReorderingAllowed(true)

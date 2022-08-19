@@ -9,18 +9,18 @@
 
         <variable
             name="item"
-            type="com.example.banchan.domain.model.ItemModel" />
+            type="com.example.banchan.domain.model.RecentlyProductModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="168dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_banchan"
             imageUrl="@{item.image}"
-            android:layout_width="0dp"
-            android:layout_height="160dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -75,5 +75,15 @@
             app:layout_constraintStart_toEndOf="@id/tv_item_total"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="1234원" />
+
+        <TextView
+            style="@style/tv_normal_12.GreyDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.time}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_total"
+            tools:text="4분전" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
