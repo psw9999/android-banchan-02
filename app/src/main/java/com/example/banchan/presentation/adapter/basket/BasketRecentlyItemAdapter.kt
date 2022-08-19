@@ -2,15 +2,15 @@ package com.example.banchan.presentation.adapter.basket
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.banchan.domain.model.RecentlyProductModel
+import com.example.banchan.domain.model.RecentlyProductItemModel
 
 class BasketRecentlyItemAdapter(
 
 ) : RecyclerView.Adapter<BasketRecentlyItemHolder>() {
 
-    private var recentlyViewedList: List<RecentlyProductModel> = listOf()
+    private var recentlyViewedList: List<RecentlyProductItemModel> = listOf()
 
-    fun setRecentlyViewedList(recentlyViewedList: List<RecentlyProductModel>) {
+    fun setRecentlyViewedList(recentlyViewedList: List<RecentlyProductItemModel>) {
         this.recentlyViewedList = recentlyViewedList
         notifyDataSetChanged()
     }

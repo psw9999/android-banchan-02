@@ -9,7 +9,7 @@
 
         <variable
             name="recentlyProductModel"
-            type="com.example.banchan.domain.model.RecentlyProductModel" />
+            type="com.example.banchan.domain.model.RecentlyProductItemModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

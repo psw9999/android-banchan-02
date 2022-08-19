@@ -8,10 +8,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentMainCookBinding
-import com.example.banchan.presentation.adapter.main.*
+import com.example.banchan.presentation.adapter.main.CommonSpacingItemDecorator
+import com.example.banchan.presentation.adapter.main.GridSpacingItemDecorator
+import com.example.banchan.presentation.adapter.main.MainAdapter
+import com.example.banchan.presentation.adapter.main.Type
 import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -19,11 +24,15 @@ import kotlinx.coroutines.launch
 class MainCookFragment : HomeTabFragment<FragmentMainCookBinding>(R.layout.fragment_main_cook) {
 
     private val viewModel by viewModels<MainCookViewModel>()
-
+    var typeChangeJob: Job? = null
     private val mainAdapter by lazy {
         MainAdapter(
             onTypeChanged = {
                 viewModel.changeType(it)
+                typeChangeJob =
+                    viewLifecycleOwner.lifecycleScope.launch(start = CoroutineStart.LAZY) {
+                        changeListType(it)
+                    }
             },
             onFilterChanged = {
                 viewModel.changeFilter(it)
@@ -44,9 +53,11 @@ class MainCookFragment : HomeTabFragment<FragmentMainCookBinding>(R.layout.fragm
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.mainItemListModel.collectLatest {
-                    mainAdapter.submitList(it) {
-                        changeListType(viewModel.type)
+                launch {
+                    viewModel.mainItemListModel.collectLatest {
+                        mainAdapter.submitList(it) {
+                            typeChangeJob?.start()
+                        }
                     }
                 }
             }
