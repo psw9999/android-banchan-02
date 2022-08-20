@@ -10,7 +10,6 @@ import com.example.banchan.domain.model.RecentlyProductModel
 import com.example.banchan.domain.usecase.basket.*
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import com.example.banchan.domain.usecase.recently.GetRecentProductUseCase
-import com.example.banchan.domain.usecase.recently.GetRecentlyItemUseCase
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -22,8 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BasketViewModel @Inject constructor(
-    private val getBasketItemUseCase: GetBasketItemUseCase,
-    private val getRecentProductUseCase: GetRecentProductUseCase,
+    getBasketItemUseCase: GetBasketItemUseCase,
+    getRecentProductUseCase: GetRecentProductUseCase,
     private val getProductDetailUseCase: GetProductDetailUseCase,
     private val updateBasketItemUseCase: UpdateBasketItemUseCase,
     private val updateAllBasketIsSelectedUseCase: UpdateAllBasketIsSelectedUseCase,
@@ -80,7 +79,7 @@ class BasketViewModel @Inject constructor(
                     detailApiMap[basketItem.hash]?.let { detailResponse ->
                         val priceList = detailResponse.data.prices
                         amount += if (priceList.size == 1) (priceList[0].toNum() * basketItem.count)
-                                  else (priceList[1].toNum() * basketItem.count)
+                        else (priceList[1].toNum() * basketItem.count)
                     }
                 }
                 if (amount >= 40000) OrderModel(orderPrice = amount, deliveryFee = 0)
@@ -140,7 +139,7 @@ class BasketViewModel @Inject constructor(
                 BasketItem(
                     hash = basketModel.detailHash,
                     name = basketModel.name,
-                    count = basketModel.count+1,
+                    count = basketModel.count + 1,
                     isSelected = basketModel.isChecked,
                 )
             )
@@ -153,7 +152,7 @@ class BasketViewModel @Inject constructor(
                 BasketItem(
                     hash = basketModel.detailHash,
                     name = basketModel.name,
-                    count = basketModel.count-1,
+                    count = basketModel.count - 1,
                     isSelected = basketModel.isChecked,
                 )
             )

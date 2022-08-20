@@ -17,7 +17,9 @@ class GetRecentProductUseCase @Inject constructor(
     operator fun invoke() = flow {
         combine(
             recentlyProductRepository.getRecentlyProducts(),
-            getBasketItemUseCase()
+            getBasketItemUseCase().distinctUntilChanged { old, new ->
+                old.getOrDefault(listOf()).size == new.getOrDefault(listOf()).size
+            }
         ) { products, basketList ->
             if (products.isSuccess && basketList.isSuccess) {
                 products.getOrNull()?.asFlow()?.flatMapMerge {
