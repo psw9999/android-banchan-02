@@ -67,6 +67,12 @@ class BasketViewModel @Inject constructor(
                 }
             }
 
+    val isAllBasketItemSelectedFlow: Flow<Boolean> =
+        basketDbFlow
+            .map { basketList ->
+                return@map basketList.all { it.isSelected }
+            }
+
     val recentlyProductFlow: Flow<List<RecentlyProductModel>> = getRecentProductUseCase()
 
     val basketAmountSumFlow: Flow<OrderModel> =

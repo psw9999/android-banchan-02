@@ -10,9 +10,13 @@ class BasketTabViewHolder(
     private val binding: ItemBasketTabBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(onClickCheckBoxTab: ((Int) -> Unit), onClickSelectedDeleteBtn: (() -> Unit)) {
-        binding.ivBasketDoAllCheck.setOnClickListener { onClickCheckBoxTab(true.toInt()) }
-        binding.tvBasketUncheck.setOnClickListener { onClickCheckBoxTab(false.toInt()) }
+    fun bind(
+        onClickCheckBoxTab: ((Int) -> Unit),
+        onClickSelectedDeleteBtn: (() -> Unit),
+        isAllBasketItemSelected: Boolean
+    ) {
+        binding.isAllBasketItemSelected = isAllBasketItemSelected
+        binding.ivBasketDoAllCheck.setOnClickListener { onClickCheckBoxTab((!isAllBasketItemSelected).toInt()) }
         binding.tvBasketCheckDelete.setOnClickListener { onClickSelectedDeleteBtn() }
     }
 
