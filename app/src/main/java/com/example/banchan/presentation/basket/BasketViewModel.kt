@@ -21,8 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BasketViewModel @Inject constructor(
-    private val getBasketItemUseCase: GetBasketItemUseCase,
-    private val getRecentProductUseCase: GetRecentProductUseCase,
+    getBasketItemUseCase: GetBasketItemUseCase,
+    getRecentProductUseCase: GetRecentProductUseCase,
     private val getProductDetailUseCase: GetProductDetailUseCase,
     private val updateBasketItemUseCase: UpdateBasketItemUseCase,
     private val updateAllBasketIsSelectedUseCase: UpdateAllBasketIsSelectedUseCase,
@@ -146,7 +146,7 @@ class BasketViewModel @Inject constructor(
                 BasketItem(
                     hash = basketModel.detailHash,
                     name = basketModel.name,
-                    count = basketModel.count+1,
+                    count = basketModel.count + 1,
                     isSelected = basketModel.isChecked,
                 )
             )
@@ -159,7 +159,7 @@ class BasketViewModel @Inject constructor(
                 BasketItem(
                     hash = basketModel.detailHash,
                     name = basketModel.name,
-                    count = basketModel.count-1,
+                    count = basketModel.count - 1,
                     isSelected = basketModel.isChecked,
                 )
             )
