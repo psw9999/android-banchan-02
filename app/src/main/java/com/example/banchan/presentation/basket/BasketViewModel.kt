@@ -4,18 +4,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.response.detail.DetailResponse
 import com.example.banchan.data.source.local.basket.BasketItem
+import com.example.banchan.data.source.local.history.HistoryItem
 import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.domain.model.OrderModel
 import com.example.banchan.domain.model.RecentlyProductModel
 import com.example.banchan.domain.usecase.basket.*
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
+import com.example.banchan.domain.usecase.history.InsertHistoryItemsUseCase
 import com.example.banchan.domain.usecase.recently.GetRecentProductUseCase
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +26,8 @@ class BasketViewModel @Inject constructor(
     private val updateBasketItemUseCase: UpdateBasketItemUseCase,
     private val updateAllBasketIsSelectedUseCase: UpdateAllBasketIsSelectedUseCase,
     private val deleteBasketItemUseCase: DeleteBasketItemUseCase,
-    private val deleteSelectedBasketItemUseCase: DeleteSelectedBasketItemUseCase
+    private val deleteSelectedBasketItemUseCase: DeleteSelectedBasketItemUseCase,
+    private val insertHistoryItemsUseCase: InsertHistoryItemsUseCase
 ) : ViewModel() {
 
     private val basketDbFlow: Flow<List<BasketItem>> =
@@ -146,7 +146,7 @@ class BasketViewModel @Inject constructor(
                 BasketItem(
                     hash = basketModel.detailHash,
                     name = basketModel.name,
-                    count = basketModel.count+1,
+                    count = basketModel.count + 1,
                     isSelected = basketModel.isChecked,
                 )
             )
@@ -159,11 +159,36 @@ class BasketViewModel @Inject constructor(
                 BasketItem(
                     hash = basketModel.detailHash,
                     name = basketModel.name,
-                    count = basketModel.count-1,
+                    count = basketModel.count - 1,
                     isSelected = basketModel.isChecked,
                 )
             )
         }
+    }
+
+    fun insertHistoryItemList(deliveryFee: Int) {
+        viewModelScope.launch {
+            val historyList = getHistoryItemList()
+            insertHistoryItemsUseCase(historyList, deliveryFee)
+            deleteSelectedBasketItemUseCase.invoke()
+        }
+    }
+
+    private suspend fun getHistoryItemList(): List<HistoryItem> {
+        val historyList = mutableListOf<HistoryItem>()
+        basketItemFlow.first().forEach {
+            if (it.isChecked) {
+                historyList.add(
+                    HistoryItem(
+                        imageUrl = it.image,
+                        count = it.count,
+                        originPrice = it.price,
+                        name = it.name
+                    )
+                )
+            }
+        }
+        return historyList
     }
 
 }
