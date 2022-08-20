@@ -41,6 +41,8 @@
     <string name="basket_insert_error">장바구니 저장 중 오류가 발생하였습니다.</string>
     <string name="basket_get_error">장바구니 불러오기 중 오류가 발생하였습니다.</string>
 
+
+    <string name="basket_list_all_check">전체 선택</string>
     <string name="basket_list_uncheck">선택 해제</string>
     <string name="basket_list_check_delete">선택 삭제</string>
     <string name="basket_amount">%,d원</string>
