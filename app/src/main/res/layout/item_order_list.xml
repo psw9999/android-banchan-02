@@ -5,11 +5,15 @@
 
     <data>
 
+        <variable
+            name="orderListModel"
+            type="com.example.banchan.domain.model.OrderListModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="112dp">
+        android:layout_height="112dp"
+        android:background="@color/white">
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/dv_order_item_top"
@@ -23,6 +27,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="16dp"
+            imageUrl="@{orderListModel.thumbNailImage}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,6 +43,7 @@
             android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="@{orderListModel.numberOfProduct > 1 ? @string/order_list_name_addition(orderListModel.name, orderListModel.numberOfProduct) : orderListModel.name}"
             app:layout_constraintEnd_toStartOf="@id/iv_order_item_right"
             app:layout_constraintStart_toEndOf="@+id/iv_order_item"
             app:layout_constraintTop_toTopOf="parent"
@@ -58,6 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="24dp"
             android:gravity="center_vertical"
+            android:text="@{@string/basket_amount(orderListModel.price)}"
             android:layout_marginHorizontal="8dp"
             app:layout_constraintEnd_toStartOf="@id/iv_order_item_right"
             app:layout_constraintStart_toEndOf="@+id/iv_order_item"
@@ -70,6 +77,8 @@
             android:layout_width="0dp"
             android:layout_height="24dp"
             android:gravity="center_vertical"
+            android:text="@{orderListModel.isCompleted ? @string/order_complete : @string/order_proceeding}"
+            android:textColor="@{orderListModel.isCompleted ? @color/black : @color/primary_accent}"
             android:layout_marginHorizontal="8dp"
             app:layout_constraintEnd_toStartOf="@id/iv_order_item_right"
             app:layout_constraintStart_toEndOf="@+id/iv_order_item"
