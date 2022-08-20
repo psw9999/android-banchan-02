@@ -11,6 +11,7 @@ import com.example.banchan.R
 import com.example.banchan.databinding.ActivityMainBinding
 import com.example.banchan.presentation.basket.BasketFragment
 import com.example.banchan.presentation.home.HomeFragment
+import com.example.banchan.presentation.orderlist.OrderListFragment
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import com.example.banchan.presentation.recentlyproduct.RecentlyProductFragment
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                             FragmentType.OrderDetail -> HomeFragment()
                             FragmentType.ProductDetail -> ProductDetailFragment()
                             FragmentType.RecentlyViewedProduct -> RecentlyProductFragment()
+                            FragmentType.OrderList -> OrderListFragment()
                         }
                         supportFragmentManager.commit {
                             setReorderingAllowed(true)
@@ -64,6 +66,7 @@ class MainActivity : AppCompatActivity() {
             FragmentType.OrderDetail.tag -> mainViewModel.setCurrentFragment(FragmentType.OrderDetail)
             FragmentType.ProductDetail.tag -> mainViewModel.setCurrentFragment(FragmentType.ProductDetail)
             FragmentType.RecentlyViewedProduct.tag -> mainViewModel.setCurrentFragment(FragmentType.RecentlyViewedProduct)
+            FragmentType.OrderList.tag -> mainViewModel.setCurrentFragment(FragmentType.OrderList)
         }
     }
 }
