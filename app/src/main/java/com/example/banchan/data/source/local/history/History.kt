@@ -7,7 +7,8 @@ import java.util.*
 @Entity
 data class History(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val date: Date = Date(),
+    val deliveryFee: Int = 0,
     val remainTime: Int = 5
 )
