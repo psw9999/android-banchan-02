@@ -20,8 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BasketViewModel @Inject constructor(
-    private val getBasketItemUseCase: GetBasketItemUseCase,
-    private val getRecentProductUseCase: GetRecentProductUseCase,
+    getBasketItemUseCase: GetBasketItemUseCase,
+    getRecentProductUseCase: GetRecentProductUseCase,
     private val getProductDetailUseCase: GetProductDetailUseCase,
     private val updateBasketItemUseCase: UpdateBasketItemUseCase,
     private val updateAllBasketIsSelectedUseCase: UpdateAllBasketIsSelectedUseCase,
