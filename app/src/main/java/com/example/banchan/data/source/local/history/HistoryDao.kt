@@ -11,13 +11,16 @@ interface HistoryDao {
     fun getHistoryWithItems(): Flow<List<HistoryWithItems>>
 
     @Query("select * from history where history.id = :id")
-    fun getHistoryWithItemsById(id: Int): Flow<HistoryWithItems>
+    fun getHistoryWithItemsById(id: Long): Flow<HistoryWithItems>
 
     @Insert
     suspend fun insertHistory(history: History): Long
 
     @Query("select * from history")
     suspend fun getAllHistory(): List<History>
+
+    @Query("select * from history order by id desc")
+    fun getHistoryList(): Flow<List<History>>
 
     @Update
     suspend fun updateHistory(history: History)

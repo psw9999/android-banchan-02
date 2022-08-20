@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface HistoryDataSource {
     fun getHistoryWithItems(): Flow<Result<List<HistoryWithItems>>>
-    fun getHistoryWithItemsById(id: Int): Flow<Result<HistoryWithItems>>
+    fun getHistoryWithItemsById(id: Long): Flow<Result<HistoryWithItems>>
+    fun getHistoryList(): Flow<Result<List<History>>>
     suspend fun insertHistoryWithItems(items: List<HistoryItem>, deliveryFee: Int): Result<Unit>
     suspend fun updateAllHistory()
 }
