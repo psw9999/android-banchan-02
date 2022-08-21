@@ -37,8 +37,8 @@ interface HistoryDao {
     suspend fun insertHistoryItem(vararg historyItem: HistoryItem)
 
     @Transaction
-    suspend fun insertHistoryWithItems(historyItem: List<HistoryItem>) {
-        val id = insertHistory(History(id = 0))
+    suspend fun insertHistoryWithItems(historyItem: List<HistoryItem>, deliveryFee: Int) {
+        val id = insertHistory(History(deliveryFee = deliveryFee))
         historyItem.forEach {
             insertHistoryItem(it.copy(historyId = id))
         }

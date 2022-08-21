@@ -25,9 +25,9 @@ class HistoryLocalDataSource @Inject constructor(
         Result.failure<Exception>(exception)
     }
 
-    override suspend fun insertHistoryWithItems(items: List<HistoryItem>) = runCatching {
+    override suspend fun insertHistoryWithItems(items: List<HistoryItem>, deliveryFee: Int) = runCatching {
         withContext(ioDispatcher) {
-            historyDao.insertHistoryWithItems(items)
+            historyDao.insertHistoryWithItems(items, deliveryFee)
         }
     }
 

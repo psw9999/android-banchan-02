@@ -4,20 +4,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.domain.model.OrderModel
 
-class BasketOrderAdapter: RecyclerView.Adapter<BasketOrderViewHolder>() {
+class BasketOrderAdapter(
+    private val onOrderClickListener: ((Int) -> Unit)
+) : RecyclerView.Adapter<BasketOrderViewHolder>() {
 
     private var orderModel: OrderModel? = null
 
-    fun setOrderModel(orderModel: OrderModel){
+    fun setOrderModel(orderModel: OrderModel) {
         this.orderModel = orderModel
         notifyItemChanged(0, true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasketOrderViewHolder
-        = BasketOrderViewHolder.create(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasketOrderViewHolder =
+        BasketOrderViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: BasketOrderViewHolder, position: Int) {
-        orderModel?.let{ holder.bind(it) }
+        orderModel?.let { holder.bind(it, onOrderClickListener) }
     }
 
     override fun onBindViewHolder(
@@ -25,11 +27,11 @@ class BasketOrderAdapter: RecyclerView.Adapter<BasketOrderViewHolder>() {
         position: Int,
         payloads: MutableList<Any>
     ) {
-        if(payloads.isEmpty()) {
+        if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
             if (payloads[0] as Boolean) {
-                holder.bind(orderModel!!)
+                holder.bind(orderModel!!, onOrderClickListener)
             } else {
                 super.onBindViewHolder(holder, position, payloads)
             }

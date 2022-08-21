@@ -69,7 +69,9 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
             onClickPlusBtn
         )
     }
-    private val basketOrderAdapter by lazy { BasketOrderAdapter() }
+    private val basketOrderAdapter by lazy {
+        BasketOrderAdapter { deliveryFee -> basketViewModel.insertHistoryItemList(deliveryFee) }
+    }
     private val basketRecentlyTabAdapter by lazy {
         BasketRecentlyTabAdapter {
             mainViewModel.setCurrentFragment(FragmentType.RecentlyViewedProduct)
@@ -120,7 +122,6 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
 
                 launch {
                     basketViewModel.isAllBasketItemSelectedFlow.collectLatest {
-                        println(it)
                         basketListTabAdapter.setIsAllBasketItemSelected(it)
                     }
                 }
