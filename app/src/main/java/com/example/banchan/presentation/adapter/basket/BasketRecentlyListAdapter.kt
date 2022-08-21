@@ -3,23 +3,23 @@ package com.example.banchan.presentation.adapter.basket
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.banchan.domain.model.RecentlyProductModel
+import com.example.banchan.domain.model.ItemModel
 
 class BasketRecentlyListAdapter(
-) : ListAdapter<RecentlyProductModel, BasketRecentlyItemHolder>(diffUtil) {
+) : ListAdapter<ItemModel, BasketRecentlyItemHolder>(diffUtil) {
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<RecentlyProductModel>() {
+        val diffUtil = object : DiffUtil.ItemCallback<ItemModel>() {
             override fun areItemsTheSame(
-                oldItem: RecentlyProductModel,
-                newItem: RecentlyProductModel
+                oldItem: ItemModel,
+                newItem: ItemModel
             ): Boolean {
                 return oldItem.detailHash == newItem.detailHash
             }
 
             override fun areContentsTheSame(
-                oldItem: RecentlyProductModel,
-                newItem: RecentlyProductModel
+                oldItem: ItemModel,
+                newItem: ItemModel
             ): Boolean {
                 return oldItem == newItem
             }

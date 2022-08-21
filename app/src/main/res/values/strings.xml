@@ -67,7 +67,7 @@
     <string name="count_format">%d개</string>
     <string name="total_count_format">총 %d 개</string>
     <string name="minute_format">%d분</string>
-    <string name="amount_format">%d원</string>
+    <string name="amount_format">%,d원</string>
 
     <string name="notification_title">[BanChan] 배달 완료</string>
     <string name="notification_content">배송이 완료되었습니다.</string>
