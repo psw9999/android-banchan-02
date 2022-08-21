@@ -1,11 +1,17 @@
 package com.example.banchan.presentation.basket
 
+import android.app.AlarmManager
+import android.app.Application
+import android.app.PendingIntent
+import android.content.Intent
+import android.os.SystemClock
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
+import com.example.banchan.AlarmReceiver
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentBasketBinding
 import com.example.banchan.domain.model.BasketModel
@@ -131,4 +137,20 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
         )
     }
 
+    private fun makeAlarm() {
+        requireContext().run {
+            val alarmManager = getSystemService(Application.ALARM_SERVICE) as AlarmManager
+            val triggerTime = (SystemClock.elapsedRealtime() + AlarmReceiver.ALARM_TIMER)
+            val pendingIntent = PendingIntent.getBroadcast(
+                this, triggerTime.toInt(), Intent(this, AlarmReceiver::class.java),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            alarmManager.setExact(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                triggerTime,
+                pendingIntent
+            )
+        }
+    }
 }
