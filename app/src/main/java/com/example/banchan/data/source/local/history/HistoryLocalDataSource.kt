@@ -19,7 +19,7 @@ class HistoryLocalDataSource @Inject constructor(
         Result.failure<Exception>(exception)
     }
 
-    override fun getHistoryWithItemsById(id: Int) = historyDao.getHistoryWithItemsById(id).map {
+    override fun getHistoryWithItemsById(id: Long) = historyDao.getHistoryWithItemsById(id).map {
         Result.success(it)
     }.catch { exception ->
         Result.failure<Exception>(exception)

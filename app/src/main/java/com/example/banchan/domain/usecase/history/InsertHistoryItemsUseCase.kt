@@ -7,6 +7,6 @@ import javax.inject.Inject
 class InsertHistoryItemsUseCase @Inject constructor(
     private val historyRepository: HistoryRepository
 ) {
-    suspend operator fun invoke(items: List<HistoryItem>, deliveryFee: Int) =
+    suspend operator fun invoke(items: List<HistoryItem>, deliveryFee: Int): Result<Long> =
         historyRepository.insertHistoryWithItems(items, deliveryFee)
 }
