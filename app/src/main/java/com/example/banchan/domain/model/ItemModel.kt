@@ -8,5 +8,7 @@ data class ItemModel(
     val discountPrice: String? = null,
     val originPrice: String,
     val title: String,
-    val isCartAdded: Boolean = false
+    val isCartAdded: Boolean = false,
+    val time: String = "",
+    val originTime: Long = 0L
 )

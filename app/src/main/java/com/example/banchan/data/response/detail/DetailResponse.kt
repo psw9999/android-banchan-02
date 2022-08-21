@@ -1,8 +1,8 @@
 package com.example.banchan.data.response.detail
 
 import com.example.banchan.domain.model.BasketModel
+import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.domain.model.ProductDetailModel
-import com.example.banchan.domain.model.RecentlyProductModel
 import com.example.banchan.util.calcul.calculationPercent
 import com.example.banchan.util.ext.toNum
 import com.example.banchan.util.ext.toTimeFormat
@@ -44,10 +44,12 @@ data class DetailResponse(
         )
     }
 
-    fun toRecentlyModel(date: Date, name: String, isCartAdded: Boolean): RecentlyProductModel {
-        return RecentlyProductModel(
+    fun toItemModel(name: String, isCartAdded: Boolean, originTime: Long): ItemModel {
+        return ItemModel(
             title = name,
+            description = data.productDescription,
             detailHash = hash,
+            image = data.thumbImages[0],
             originPrice = data.prices[0],
             discountPrice = if (data.prices.size == 1) null else data.prices[1],
             discountPercent = if (data.prices.size == 1) null else "${
@@ -56,9 +58,8 @@ data class DetailResponse(
                     data.prices[1]
                 )
             }%",
-            time = ((Date().time - date.time) / 1000).toTimeFormat(),
-            description = data.productDescription,
-            image = data.thumbImages[0],
+            time = ((Date().time - originTime) / 1000).toTimeFormat(),
+            originTime = originTime,
             isCartAdded = isCartAdded
         )
     }
