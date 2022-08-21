@@ -35,6 +35,7 @@
         <entry key="app/src/main/res/layout/item_banchan.xml" value="0.5686782836914064" />
         <entry key="app/src/main/res/layout/item_basket.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/item_basket_list.xml" value="0.75" />
+        <entry key="app/src/main/res/layout/item_basket_order.xml" value="0.10099637681159421" />
         <entry key="app/src/main/res/layout/item_basket_recently_product.xml" value="0.9" />
         <entry key="app/src/main/res/layout/item_basket_recently_tab.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_basket_tab.xml" value="0.1828774062816616" />

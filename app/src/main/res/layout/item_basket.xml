@@ -85,7 +85,7 @@
             android:inputType="numberDecimal"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/greyscale_line"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:text="@{``+basketModel.count}"
             app:layout_constraintBottom_toBottomOf="@id/ib_basket_item_minus"
