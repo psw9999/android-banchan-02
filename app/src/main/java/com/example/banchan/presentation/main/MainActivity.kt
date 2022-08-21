@@ -38,9 +38,8 @@ class MainActivity : AppCompatActivity() {
                 mainViewModel.currentFragment.collectLatest {
                     val targetFragment = supportFragmentManager.findFragmentByTag(it.tag)
                     if (targetFragment == null) {
-                        // 추후 다른 Fragment 생성 후 수정 예정
                         val fragment = when (it) {
-                            FragmentType.Home -> OrderSuccessFragment()
+                            FragmentType.Home -> HomeFragment()
                             FragmentType.Basket -> BasketFragment()
                             FragmentType.OrderDetail -> HomeFragment()
                             FragmentType.ProductDetail -> ProductDetailFragment()
