@@ -5,5 +5,6 @@ enum class FragmentType(val tag: String) {
     Basket("basket"),
     ProductDetail("product_detail"),
     OrderDetail("order_detail"),
-    RecentlyViewedProduct("recently_viewed_product")
+    RecentlyViewedProduct("recently_viewed_product"),
+    OrderList("order_list")
 }

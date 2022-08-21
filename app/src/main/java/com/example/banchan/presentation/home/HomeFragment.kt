@@ -27,6 +27,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.abHome.setOnCartClickListener {
             mainViewModel.setCurrentFragment(FragmentType.Basket)
         }
+        binding.abHome.setOnProfileClickListener {
+            mainViewModel.setCurrentFragment(FragmentType.OrderList)
+        }
     }
 
     override fun observe() {

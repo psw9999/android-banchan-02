@@ -19,6 +19,9 @@ interface HistoryDao {
     @Query("select * from history")
     suspend fun getAllHistory(): List<History>
 
+    @Query("select * from history order by id desc")
+    fun getHistoryList(): Flow<List<History>>
+
     @Update
     suspend fun updateHistory(history: History)
 
