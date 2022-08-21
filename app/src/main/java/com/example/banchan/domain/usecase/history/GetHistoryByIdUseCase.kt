@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetHistoryByIdUseCase @Inject constructor(
     private val historyRepository: HistoryRepository
 ) {
-    operator fun invoke(id: Int) = historyRepository.getHistoryWithItemsById(id)
+    operator fun invoke(id: Long) = historyRepository.getHistoryWithItemsById(id)
 }

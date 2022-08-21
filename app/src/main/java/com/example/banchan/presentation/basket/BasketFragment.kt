@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.SystemClock
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,6 +23,7 @@ import com.example.banchan.presentation.adapter.basket.BasketTabAdapter
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.main.FragmentType
 import com.example.banchan.presentation.main.MainViewModel
+import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -123,6 +125,22 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                 launch {
                     basketViewModel.isAllBasketItemSelectedFlow.collectLatest {
                         basketListTabAdapter.setIsAllBasketItemSelected(it)
+                    }
+                }
+
+                launch {
+                    basketViewModel.successHistoryId.collect {
+                        makeAlarm()
+                        parentFragmentManager.run {
+                            popBackStack()
+                            commit {
+                                replace(
+                                    R.id.layout_main_container,
+                                    OrderSuccessFragment.newInstance(it)
+                                )
+                                addToBackStack(null)
+                            }
+                        }
                     }
                 }
             }

@@ -11,7 +11,7 @@ interface HistoryDao {
     fun getHistoryWithItems(): Flow<List<HistoryWithItems>>
 
     @Query("select * from history where history.id = :id")
-    fun getHistoryWithItemsById(id: Int): Flow<HistoryWithItems>
+    fun getHistoryWithItemsById(id: Long): Flow<HistoryWithItems>
 
     @Insert
     suspend fun insertHistory(history: History): Long
@@ -37,10 +37,12 @@ interface HistoryDao {
     suspend fun insertHistoryItem(vararg historyItem: HistoryItem)
 
     @Transaction
-    suspend fun insertHistoryWithItems(historyItem: List<HistoryItem>, deliveryFee: Int) {
+    suspend fun insertHistoryWithItems(historyItem: List<HistoryItem>, deliveryFee: Int): Long {
         val id = insertHistory(History(deliveryFee = deliveryFee))
         historyItem.forEach {
             insertHistoryItem(it.copy(historyId = id))
         }
+
+        return id
     }
 }

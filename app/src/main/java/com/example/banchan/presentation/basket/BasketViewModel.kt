@@ -52,6 +52,8 @@ class BasketViewModel @Inject constructor(
             isBasketLoading || isRecentlyLoading
         }
 
+    val successHistoryId = MutableSharedFlow<Long>()
+
     private val detailApiMap: MutableMap<String, DetailResponse> = mutableMapOf()
 
     val basketItemFlow: Flow<List<BasketModel>> =
@@ -169,8 +171,11 @@ class BasketViewModel @Inject constructor(
     fun insertHistoryItemList(deliveryFee: Int) {
         viewModelScope.launch {
             val historyList = getHistoryItemList()
-            insertHistoryItemsUseCase(historyList, deliveryFee)
-            deleteSelectedBasketItemUseCase.invoke()
+            val result = insertHistoryItemsUseCase(historyList, deliveryFee)
+            result.onSuccess {
+                deleteSelectedBasketItemUseCase()
+                successHistoryId.emit(it)
+            }
         }
     }
 
