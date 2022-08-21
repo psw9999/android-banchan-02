@@ -38,7 +38,7 @@ class OrderListViewModel @Inject constructor(
                                 name = historyWithItems.items[0].name,
                                 numberOfProduct = historyWithItems.items.size,
                                 price = history.deliveryFee + historyWithItems.items.sumOf { it.originPrice * it.count},
-                                isCompleted = history.remainTime == 0
+                                isCompleted = history.isSuccess
                             )
                         )
                     }
