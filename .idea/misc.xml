@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../layout/custom_preview.xml" value="0.11018518518518519" />
         <entry key="app/src/main/res/drawable/background_line.xml" value="0.1135" />
         <entry key="app/src/main/res/drawable/bg_basket_checkbox.xml" value="0.223" />
         <entry key="app/src/main/res/drawable/bg_main_title_tv.xml" value="0.1" />
@@ -33,11 +32,10 @@
         <entry key="app/src/main/res/layout/fragment_side.xml" value="0.16302083333333334" />
         <entry key="app/src/main/res/layout/fragment_soup.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_banchan.xml" value="0.5686782836914064" />
-        <entry key="app/src/main/res/layout/item_basket.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/item_basket.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_basket_list.xml" value="0.75" />
-        <entry key="app/src/main/res/layout/item_basket_recently_product.xml" value="0.9" />
+        <entry key="app/src/main/res/layout/item_basket_recently_product.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_basket_recently_tab.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_basket_tab.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/item_best_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_home_empty.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_home_error.xml" value="0.375" />
