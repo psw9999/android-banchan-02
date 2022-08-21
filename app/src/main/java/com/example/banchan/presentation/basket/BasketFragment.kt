@@ -111,6 +111,13 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                         basketOrderAdapter.setOrderModel(it)
                     }
                 }
+
+                launch {
+                    basketViewModel.isAllBasketItemSelectedFlow.collectLatest {
+                        println(it)
+                        basketListTabAdapter.setIsAllBasketItemSelected(it)
+                    }
+                }
             }
         }
     }

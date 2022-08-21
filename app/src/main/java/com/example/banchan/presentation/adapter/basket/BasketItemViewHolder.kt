@@ -19,8 +19,8 @@ class BasketItemViewHolder(private val binding: ItemBasketBinding) :
         binding.basketModel = basketModel
         binding.cbBasketItem.setOnClickListener { onCheckBoxClick(basketModel) }
         binding.ivBasketItemDelete.setOnClickListener { onClickDeleteBtn(basketModel) }
-        binding.basketAmountCounter.setOnMinusClickListener { onClickMinusBtn(basketModel) }
-        binding.basketAmountCounter.setOnPlusClickListener { onClickPlusBtn(basketModel) }
+        binding.ibBasketItemMinus.setOnClickListener { onClickMinusBtn(basketModel) }
+        binding.ibBasketItemPlus.setOnClickListener { onClickPlusBtn(basketModel) }
     }
 
     companion object {

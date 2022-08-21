@@ -41,7 +41,9 @@
             android:layout_width="160dp"
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
+            android:ellipsize="end"
             android:gravity="center_vertical"
+            android:maxLines="1"
             android:text="@{basketModel.name}"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/iv_basket_item"
@@ -60,15 +62,53 @@
             app:layout_constraintTop_toBottomOf="@id/tv_basket_item_name"
             tools:text="6,000원" />
 
-        <com.example.banchan.presentation.custom.AmountCounter
-            android:id="@+id/basket_amount_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_basket_item_minus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginTop="8dp"
-            app:amount="@{basketModel.count}"
+            android:alpha="@{basketModel.count &lt;= 1 ? 0.7f : 1.0f}"
+            android:background="@drawable/bg_amount_counter"
+            android:elevation="1dp"
+            android:enabled="@{basketModel.count &lt;= 1 ? false : true}"
+            android:padding="6dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_minus"
             app:layout_constraintStart_toStartOf="@id/tv_basket_item_price"
-            app:layout_constraintTop_toBottomOf="@id/tv_basket_item_price"
-            app:size="24dp" />
+            app:layout_constraintTop_toBottomOf="@id/tv_basket_item_price" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_basket_item_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="numberDecimal"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="@{``+basketModel.count}"
+            app:layout_constraintBottom_toBottomOf="@id/ib_basket_item_minus"
+            app:layout_constraintEnd_toStartOf="@id/ib_basket_item_plus"
+            app:layout_constraintStart_toEndOf="@id/ib_basket_item_minus"
+            app:layout_constraintTop_toTopOf="@id/ib_basket_item_minus"
+            tools:text="1" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_basket_item_plus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="68dp"
+            android:alpha="@{basketModel.count >= 99 ? 0.7f : 1.0f}"
+            android:background="@drawable/bg_amount_counter"
+            android:elevation="1dp"
+            android:enabled="@{basketModel.count >= 99 ? false : true}"
+            android:padding="6dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_plus"
+            app:layout_constraintBottom_toBottomOf="@id/ib_basket_item_minus"
+            app:layout_constraintStart_toEndOf="@id/ib_basket_item_minus"
+            app:layout_constraintTop_toTopOf="@id/ib_basket_item_minus" />
 
         <ImageView
             android:id="@+id/iv_basket_item_delete"
