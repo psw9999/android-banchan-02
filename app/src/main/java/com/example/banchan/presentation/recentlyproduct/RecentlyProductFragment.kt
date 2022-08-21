@@ -31,7 +31,7 @@ class RecentlyProductFragment :
         }
 
         binding.toolbarBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            requireActivity().onBackPressed()
         }
     }
 

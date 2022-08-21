@@ -16,10 +16,8 @@ class HistoryRepositoryImpl @Inject constructor(
 
     override fun getHistoryWithItemsById(id: Long) = localDataSource.getHistoryWithItemsById(id)
 
-    override suspend fun insertHistoryWithItems(items: List<HistoryItem>, deliveryFee: Int): Result<Unit> =
-        runCatching {
-            localDataSource.insertHistoryWithItems(items, deliveryFee)
-        }
+    override suspend fun insertHistoryWithItems(items: List<HistoryItem>, deliveryFee: Int) =
+        localDataSource.insertHistoryWithItems(items, deliveryFee)
 
     override suspend fun updateAllHistory() {
         localDataSource.updateAllHistory()

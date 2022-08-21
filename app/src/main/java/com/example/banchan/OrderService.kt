@@ -20,7 +20,7 @@ class OrderService : LifecycleService() {
         lifecycleScope.launch {
             while (isActive) {
                 updateHistoryUseCase()
-                delay(1000 * 30)
+                delay(1000 * 10)
             }
         }
     }

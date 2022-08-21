@@ -1,16 +1,11 @@
 package com.example.banchan.presentation.ordersuccess
 
-import android.app.AlarmManager
-import android.app.Application
-import android.app.PendingIntent
-import android.content.Intent
-import android.os.SystemClock
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
-import com.example.banchan.AlarmReceiver
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentOrderSuccessBinding
 import com.example.banchan.presentation.adapter.common.CommonOrderFooterAdapter
@@ -19,11 +14,20 @@ import com.example.banchan.presentation.adapter.ordersuccess.OrderSuccessItemAda
 import com.example.banchan.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class OrderSuccessFragment :
     BaseFragment<FragmentOrderSuccessBinding>(R.layout.fragment_order_success) {
-    val viewModel by viewModels<OrderSuccessViewModel>()
+    @Inject
+    lateinit var factory: OrderSuccessViewModel.IdAssistedFactory
+
+    val viewModel by viewModels<OrderSuccessViewModel> {
+        OrderSuccessViewModel.provideFactory(
+            assistedFactory = factory,
+            id = arguments?.getLong(KEY_ID, 0) ?: 0
+        )
+    }
     private val headerAdapter = CommonOrderHeaderAdapter()
     private val itemAdapter = OrderSuccessItemAdapter()
     private val footerAdapter = CommonOrderFooterAdapter()
@@ -40,6 +44,10 @@ class OrderSuccessFragment :
 
         binding.toolbarRefresh.setOnClickListener {
             viewModel.refresh()
+        }
+
+        binding.toolbarBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
         }
     }
 
@@ -70,6 +78,20 @@ class OrderSuccessFragment :
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+        private const val KEY_ID = "id"
+
+        fun newInstance(id: Long): OrderSuccessFragment {
+            val fragment = OrderSuccessFragment()
+
+            val args = Bundle()
+            args.putLong(KEY_ID, id)
+            fragment.arguments = args
+
+            return fragment
         }
     }
 }
