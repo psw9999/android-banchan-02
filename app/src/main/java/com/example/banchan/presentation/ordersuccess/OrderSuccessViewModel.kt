@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrderSuccessViewModel @Inject constructor(
-    private val getHistoryByIdUseCase: GetHistoryByIdUseCase,
+    getHistoryByIdUseCase: GetHistoryByIdUseCase,
     private val updateHistoryUseCase: UpdateHistoryUseCase
 ) : ViewModel() {
     val history = getHistoryByIdUseCase(1)

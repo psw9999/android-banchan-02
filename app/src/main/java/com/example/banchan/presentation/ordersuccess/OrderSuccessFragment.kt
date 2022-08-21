@@ -1,10 +1,16 @@
 package com.example.banchan.presentation.ordersuccess
 
+import android.app.AlarmManager
+import android.app.Application
+import android.app.PendingIntent
+import android.content.Intent
+import android.os.SystemClock
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
+import com.example.banchan.AlarmReceiver
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentOrderSuccessBinding
 import com.example.banchan.presentation.adapter.common.CommonOrderFooterAdapter
