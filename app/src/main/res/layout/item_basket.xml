@@ -26,11 +26,11 @@
 
         <ImageView
             android:id="@+id/iv_basket_item"
+            imageUrl="@{basketModel.image}"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
-            imageUrl="@{basketModel.image}"
             app:layout_constraintStart_toEndOf="@id/cb_basket_item"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
@@ -42,8 +42,8 @@
             android:layout_height="24dp"
             android:layout_marginStart="16dp"
             android:gravity="center_vertical"
-            android:textStyle="bold"
             android:text="@{basketModel.name}"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/iv_basket_item"
             app:layout_constraintTop_toTopOf="@id/iv_basket_item"
             tools:text="오리주물럭" />
@@ -54,20 +54,21 @@
             android:layout_width="160dp"
             android:layout_height="24dp"
             android:gravity="center_vertical"
-            android:textStyle="bold"
             android:text="@{@string/basket_amount(basketModel.price)}"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_basket_item_name"
             app:layout_constraintTop_toBottomOf="@id/tv_basket_item_name"
             tools:text="6,000원" />
 
         <com.example.banchan.presentation.custom.AmountCounter
             android:id="@+id/basket_amount_counter"
-            android:layout_width="88dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:amount="@{basketModel.count}"
             app:layout_constraintStart_toStartOf="@id/tv_basket_item_price"
-            app:layout_constraintTop_toBottomOf="@id/tv_basket_item_price" />
+            app:layout_constraintTop_toBottomOf="@id/tv_basket_item_price"
+            app:size="24dp" />
 
         <ImageView
             android:id="@+id/iv_basket_item_delete"
@@ -83,8 +84,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:textStyle="bold"
             android:text="@{@string/basket_amount(basketModel.price * basketModel.count)}"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="6,000원" />

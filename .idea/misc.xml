@@ -32,6 +32,7 @@
         <entry key="app/src/main/res/layout/fragment_side.xml" value="0.16302083333333334" />
         <entry key="app/src/main/res/layout/fragment_soup.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_banchan.xml" value="0.5686782836914064" />
+        <entry key="app/src/main/res/layout/item_basket.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_basket_list.xml" value="0.75" />
         <entry key="app/src/main/res/layout/item_basket_recently_product.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_basket_recently_tab.xml" value="0.1" />

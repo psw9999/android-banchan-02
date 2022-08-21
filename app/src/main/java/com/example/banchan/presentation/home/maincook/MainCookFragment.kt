@@ -47,7 +47,7 @@ class MainCookFragment : HomeTabFragment<FragmentMainCookBinding>(R.layout.fragm
             adapter = mainAdapter
             itemAnimator = null
         }
-        changeListType(Type.Grid)
+        changeListType(viewModel.type)
     }
 
     override fun observe() {
