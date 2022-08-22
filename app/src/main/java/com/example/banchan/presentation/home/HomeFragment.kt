@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val mainViewModel: MainViewModel by activityViewModels()
     private val basketViewModel: BasketViewModel by activityViewModels()
+    private val orderStateViewModel: OrderStateViewModel by activityViewModels()
 
     override fun initViews() {
         initViewPager()
@@ -35,10 +36,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                basketViewModel.basketFlow.collectLatest { result ->
-                    result.onSuccess { binding.abHome.setCartCount(it.size) }
-                    result.onFailure { requireContext().toast(getString(R.string.basket_get_error)) }
+                launch {
+                    basketViewModel.basketFlow.collectLatest { result ->
+                        result.onSuccess { binding.abHome.setCartCount(it.size) }
+                        result.onFailure { requireContext().toast(getString(R.string.basket_get_error)) }
+                    }
                 }
+
+                launch {
+                    orderStateViewModel.isOrderingStateFlow.collect { isAllOrderSuccess ->
+                        binding.abHome.setIsShipping(!isAllOrderSuccess)
+                    }
+                }
+
             }
         }
     }
