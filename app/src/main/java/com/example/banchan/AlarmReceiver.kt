@@ -8,6 +8,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.banchan.presentation.main.MainActivity
 import com.example.banchan.util.DEFAULT_DELIVERY_TIME
 
@@ -19,6 +22,7 @@ class AlarmReceiver : BroadcastReceiver() {
             Context.NOTIFICATION_SERVICE
         ) as NotificationManager
 
+        setUpOrderWork(context, intent.getLongExtra(ID, 0L))
         createNotificationChannel()
         createNotification(context)
     }
@@ -56,10 +60,25 @@ class AlarmReceiver : BroadcastReceiver() {
         notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
 
+    private fun setUpOrderWork(context: Context, id: Long) {
+        val data = Data.Builder()
+            .putLong(ID, id)
+            .build()
+
+        val orderWork = OneTimeWorkRequestBuilder<OrderWorkManager>()
+            .setInputData(data)
+            .build()
+
+        WorkManager
+            .getInstance(context)
+            .enqueue(orderWork)
+    }
+
     companion object {
         const val NOTIFICATION_ID = 0
         const val CHANNEL_ID = "delivery channel"
         const val CHANNEL_NAME = "delivery channel"
+        const val ID = "ID"
 
         const val ALARM_TIMER = DEFAULT_DELIVERY_TIME * 60 * 1000
     }
