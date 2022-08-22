@@ -35,7 +35,7 @@ class GetRecentProductUseCase @Inject constructor(
                         }
                     }
                 }?.scan(emptyList<ItemModel>()) { i1, i2 -> i1 + i2 }?.onEach {
-                    emit(it.sortedBy { it.originTime })
+                    emit(it.sortedByDescending { it.originTime })
                 }?.collect()
             }
         }.collect()

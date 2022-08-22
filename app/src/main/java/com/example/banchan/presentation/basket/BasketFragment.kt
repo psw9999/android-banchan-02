@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.example.banchan.AlarmReceiver
+import com.example.banchan.AlarmReceiver.Companion.ID
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentBasketBinding
 import com.example.banchan.domain.model.BasketModel
@@ -130,7 +131,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
 
                 launch {
                     basketViewModel.successHistoryId.collect {
-                        makeAlarm()
+                        makeAlarm(it)
                         parentFragmentManager.run {
                             popBackStack()
                             commit {
@@ -156,12 +157,14 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
         )
     }
 
-    private fun makeAlarm() {
+    private fun makeAlarm(id: Long) {
         requireContext().run {
             val alarmManager = getSystemService(Application.ALARM_SERVICE) as AlarmManager
             val triggerTime = (SystemClock.elapsedRealtime() + AlarmReceiver.ALARM_TIMER)
             val pendingIntent = PendingIntent.getBroadcast(
-                this, triggerTime.toInt(), Intent(this, AlarmReceiver::class.java),
+                this, triggerTime.toInt(), Intent(this, AlarmReceiver::class.java).apply {
+                    putExtra(ID, id)
+                },
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 

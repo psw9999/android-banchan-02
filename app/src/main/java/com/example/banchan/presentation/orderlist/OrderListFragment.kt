@@ -2,7 +2,7 @@ package com.example.banchan.presentation.orderlist
 
 import android.graphics.Rect
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -11,6 +11,7 @@ import com.example.banchan.R
 import com.example.banchan.databinding.FragmentOrderListBinding
 import com.example.banchan.presentation.adapter.orderlist.OrderListAdapter
 import com.example.banchan.presentation.base.BaseFragment
+import com.example.banchan.presentation.home.OrderStateViewModel
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragment_order_list) {
 
-    private val orderListViewModel: OrderListViewModel by viewModels()
+    private val orderStateViewModel: OrderStateViewModel by activityViewModels()
 
     private val orderListAdapter by lazy { OrderListAdapter { } }
 
@@ -31,7 +32,7 @@ class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragme
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                orderListViewModel.historyModelFlow.collectLatest {
+                orderStateViewModel.historyModelFlow.collectLatest {
                     orderListAdapter.submitList(it)
                 }
             }
@@ -40,7 +41,7 @@ class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragme
 
     private fun initRecyclerView() {
         binding.rvOrderList.adapter = orderListAdapter
-        binding.rvOrderList.addItemDecoration(object: RecyclerView.ItemDecoration() {
+        binding.rvOrderList.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
                 view: View,
