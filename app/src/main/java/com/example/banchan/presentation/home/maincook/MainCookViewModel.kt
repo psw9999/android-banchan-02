@@ -59,9 +59,13 @@ class MainCookViewModel @Inject constructor(
             MainItemListModel.MainHeader(),
             MainItemListModel.Filter(type, filter)
         )
-        if (result.isEmpty()) preList.add(MainItemListModel.Empty)
+        val data = result.getOrNull()
+        if (data == null) {
+            preList.add(MainItemListModel.Empty)
+            return preList
+        }
 
-        return preList + result.run {
+        return preList + data.run {
             when (filter) {
                 Filter.PRICE_LOW -> sortedWith(compareBy {
                     it.discountPrice.toNum() ?: it.originPrice.toNum()

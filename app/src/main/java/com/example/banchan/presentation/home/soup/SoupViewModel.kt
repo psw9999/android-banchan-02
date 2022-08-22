@@ -53,12 +53,15 @@ class SoupViewModel @Inject constructor(
     }
 
     private suspend fun makeItemModel(filter: Filter): List<CommonItemListModel> {
-        val soupDishes = getSoupDishesUseCase()
+        val soupDishes = getSoupDishesUseCase().getOrNull()
         val preList = mutableListOf(
             CommonItemListModel.CommonHeader(titleStrRes = R.string.home_soup_title),
-            CommonItemListModel.Filter(soupDishes.size, filter)
+            CommonItemListModel.Filter(soupDishes?.size ?: 0, filter)
         )
-        if (soupDishes.isEmpty()) preList.add(CommonItemListModel.Empty)
+        if (soupDishes == null) {
+            preList.add(CommonItemListModel.Empty)
+            return preList
+        }
 
         return preList + soupDishes.run {
             when (filter) {

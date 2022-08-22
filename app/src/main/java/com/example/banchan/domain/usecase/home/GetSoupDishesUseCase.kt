@@ -7,6 +7,6 @@ import javax.inject.Inject
 class GetSoupDishesUseCase @Inject constructor(
     private val repository: BanChanRepository
 ) {
-    suspend operator fun invoke(): List<ItemModel> =
-        repository.getSoup().getOrThrow().toSoupModel()
+    suspend operator fun invoke(): Result<List<ItemModel>> =
+        repository.getSoup().mapCatching { it.toSoupModel() }
 }
