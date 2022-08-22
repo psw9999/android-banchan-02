@@ -6,5 +6,5 @@ import javax.inject.Inject
 class UpdateHistoryUseCase @Inject constructor(
     private val historyRepository: HistoryRepository
 ) {
-    suspend operator fun invoke() = historyRepository.updateAllHistory()
+    suspend operator fun invoke(id: Long) = historyRepository.updateHistory(id)
 }

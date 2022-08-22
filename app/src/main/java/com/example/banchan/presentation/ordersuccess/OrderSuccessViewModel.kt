@@ -5,26 +5,27 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.source.local.history.HistoryItem
 import com.example.banchan.domain.usecase.history.GetHistoryByIdUseCase
-import com.example.banchan.domain.usecase.history.UpdateHistoryUseCase
 import com.example.banchan.util.DEFAULT_DELIVERY_FEE
+import com.example.banchan.util.DEFAULT_DELIVERY_TIME
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.util.*
 
 class OrderSuccessViewModel @AssistedInject constructor(
     @Assisted id: Long,
-    getHistoryByIdUseCase: GetHistoryByIdUseCase,
-    private val updateHistoryUseCase: UpdateHistoryUseCase
+    getHistoryByIdUseCase: GetHistoryByIdUseCase
 ) : ViewModel() {
     val history = getHistoryByIdUseCase(id)
-    val headerUiState = history.map { result ->
-        result.getOrNull()?.let {
+    private val refresh = MutableSharedFlow<Boolean>(replay = 1)
+    val headerUiState = combine(history, refresh) { history, _ ->
+        history.getOrNull()?.let {
             OrderCommonListModel.Header(
-                time = it.history.remainTime,
+                time = if (it.history.isSuccess) 0 else (DEFAULT_DELIVERY_TIME - (Date().time - it.history.date.time) / (1000 * 60)).toInt(),
                 count = it.items.size
             )
         }
@@ -61,7 +62,16 @@ class OrderSuccessViewModel @AssistedInject constructor(
 
     fun refresh() {
         viewModelScope.launch {
-            updateHistoryUseCase()
+            refresh.emit(true)
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            while (isActive) {
+                refresh.emit(true)
+                delay(1000 * 60)
+            }
         }
     }
 
