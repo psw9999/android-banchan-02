@@ -6,8 +6,8 @@ import com.example.banchan.data.response.detail.DetailResponse
 import com.example.banchan.data.source.local.basket.BasketItem
 import com.example.banchan.data.source.local.history.HistoryItem
 import com.example.banchan.domain.model.BasketModel
+import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.domain.model.OrderModel
-import com.example.banchan.domain.model.RecentlyProductModel
 import com.example.banchan.domain.usecase.basket.*
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import com.example.banchan.domain.usecase.history.InsertHistoryItemsUseCase
@@ -75,7 +75,7 @@ class BasketViewModel @Inject constructor(
                 return@map basketList.all { it.isSelected }
             }
 
-    val recentlyProductFlow: Flow<List<RecentlyProductModel>> = getRecentProductUseCase()
+    val recentlyProductFlow: Flow<List<ItemModel>> = getRecentProductUseCase()
 
     val basketAmountSumFlow: Flow<OrderModel> =
         basketDbFlow

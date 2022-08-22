@@ -37,9 +37,9 @@ class HistoryLocalDataSource @Inject constructor(
         }
     }
 
-    override suspend fun updateAllHistory() {
+    override suspend fun updateHistory(id: Long) {
         withContext(ioDispatcher) {
-            historyDao.updateAllHistory(1)
+            historyDao.updateHistory(id, true)
         }
     }
 }

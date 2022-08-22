@@ -10,5 +10,5 @@ interface HistoryDataSource {
     fun getHistoryWithItemsById(id: Long): Flow<Result<HistoryWithItems>>
     fun getHistoryList(): Flow<Result<List<History>>>
     suspend fun insertHistoryWithItems(items: List<HistoryItem>, deliveryFee: Int): Result<Long>
-    suspend fun updateAllHistory()
+    suspend fun updateHistory(id: Long)
 }

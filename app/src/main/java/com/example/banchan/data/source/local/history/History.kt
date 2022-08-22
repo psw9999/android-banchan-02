@@ -11,5 +11,5 @@ data class History(
     val id: Long = 0,
     val date: Date = Date(),
     val deliveryFee: Int = 0,
-    val remainTime: Int = DEFAULT_DELIVERY_TIME
+    val isSuccess: Boolean = false
 )

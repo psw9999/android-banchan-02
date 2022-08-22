@@ -1,15 +1,19 @@
 package com.example.banchan
 
 import android.app.Application
-import android.content.Intent
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 
 @HiltAndroidApp
-class BanChanApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
+class BanChanApp : Application(), Configuration.Provider {
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
 
-        startService(Intent(this, OrderService::class.java))
-    }
+    override fun getWorkManagerConfiguration() =
+        Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 }

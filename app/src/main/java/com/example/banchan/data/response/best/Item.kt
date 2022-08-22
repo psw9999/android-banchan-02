@@ -2,8 +2,10 @@ package com.example.banchan.data.response.best
 
 import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.util.calcul.calculationPercent
+import com.example.banchan.util.ext.toTimeFormat
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.util.*
 
 @Serializable
 data class Item(
@@ -32,5 +34,4 @@ data class Item(
             discountPercent = if (nPrice != null) "${calculationPercent(nPrice, sPrice)}%" else null
         )
     }
-
 }
