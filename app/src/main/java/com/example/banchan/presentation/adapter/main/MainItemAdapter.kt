@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.domain.model.ItemModel
-import com.example.banchan.presentation.home.maincook.Filter
 
 enum class Type {
     Grid, Linear

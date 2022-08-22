@@ -2,7 +2,7 @@ package com.example.banchan.presentation.adapter.main
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.banchan.presentation.home.maincook.Filter
+import com.example.banchan.presentation.home.Filter
 
 class MainFilterAdapter(
     private val onTypeChanged: (Type) -> Unit,

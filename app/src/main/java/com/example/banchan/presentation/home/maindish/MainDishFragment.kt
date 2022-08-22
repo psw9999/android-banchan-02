@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.home.maincook
+package com.example.banchan.presentation.home.maindish
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -22,8 +22,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainDishFragment : HomeTabFragment<FragmentMainDishBinding>(R.layout.fragment_main_dish) {
-
-    private val viewModel by viewModels<MainCookViewModel>()
+    private val viewModel by viewModels<MainDishViewModel>()
     private var typeChangeJob: Job? = null
     private val mainHeaderAdapter by lazy {
         MainHeaderAdapter(R.string.home_main_cook_title)

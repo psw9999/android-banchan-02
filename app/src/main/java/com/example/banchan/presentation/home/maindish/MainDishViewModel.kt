@@ -1,4 +1,4 @@
-package com.example.banchan.presentation.home.maincook
+package com.example.banchan.presentation.home.maindish
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,15 +8,15 @@ import com.example.banchan.domain.usecase.home.GetMainDishesUseCase
 import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.main.MainItemListModel
 import com.example.banchan.presentation.adapter.main.Type
+import com.example.banchan.presentation.home.Filter
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainCookViewModel @Inject constructor(
+class MainDishViewModel @Inject constructor(
     private val getMainDishesUseCase: GetMainDishesUseCase,
     getBasketItemUseCase: GetBasketItemUseCase
 ) : ViewModel() {
@@ -80,7 +80,7 @@ class MainCookViewModel @Inject constructor(
         _filter.value = changedFilter
     }
 
-    fun refresh(){
+    fun refresh() {
         viewModelScope.launch {
             refresh.emit(true)
         }
@@ -107,8 +107,4 @@ class MainCookViewModel @Inject constructor(
                 dish
             }
         }
-}
-
-enum class Filter {
-    NORMAL, PRICE_HIGH, PRICE_LOW, SALE
 }

@@ -10,7 +10,7 @@ import com.example.banchan.presentation.adapter.home.HomeEmptyViewHolder
 import com.example.banchan.presentation.adapter.home.HomeHeaderViewHolder
 import com.example.banchan.presentation.adapter.home.HomeLoadingViewHolder
 import com.example.banchan.presentation.adapter.main.MediumMenuViewHolder
-import com.example.banchan.presentation.home.maincook.Filter
+import com.example.banchan.presentation.home.Filter
 
 class CommonAdapter(
     private val onFilterChanged: (Filter) -> Unit,
@@ -145,7 +145,7 @@ sealed class CommonItemListModel {
 
     data class Filter(
         val total: Int,
-        val currentFilter: com.example.banchan.presentation.home.maincook.Filter
+        val currentFilter: com.example.banchan.presentation.home.Filter
     ) : CommonItemListModel()
 
     data class SmallItem(val item: ItemModel) : CommonItemListModel()

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
 import com.example.banchan.databinding.MenuFilterBinding
 import com.example.banchan.presentation.custom.FilterAdapter
-import com.example.banchan.presentation.home.maincook.Filter
+import com.example.banchan.presentation.home.Filter
 
 class MainFilterViewHolder(private val binding: MenuFilterBinding) :
     RecyclerView.ViewHolder(binding.root) {
