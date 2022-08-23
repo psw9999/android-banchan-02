@@ -1,95 +1,40 @@
 package com.example.banchan.presentation.adapter.common
 
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.domain.model.ItemModel
-import com.example.banchan.presentation.adapter.home.HomeEmptyViewHolder
-import com.example.banchan.presentation.adapter.home.HomeHeaderViewHolder
-import com.example.banchan.presentation.adapter.home.HomeLoadingViewHolder
 import com.example.banchan.presentation.adapter.main.MediumMenuViewHolder
-import com.example.banchan.presentation.home.Filter
 
 class CommonAdapter(
-    private val onFilterChanged: (Filter) -> Unit,
     private val basketClickListener: (ItemModel) -> Unit,
     private val productDetailListener: (ItemModel) -> Unit
 ) :
-    ListAdapter<CommonItemListModel, RecyclerView.ViewHolder>(DiffCallback()) {
-    override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is CommonItemListModel.CommonHeader -> HEADER_VIEW_TYPE
-            is CommonItemListModel.Filter -> FILTER_VIEW_TYPE
-            is CommonItemListModel.SmallItem -> MEDIUM_ITEM_VIEW_TYPE
-            is CommonItemListModel.Loading -> LOADING_VIEW_TYPE
-            is CommonItemListModel.Error -> ERROR_VIEW_TYPE
-            is CommonItemListModel.Empty -> EMPTY_VIEW_TYPE
-        }
+    ListAdapter<ItemModel, MediumMenuViewHolder>(DiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediumMenuViewHolder {
+        return MediumMenuViewHolder.create(parent)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            HEADER_VIEW_TYPE -> {
-                HomeHeaderViewHolder.create(parent)
-            }
-            FILTER_VIEW_TYPE -> {
-                CommonFilterViewViewHolder.create(parent)
-            }
-            MEDIUM_ITEM_VIEW_TYPE -> {
-                MediumMenuViewHolder.create(parent)
-            }
-            LOADING_VIEW_TYPE -> {
-                HomeLoadingViewHolder.create(parent)
-            }
-            ERROR_VIEW_TYPE -> {
-                HomeLoadingViewHolder.create(parent)
-            }
-            EMPTY_VIEW_TYPE -> {
-                HomeEmptyViewHolder.create(parent)
-            }
-            else -> {
-                throw UnsupportedOperationException("Unknown view")
-            }
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = getItem(position)) {
-            is CommonItemListModel.CommonHeader -> {
-                (holder as HomeHeaderViewHolder).bind(titleStrRes = item.titleStrRes, isSubTitleVisible = false)
-            }
-            is CommonItemListModel.Filter ->
-                (holder as CommonFilterViewViewHolder).bind(
-                    item.currentFilter,
-                    item.total,
-                    onFilterChanged
-                )
-            is CommonItemListModel.SmallItem -> {
-                (holder as MediumMenuViewHolder).bind(
-                    item.item,
-                    basketClickListener,
-                    productDetailListener
-                )
-            }
-            else -> {
-
-            }
-        }
+    override fun onBindViewHolder(holder: MediumMenuViewHolder, position: Int) {
+        holder.bind(
+            getItem(position),
+            basketClickListener,
+            productDetailListener
+        )
     }
 
     override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
+        holder: MediumMenuViewHolder,
         position: Int,
         payloads: MutableList<Any>
     ) {
-        if(payloads.isEmpty()) {
+        if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
             val commonListItem = getItem(position)
-            if (payloads[0] as Boolean && commonListItem is CommonItemListModel.SmallItem) {
-                (holder as MediumMenuViewHolder).setItem(commonListItem.item)
+            if (payloads[0] as Boolean) {
+                holder.setItem(commonListItem)
             } else {
                 super.onBindViewHolder(holder, position, payloads)
             }
@@ -97,60 +42,28 @@ class CommonAdapter(
     }
 
     companion object {
-        const val HEADER_VIEW_TYPE = 0
-        const val FILTER_VIEW_TYPE = 1
-        const val MEDIUM_ITEM_VIEW_TYPE = 2
-        const val LOADING_VIEW_TYPE = 3
-        const val ERROR_VIEW_TYPE = 4
-        const val EMPTY_VIEW_TYPE = 5
-
-        class DiffCallback : DiffUtil.ItemCallback<CommonItemListModel>() {
+        class DiffCallback : DiffUtil.ItemCallback<ItemModel>() {
             override fun areItemsTheSame(
-                oldItem: CommonItemListModel,
-                newItem: CommonItemListModel
+                oldItem: ItemModel,
+                newItem: ItemModel
             ): Boolean {
-                return (oldItem is CommonItemListModel.Filter && newItem is CommonItemListModel.Filter &&
-                        oldItem.total == newItem.total) ||
-                        (oldItem is CommonItemListModel.SmallItem && newItem is CommonItemListModel.SmallItem &&
-                                oldItem.item.detailHash == newItem.item.detailHash)
+                return oldItem.detailHash == newItem.detailHash
             }
 
             override fun areContentsTheSame(
-                oldItem: CommonItemListModel,
-                newItem: CommonItemListModel
+                oldItem: ItemModel,
+                newItem: ItemModel
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun getChangePayload(
-                oldItem: CommonItemListModel,
-                newItem: CommonItemListModel
+                oldItem: ItemModel,
+                newItem: ItemModel
             ): Any? {
-                return if (oldItem is CommonItemListModel.SmallItem && newItem is CommonItemListModel.SmallItem) {
-                    if (oldItem.item.isCartAdded != newItem.item.isCartAdded) true
-                    else null
-                } else {
-                    null
-                }
+                return if (oldItem.isCartAdded != newItem.isCartAdded) true
+                else null
             }
         }
     }
-}
-
-sealed class CommonItemListModel {
-    data class CommonHeader(
-        val isSubTitleVisible: Boolean = false,
-        @StringRes val titleStrRes: Int
-    ) : CommonItemListModel()
-
-    data class Filter(
-        val total: Int,
-        val currentFilter: com.example.banchan.presentation.home.Filter
-    ) : CommonItemListModel()
-
-    data class SmallItem(val item: ItemModel) : CommonItemListModel()
-
-    object Loading : CommonItemListModel()
-    object Error : CommonItemListModel()
-    object Empty : CommonItemListModel()
 }

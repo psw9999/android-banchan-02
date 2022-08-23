@@ -12,6 +12,7 @@ import com.example.banchan.R
 import com.example.banchan.databinding.FragmentMainDishBinding
 import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.common.CommonSpacingItemDecorator
+import com.example.banchan.presentation.adapter.home.HomeHeaderAdapter
 import com.example.banchan.presentation.adapter.main.*
 import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
@@ -25,7 +26,7 @@ class MainDishFragment : HomeTabFragment<FragmentMainDishBinding>(R.layout.fragm
     private val viewModel by viewModels<MainDishViewModel>()
     private var typeChangeJob: Job? = null
     private val mainHeaderAdapter by lazy {
-        MainHeaderAdapter(R.string.home_main_cook_title)
+        HomeHeaderAdapter(isSubtitleVisible = false, titleRes = R.string.home_main_cook_title)
     }
     private val mainFilterAdapter by lazy {
         MainFilterAdapter(

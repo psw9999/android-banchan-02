@@ -1,11 +1,12 @@
-package com.example.banchan.presentation.adapter.main
+package com.example.banchan.presentation.adapter.home
 
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.presentation.adapter.home.HomeHeaderViewHolder
 
-class MainHeaderAdapter(
+class HomeHeaderAdapter(
+    private val isSubtitleVisible: Boolean,
     @StringRes private val titleRes: Int
 ) : RecyclerView.Adapter<HomeHeaderViewHolder>() {
 
@@ -15,7 +16,7 @@ class MainHeaderAdapter(
     ): HomeHeaderViewHolder = HomeHeaderViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: HomeHeaderViewHolder, position: Int) {
-        holder.bind(isSubTitleVisible = false, titleStrRes = titleRes)
+        holder.bind(isSubTitleVisible = isSubtitleVisible, titleStrRes = titleRes)
     }
 
     override fun getItemCount(): Int {
