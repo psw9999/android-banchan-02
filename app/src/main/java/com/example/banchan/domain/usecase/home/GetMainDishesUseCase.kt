@@ -7,6 +7,6 @@ import javax.inject.Inject
 class GetMainDishesUseCase @Inject constructor(
     private val repository: BanChanRepository
 ) {
-    suspend operator fun invoke(): List<ItemModel> =
-        repository.getMain().getOrThrow().toMainModel()
+    suspend operator fun invoke(): Result<List<ItemModel>> =
+        repository.getMain().mapCatching { it.toMainModel() }
 }

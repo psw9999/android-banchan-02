@@ -155,7 +155,6 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
             basketOrderAdapter,
             basketRecentlyTabAdapter
         )
-        binding.rvBasketList.animation = null
         binding.rvBasketList.itemAnimator = null
     }
 
