@@ -155,6 +155,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
             basketOrderAdapter,
             basketRecentlyTabAdapter
         )
+        binding.rvBasketList.itemAnimator = null
     }
 
     private fun makeAlarm(id: Long) {
