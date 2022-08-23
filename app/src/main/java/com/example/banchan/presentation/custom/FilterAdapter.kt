@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import com.example.banchan.R
 import com.example.banchan.databinding.ItemMenuFilterBinding
-import com.example.banchan.presentation.home.maincook.Filter
+import com.example.banchan.presentation.home.Filter
 
 class FilterAdapter(
     context: Context,

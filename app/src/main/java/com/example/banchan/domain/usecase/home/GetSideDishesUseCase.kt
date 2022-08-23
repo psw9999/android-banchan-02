@@ -7,6 +7,6 @@ import javax.inject.Inject
 class GetSideDishesUseCase @Inject constructor(
     private val repository: BanChanRepository
 ) {
-    suspend operator fun invoke(): List<ItemModel> =
-        repository.getSide().getOrThrow().toSoupModel()
+    suspend operator fun invoke(): Result<List<ItemModel>> =
+        repository.getSide().mapCatching { it.toSoupModel() }
 }
