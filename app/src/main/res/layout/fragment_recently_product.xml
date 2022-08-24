@@ -40,5 +40,22 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar_recently_product"
             app:spanCount="2"
             tools:listitem="@layout/item_recent" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            layout="@layout/item_home_empty"
+            android:visibility="invisible" />
+
+        <include
+            layout="@layout/item_home_error"
+            android:visibility="invisible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

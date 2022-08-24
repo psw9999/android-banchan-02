@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentRecentlyProductBinding
+import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.common.CommonGridSpacingItemDecorator
 import com.example.banchan.presentation.adapter.recentlyproduct.RecentlyProductAdapter
 import com.example.banchan.presentation.home.HomeTabFragment
@@ -43,9 +44,14 @@ class RecentlyProductFragment :
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.recentItems.collect {
-                    recentlyProductAdapter.submitList(it) {
-                        job?.start()
+                viewModel.uiState.collect {
+                    when (it) {
+                        is UiState.Success -> {
+                            recentlyProductAdapter.submitList(it.item) {
+                                job?.start()
+                            }
+                        }
+                        else -> {}
                     }
                 }
             }
