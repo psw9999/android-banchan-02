@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best) {
-
     private val bestViewModel: BestViewModel by viewModels()
     private val bestListAdapter by lazy { BestListAdapter(basketIconClickListener, detailClickListener) }
 
@@ -53,4 +52,7 @@ class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best
         })
     }
 
+    companion object {
+        const val TAG = "best"
+    }
 }

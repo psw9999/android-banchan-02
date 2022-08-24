@@ -2,6 +2,7 @@ package com.example.banchan.presentation.productdetail
 
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,10 +16,9 @@ import com.example.banchan.presentation.adapter.productdetail.ProductDetailSecti
 import com.example.banchan.presentation.adapter.productdetail.ProductDetailThumbNailAdapter
 import com.example.banchan.presentation.adapter.productdetail.ProductInfoAdapter
 import com.example.banchan.presentation.base.BaseFragment
+import com.example.banchan.presentation.basket.BasketFragment
 import com.example.banchan.presentation.dialog.BasketCheckDialog
 import com.example.banchan.presentation.main.BasketViewModel
-import com.example.banchan.presentation.main.FragmentType
-import com.example.banchan.presentation.main.MainViewModel
 import com.example.banchan.util.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -28,11 +28,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ProductDetailFragment :
     BaseFragment<FragmentProductDetailBinding>(R.layout.fragment_product_detail) {
-
     @Inject
     lateinit var factory: ProductDetailViewModel.HashAssistedFactory
-
-    private val mainViewModel: MainViewModel by activityViewModels()
     private val basketViewModel: BasketViewModel by activityViewModels()
     private val productDetailViewModel: ProductDetailViewModel by viewModels {
         ProductDetailViewModel.provideFactory(
@@ -96,7 +93,14 @@ class ProductDetailFragment :
     override fun initViews() {
         initRecyclerView()
         binding.abProductDetail.setOnCartClickListener {
-            mainViewModel.setCurrentFragment(FragmentType.Basket)
+            navigateToBasket()
+        }
+    }
+
+    private fun navigateToBasket() {
+        parentFragmentManager.commit {
+            replace(R.id.layout_main_container, BasketFragment(), BasketFragment.TAG)
+            addToBackStack(BasketFragment.TAG)
         }
     }
 
@@ -123,4 +127,7 @@ class ProductDetailFragment :
         }
     }
 
+    companion object {
+        const val TAG = "product_detail"
+    }
 }

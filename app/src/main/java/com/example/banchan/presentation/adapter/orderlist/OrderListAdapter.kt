@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.banchan.domain.model.OrderListModel
 
 class OrderListAdapter(
-    private val onOrderClickListener: (() -> Unit)
+    private val onOrderClickListener: ((Long) -> Unit)
 ): ListAdapter<OrderListModel, OrderListViewHolder>(diffUtil) {
 
     companion object {

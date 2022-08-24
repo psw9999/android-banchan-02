@@ -93,4 +93,8 @@ class SoupFragment : HomeTabFragment<FragmentSoupBinding>(R.layout.fragment_soup
         layoutErrorSoup.root.isVisible = uiState is UiState.Error
         layoutEmptySoup.root.isVisible = uiState is UiState.Empty
     }
+
+    companion object {
+        const val TAG = "soup"
+    }
 }

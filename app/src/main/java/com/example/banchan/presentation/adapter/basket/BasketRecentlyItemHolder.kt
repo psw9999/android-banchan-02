@@ -9,8 +9,9 @@ import com.example.banchan.domain.model.ItemModel
 class BasketRecentlyItemHolder(private val binding: ItemBasketRecentlyProductBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ItemModel) {
+    fun bind(item: ItemModel, onItemClick: (ItemModel) -> Unit) {
         binding.item = item
+        binding.root.setOnClickListener { onItemClick(item) }
     }
 
     companion object {

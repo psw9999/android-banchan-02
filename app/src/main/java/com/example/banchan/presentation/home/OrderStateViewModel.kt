@@ -27,7 +27,7 @@ class OrderStateViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = false
+            initialValue = true
         )
 
     val historyModelFlow: Flow<List<OrderListModel>> =

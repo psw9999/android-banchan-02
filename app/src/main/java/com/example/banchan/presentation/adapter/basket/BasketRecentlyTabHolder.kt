@@ -10,8 +10,12 @@ import com.example.banchan.domain.model.ItemModel
 class BasketRecentlyTabHolder(private val binding: ItemBasketRecentlyTabBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun initBind(recentlyProductList: List<ItemModel>, onClickRecentlyTab: () -> Unit) {
-        initRecyclerView(recentlyProductList)
+    fun initBind(
+        recentlyProductList: List<ItemModel>,
+        onClickRecentlyTab: () -> Unit,
+        onItemClick: (ItemModel) -> Unit
+    ) {
+        initRecyclerView(recentlyProductList, onItemClick)
         binding.tvBasketRecentlyProductPage.setOnClickListener {
             onClickRecentlyTab()
         }
@@ -22,8 +26,11 @@ class BasketRecentlyTabHolder(private val binding: ItemBasketRecentlyTabBinding)
         recentlyProductListAdapter.submitList(recentlyProductList)
     }
 
-    private fun initRecyclerView(recentlyProductList: List<ItemModel>) {
-        val recentlyProductListAdapter = BasketRecentlyListAdapter()
+    private fun initRecyclerView(
+        recentlyProductList: List<ItemModel>,
+        onItemClick: (ItemModel) -> Unit
+    ) {
+        val recentlyProductListAdapter = BasketRecentlyListAdapter(onItemClick)
         binding.rvBasketRecentlyList.layoutManager =
             LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvBasketRecentlyList.adapter = recentlyProductListAdapter
