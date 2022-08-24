@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.ConcatAdapter
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentProductDetailBinding
 import com.example.banchan.domain.model.ProductDetailModel
-import com.example.banchan.domain.model.ResponseState
+import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.productdetail.ProductDetailSectionAdapter
 import com.example.banchan.presentation.adapter.productdetail.ProductDetailThumbNailAdapter
 import com.example.banchan.presentation.adapter.productdetail.ProductInfoAdapter
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.dialog.BasketCheckDialog
+import com.example.banchan.presentation.home.OrderStateViewModel
 import com.example.banchan.presentation.main.BasketViewModel
 import com.example.banchan.presentation.main.FragmentType
 import com.example.banchan.presentation.main.MainViewModel
@@ -34,6 +35,7 @@ class ProductDetailFragment :
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val basketViewModel: BasketViewModel by activityViewModels()
+    private val orderStateViewModel: OrderStateViewModel by activityViewModels()
     private val productDetailViewModel: ProductDetailViewModel by viewModels {
         ProductDetailViewModel.provideFactory(
             assistedFactory = factory,
@@ -60,15 +62,8 @@ class ProductDetailFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    productDetailViewModel.productDetail.collectLatest {
-                        if (it is ResponseState.Success) {
-                            setRecyclerViewData(it.data!!)
-                            binding.rvProductDetail.visibility = View.VISIBLE
-                            binding.pbDetailLoading.visibility = View.INVISIBLE
-                        } else {
-                            binding.rvProductDetail.visibility = View.INVISIBLE
-                            binding.pbDetailLoading.visibility = View.VISIBLE
-                        }
+                    productDetailViewModel.uiState.collectLatest {
+                        if (it is UiState.Success) setRecyclerViewData(it.item)
                     }
                 }
 
@@ -76,6 +71,12 @@ class ProductDetailFragment :
                     basketViewModel.basketFlow.collectLatest { result ->
                         result.onSuccess { binding.abProductDetail.setCartCount(it.size) }
                         result.onFailure { requireContext().toast(getString(R.string.basket_get_error)) }
+                    }
+                }
+
+                launch {
+                    orderStateViewModel.isOrderingStateFlow.collect { isAllOrderSuccess ->
+                        binding.abProductDetail.setIsShipping(!isAllOrderSuccess)
                     }
                 }
 
@@ -95,8 +96,14 @@ class ProductDetailFragment :
 
     override fun initViews() {
         initRecyclerView()
+        binding.viewModel = productDetailViewModel
+
         binding.abProductDetail.setOnCartClickListener {
             mainViewModel.setCurrentFragment(FragmentType.Basket)
+        }
+
+        binding.layoutErrorBest.btnHomeErrorReload.setOnClickListener {
+            productDetailViewModel.refresh()
         }
     }
 
