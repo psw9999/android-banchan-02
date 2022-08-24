@@ -1,16 +1,16 @@
-package com.example.banchan.presentation.adapter.menu
+package com.example.banchan.presentation.adapter.best
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.databinding.ItemMenuBinding
+import com.example.banchan.domain.model.ItemModel
 
-class MenuAdapter(
+class BestItemAdapter(
     private val basketClickListener: (ItemModel) -> Unit,
     private val productDetailListener: (ItemModel) -> Unit
-) : ListAdapter<ItemModel, MenuViewHolder>(DiffCallback()) {
+) : ListAdapter<ItemModel, BestItemViewHolder>(DiffCallback()) {
 
     companion object {
         class DiffCallback : DiffUtil.ItemCallback<ItemModel>() {
@@ -28,8 +28,8 @@ class MenuAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        return MenuViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BestItemViewHolder {
+        return BestItemViewHolder(
             ItemMenuBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -38,12 +38,12 @@ class MenuAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BestItemViewHolder, position: Int) {
         holder.bind(getItem(position), basketClickListener, productDetailListener)
     }
 
     override fun onBindViewHolder(
-        holder: MenuViewHolder,
+        holder: BestItemViewHolder,
         position: Int,
         payloads: MutableList<Any>
     ) {
@@ -51,11 +51,10 @@ class MenuAdapter(
             super.onBindViewHolder(holder, position, payloads)
         } else {
             if (payloads[0] as Boolean) {
-                holder.setItem(getItem(position))
+                holder.bind(getItem(position), basketClickListener, productDetailListener)
             } else {
                 super.onBindViewHolder(holder, position, payloads)
             }
         }
     }
-
 }
