@@ -1,6 +1,5 @@
 package com.example.banchan.presentation.home.maindish
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -13,7 +12,10 @@ import com.example.banchan.databinding.FragmentMainDishBinding
 import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.common.CommonSpacingItemDecorator
 import com.example.banchan.presentation.adapter.home.HomeHeaderAdapter
-import com.example.banchan.presentation.adapter.main.*
+import com.example.banchan.presentation.adapter.main.MainDishGridItemDecorator
+import com.example.banchan.presentation.adapter.main.MainFilterAdapter
+import com.example.banchan.presentation.adapter.main.MainItemAdapter
+import com.example.banchan.presentation.adapter.main.Type
 import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +52,8 @@ class MainDishFragment : HomeTabFragment<FragmentMainDishBinding>(R.layout.fragm
     }
 
     override fun initViews() {
+        binding.viewModel = viewModel
+
         binding.rvMain.apply {
             adapter = ConcatAdapter(
                 mainHeaderAdapter,
@@ -59,45 +63,28 @@ class MainDishFragment : HomeTabFragment<FragmentMainDishBinding>(R.layout.fragm
             itemAnimator = null
         }
         changeListType(viewModel.type.value)
+
+        binding.layoutErrorMain.btnHomeErrorReload.setOnClickListener {
+            viewModel.refresh()
+        }
     }
 
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
-                    when (it) {
-                        is UiState.Init -> {}
-                        is UiState.Loading -> {
-                            binding.setUiVisible(it)
-                        }
-                        is UiState.Success -> {
-                            binding.setUiVisible(it)
-                            mainFilterAdapter.updateState(
-                                viewModel.type.value,
-                                viewModel.filter.value
-                            )
-                            mainItemAdapter.submitList(it.item) {
-                                typeChangeJob?.start()
-                            }
-                        }
-                        is UiState.Empty -> {
-                            binding.setUiVisible(it)
-                        }
-                        is UiState.Error -> {
-                            binding.setUiVisible(it)
-                            binding.layoutErrorMain.btnHomeErrorReload.setOnClickListener {
-                                viewModel.refresh()
-                            }
+                    if (it is UiState.Success) {
+                        mainFilterAdapter.updateState(
+                            viewModel.type.value,
+                            viewModel.filter.value
+                        )
+                        mainItemAdapter.submitList(it.item) {
+                            typeChangeJob?.start()
                         }
                     }
                 }
         }
-    }
 
-    private fun FragmentMainDishBinding.setUiVisible(uiState: UiState<List<MainItemListModel>>) {
-        progressMainDish.isVisible = uiState is UiState.Loading
-        layoutErrorMain.root.isVisible = uiState is UiState.Error
-        layoutEmptyMain.root.isVisible = uiState is UiState.Empty
     }
 
     private val commonSpacingItemDecorator by lazy {

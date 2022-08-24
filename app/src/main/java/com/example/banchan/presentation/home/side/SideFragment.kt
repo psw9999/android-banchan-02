@@ -37,6 +37,8 @@ class SideFragment : HomeTabFragment<FragmentSideBinding>(R.layout.fragment_side
     }
 
     override fun initViews() {
+        binding.viewModel = viewModel
+
         binding.rvSide.apply {
             adapter = ConcatAdapter(
                 sideHeaderAdapter,
@@ -54,42 +56,24 @@ class SideFragment : HomeTabFragment<FragmentSideBinding>(R.layout.fragment_side
                     return 1
                 }
             }
+
+        binding.layoutErrorSide.btnHomeErrorReload.setOnClickListener {
+            viewModel.refresh()
+        }
     }
 
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
-                    when (it) {
-                        is UiState.Init -> {}
-                        is UiState.Loading -> {
-                            binding.setUiVisible(it)
-                        }
-                        is UiState.Success -> {
-                            binding.setUiVisible(it)
-                            sideFilterAdapter.updateState(
-                                viewModel.filter.value,
-                                it.item.size
-                            )
-                            sideItemAdapter.submitList(it.item)
-                        }
-                        is UiState.Empty -> {
-                            binding.setUiVisible(it)
-                        }
-                        is UiState.Error -> {
-                            binding.setUiVisible(it)
-                            binding.layoutErrorSide.btnHomeErrorReload.setOnClickListener {
-                                viewModel.refresh()
-                            }
-                        }
+                    if (it is UiState.Success) {
+                        sideFilterAdapter.updateState(
+                            viewModel.filter.value,
+                            it.item.size
+                        )
+                        sideItemAdapter.submitList(it.item)
                     }
                 }
         }
-    }
-
-    private fun FragmentSideBinding.setUiVisible(uiState: UiState<List<ItemModel>>) {
-        progressSide.isVisible = uiState is UiState.Loading
-        layoutErrorSide.root.isVisible = uiState is UiState.Error
-        layoutEmptySide.root.isVisible = uiState is UiState.Empty
     }
 }
