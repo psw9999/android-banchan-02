@@ -11,6 +11,8 @@ import com.example.banchan.presentation.adapter.main.Type
 import com.example.banchan.presentation.home.Filter
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +22,7 @@ class MainDishViewModel @Inject constructor(
     private val getMainDishesUseCase: GetMainDishesUseCase,
     getBasketItemUseCase: GetBasketItemUseCase
 ) : ViewModel() {
+    private var changeTypeJob: Job? = null
     private val refresh = MutableSharedFlow<Boolean>(replay = 1)
 
     private val _type = MutableStateFlow(Type.Grid)
@@ -73,7 +76,12 @@ class MainDishViewModel @Inject constructor(
     }
 
     fun changeType(changedType: Type) {
-        _type.value = changedType
+        changeTypeJob?.cancel()
+
+        viewModelScope.launch {
+            delay(100L)
+            _type.value = changedType
+        }
     }
 
     fun changeFilter(changedFilter: Filter) {
