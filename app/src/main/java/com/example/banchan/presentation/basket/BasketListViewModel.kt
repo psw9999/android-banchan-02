@@ -19,9 +19,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BasketViewModel @Inject constructor(
+class BasketListViewModel @Inject constructor(
     getBasketItemUseCase: GetBasketItemUseCase,
-    getRecentProductUseCase: GetRecentProductUseCase,
     private val getProductDetailUseCase: GetProductDetailUseCase,
     private val updateBasketItemUseCase: UpdateBasketItemUseCase,
     private val updateAllBasketIsSelectedUseCase: UpdateAllBasketIsSelectedUseCase,
@@ -36,8 +35,8 @@ class BasketViewModel @Inject constructor(
             listOf()
         }
 
-    private val _isBasketLoading = MutableStateFlow<Boolean>(true)
-    private val _isRecentlyLoading = MutableStateFlow<Boolean>(true)
+    private val _isBasketLoading = MutableStateFlow(true)
+    private val _isRecentlyLoading = MutableStateFlow(true)
 
     fun setIsBasketLoading(isLoading: Boolean) {
         _isBasketLoading.value = isLoading
@@ -74,8 +73,6 @@ class BasketViewModel @Inject constructor(
             .map { basketList ->
                 return@map basketList.all { it.isSelected }
             }
-
-    val recentlyProductFlow: Flow<List<ItemModel>> = getRecentProductUseCase()
 
     val basketAmountSumFlow: Flow<OrderModel> =
         basketDbFlow

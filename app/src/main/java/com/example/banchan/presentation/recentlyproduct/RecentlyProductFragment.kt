@@ -8,39 +8,51 @@ import com.example.banchan.R
 import com.example.banchan.databinding.FragmentRecentlyProductBinding
 import com.example.banchan.presentation.adapter.common.CommonGridSpacingItemDecorator
 import com.example.banchan.presentation.adapter.recentlyproduct.RecentlyProductAdapter
-import com.example.banchan.presentation.basket.BasketViewModel
 import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecentlyProductFragment :
     HomeTabFragment<FragmentRecentlyProductBinding>(R.layout.fragment_recently_product) {
-    private val viewModel by activityViewModels<BasketViewModel>()
+    private var job: Job? = null
+    private val viewModel: RecentlyProductViewModel by activityViewModels()
     private val recentlyProductAdapter by lazy {
-        RecentlyProductAdapter(basketIconClickListener, detailClickListener)
+        RecentlyProductAdapter(basketIconClickListener) {
+            job = lifecycleScope.launch(start = CoroutineStart.LAZY) {
+                binding.rvRecentlyProduct.scrollToPosition(0)
+            }
+            detailClickListener(it)
+        }
     }
 
     override fun initViews() {
         binding.rvRecentlyProduct.apply {
             adapter = recentlyProductAdapter
-            itemAnimator = null
             addItemDecoration(CommonGridSpacingItemDecorator(dpToPx(requireActivity(), 16)))
         }
 
         binding.toolbarBack.setOnClickListener {
-            requireActivity().onBackPressed()
+            parentFragmentManager.popBackStack()
         }
     }
 
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.recentlyProductFlow.collect {
-                    recentlyProductAdapter.submitList(it)
+                viewModel.recentItems.collect {
+                    recentlyProductAdapter.submitList(it) {
+                        job?.start()
+                    }
                 }
             }
         }
+    }
+
+    companion object {
+        const val TAG = "recently_product"
     }
 }

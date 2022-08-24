@@ -92,4 +92,8 @@ class SideFragment : HomeTabFragment<FragmentSideBinding>(R.layout.fragment_side
         layoutErrorSide.root.isVisible = uiState is UiState.Error
         layoutEmptySide.root.isVisible = uiState is UiState.Empty
     }
+
+    companion object {
+        const val TAG = "side"
+    }
 }

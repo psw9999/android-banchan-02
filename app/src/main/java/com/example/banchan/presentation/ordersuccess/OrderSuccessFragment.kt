@@ -21,7 +21,6 @@ class OrderSuccessFragment :
     BaseFragment<FragmentOrderSuccessBinding>(R.layout.fragment_order_success) {
     @Inject
     lateinit var factory: OrderSuccessViewModel.IdAssistedFactory
-
     val viewModel by viewModels<OrderSuccessViewModel> {
         OrderSuccessViewModel.provideFactory(
             assistedFactory = factory,
@@ -69,11 +68,9 @@ class OrderSuccessFragment :
                     }
                 }
                 launch {
-                    launch {
-                        viewModel.footerUiState.collect {
-                            it?.let {
-                                footerAdapter.updateFooter(it)
-                            }
+                    viewModel.footerUiState.collect {
+                        it?.let {
+                            footerAdapter.updateFooter(it)
                         }
                     }
                 }
@@ -82,6 +79,8 @@ class OrderSuccessFragment :
     }
 
     companion object {
+        const val TAG = "order_success"
+
         private const val KEY_ID = "id"
 
         fun newInstance(id: Long): OrderSuccessFragment {

@@ -5,8 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.banchan.domain.model.ItemModel
 
-class BasketRecentlyListAdapter(
-) : ListAdapter<ItemModel, BasketRecentlyItemHolder>(diffUtil) {
+class BasketRecentlyListAdapter(private val onItemClick: (ItemModel) -> Unit) : ListAdapter<ItemModel, BasketRecentlyItemHolder>(diffUtil) {
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<ItemModel>() {
@@ -30,6 +29,6 @@ class BasketRecentlyListAdapter(
         BasketRecentlyItemHolder.create(parent)
 
     override fun onBindViewHolder(holder: BasketRecentlyItemHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onItemClick)
     }
 }
