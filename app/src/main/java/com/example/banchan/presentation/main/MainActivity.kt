@@ -7,6 +7,9 @@ import androidx.fragment.app.commit
 import com.example.banchan.R
 import com.example.banchan.databinding.ActivityMainBinding
 import com.example.banchan.presentation.home.HomeFragment
+import com.example.banchan.presentation.orderlist.OrderListFragment
+import com.example.banchan.presentation.productdetail.ProductDetailFragment
+import com.example.banchan.presentation.recentlyproduct.RecentlyProductFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
