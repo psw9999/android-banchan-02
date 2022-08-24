@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.banchan.presentation.home.side.SideViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +18,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_side"
+            showOnSuccess="@{viewModel.uiState}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -21,6 +26,7 @@
 
         <ProgressBar
             android:id="@+id/progress_side"
+            showOnLoading="@{viewModel.uiState}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
@@ -32,11 +38,13 @@
         <include
             android:id="@+id/layout_empty_side"
             layout="@layout/item_home_empty"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            bind:uiState="@{viewModel.uiState}" />
 
         <include
             android:id="@+id/layout_error_side"
             layout="@layout/item_home_error"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            bind:uiState="@{viewModel.uiState}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

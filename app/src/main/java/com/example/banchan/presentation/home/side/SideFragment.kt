@@ -1,6 +1,5 @@
 package com.example.banchan.presentation.home.side
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentSideBinding
-import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.common.CommonAdapter
 import com.example.banchan.presentation.adapter.common.CommonFilterAdapter
@@ -37,6 +35,8 @@ class SideFragment : HomeTabFragment<FragmentSideBinding>(R.layout.fragment_side
     }
 
     override fun initViews() {
+        binding.viewModel = viewModel
+
         binding.rvSide.apply {
             adapter = ConcatAdapter(
                 sideHeaderAdapter,
@@ -54,46 +54,24 @@ class SideFragment : HomeTabFragment<FragmentSideBinding>(R.layout.fragment_side
                     return 1
                 }
             }
+
+        binding.layoutErrorSide.btnHomeErrorReload.setOnClickListener {
+            viewModel.refresh()
+        }
     }
 
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
-                    when (it) {
-                        is UiState.Init -> {}
-                        is UiState.Loading -> {
-                            binding.setUiVisible(it)
-                        }
-                        is UiState.Success -> {
-                            binding.setUiVisible(it)
-                            sideFilterAdapter.updateState(
-                                viewModel.filter.value,
-                                it.item.size
-                            )
-                            sideItemAdapter.submitList(it.item)
-                        }
-                        is UiState.Empty -> {
-                            binding.setUiVisible(it)
-                        }
-                        is UiState.Error -> {
-                            binding.setUiVisible(it)
-                            binding.layoutErrorSide.btnHomeErrorReload.setOnClickListener {
-                                viewModel.refresh()
-                            }
-                        }
+                    if (it is UiState.Success) {
+                        sideFilterAdapter.updateState(
+                            viewModel.filter.value,
+                            it.item.size
+                        )
+                        sideItemAdapter.submitList(it.item)
                     }
                 }
         }
-    }
-
-    private fun FragmentSideBinding.setUiVisible(uiState: UiState<List<ItemModel>>) {
-        progressSide.isVisible = uiState is UiState.Loading
-        layoutErrorSide.root.isVisible = uiState is UiState.Error
-        layoutEmptySide.root.isVisible = uiState is UiState.Empty
-    }
-
-    companion object {
-        const val TAG = "side"
     }
 }
