@@ -4,14 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.domain.model.ProductDetailModel
-import com.example.banchan.domain.model.ResponseState
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import com.example.banchan.domain.usecase.recently.SaveRecentProduct
+import com.example.banchan.presentation.UiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class ProductDetailViewModel @AssistedInject constructor(
@@ -21,23 +20,26 @@ class ProductDetailViewModel @AssistedInject constructor(
     private val saveRecentProduct: SaveRecentProduct
 ) : ViewModel() {
 
-    private val _productDetail =
-        MutableStateFlow<ResponseState<ProductDetailModel>>(ResponseState.Loading())
-    val productDetail: StateFlow<ResponseState<ProductDetailModel>> = _productDetail
+    private val _uiState =
+        MutableStateFlow<UiState<ProductDetailModel>>(UiState.Init)
+    val uiState = _uiState.asStateFlow()
 
     init {
+        refresh()
+    }
+
+    fun refresh() {
         viewModelScope.launch {
-            productDetailUseCase(hash).let { result ->
-                if (result.isSuccess) {
-                    val detailModel = result.getOrNull()?.toDetailModel(name)
-                    detailModel?.let {
-                        saveRecentProduct(hash, name)
-                        _productDetail.emit(ResponseState.Success(detailModel))
-                    }
-                } else if (result.isFailure) {
-                    _productDetail.emit(ResponseState.Error(result.exceptionOrNull()))
+            _uiState.update { return@update UiState.Loading }
+            productDetailUseCase(hash)
+                .onSuccess { result ->
+                    val detailModel = result.toDetailModel(name)
+                    saveRecentProduct(hash, name)
+                    _uiState.emit(UiState.Success(detailModel))
                 }
-            }
+                .onFailure {
+                    _uiState.emit(UiState.Error(Throwable("Network Error")))
+                }
         }
     }
 
