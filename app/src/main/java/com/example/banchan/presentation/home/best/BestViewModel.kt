@@ -32,8 +32,8 @@ class BestViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             refresh.emit(true)
-            combine(_bestDishes, getBasketItemUseCase()) { _, basketItems ->
-                checkIsCartAdded(getBestDishesUseCase().getOrNull(), basketItems.getOrDefault(listOf()))
+            combine(_bestDishes, getBasketItemUseCase()) { bestDishes, basketItems ->
+                checkIsCartAdded(bestDishes, basketItems.getOrDefault(listOf()))
             }.collect { bestList ->
                 _bestUiState.update {
                     if(bestList == null) return@update UiState.Error(Exception(""))
