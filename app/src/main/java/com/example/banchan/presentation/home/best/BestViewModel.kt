@@ -3,10 +3,10 @@ package com.example.banchan.presentation.home.best
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.source.local.basket.BasketItem
-import com.example.banchan.domain.model.BestListItem
 import com.example.banchan.domain.model.BestModel
 import com.example.banchan.domain.usecase.basket.GetBasketItemUseCase
 import com.example.banchan.domain.usecase.home.GetBestDishesUseCase
+import com.example.banchan.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -18,62 +18,50 @@ class BestViewModel @Inject constructor(
     private val getBasketItemUseCase: GetBasketItemUseCase
 ) : ViewModel() {
 
-    private val _bestDishes =
-        MutableStateFlow(listOf(BestListItem.BestHeader(), BestListItem.BestLoading))
-    val bestDishes: StateFlow<List<BestListItem>> = _bestDishes
+    private val refresh = MutableSharedFlow<Boolean>(replay = 1)
 
-    val bestListItems: Flow<List<BestListItem>> =
-        combine(bestDishes, getBasketItemUseCase()) { bestDishes, basketList ->
-            basketList.onSuccess {
-                return@combine checkIsCartAdded(bestDishes, it)
-            }
-            bestDishes
-        }
+    private val _bestUiState: MutableStateFlow<UiState<List<BestModel>>> =
+        MutableStateFlow(UiState.Init)
+    val bestUiState = _bestUiState.asStateFlow()
 
-    init {
-        getBestDishes()
+    private val _bestDishes = refresh.map { _ ->
+        _bestUiState.update{ return@update UiState.Loading }
+        getBestDishesUseCase().getOrNull()
     }
 
-    fun getBestDishes() {
-        _bestDishes.value = listOf(BestListItem.BestHeader(),BestListItem.BestLoading)
+    init {
         viewModelScope.launch {
-            getBestDishesUseCase().let { result ->
-                val list = arrayListOf<BestListItem>(BestListItem.BestHeader())
-                if (result.isSuccess) {
-                    if (result.getOrThrow().isEmpty()) list.add(BestListItem.BestEmpty)
-                    else {
-                        result.getOrThrow().map {
-                            list.add(BestListItem.BestContent(it))
-                        }
-                    }
-                    _bestDishes.emit(list)
-                } else {
-                    list.add(BestListItem.BestError)
+            refresh.emit(true)
+            combine(_bestDishes, getBasketItemUseCase()) { bestDishes, basketItems ->
+                checkIsCartAdded(bestDishes, basketItems.getOrDefault(listOf()))
+            }.collect { bestList ->
+                _bestUiState.update {
+                    if(bestList == null) return@update UiState.Error(Exception(""))
+                    if(bestList.isEmpty()) UiState.Empty else UiState.Success(bestList)
                 }
             }
         }
     }
 
+    fun refresh() {
+        viewModelScope.launch {
+            refresh.emit(true)
+        }
+    }
+
     private fun checkIsCartAdded(
-        bestDishes: List<BestListItem>,
+        bestDishes: List<BestModel>?,
         basketList: List<BasketItem>
-    ): List<BestListItem> =
-        bestDishes.map { dish ->
-            if (dish is BestListItem.BestContent) {
-                dish.copy(
-                    bestItem = BestModel(
-                        title = dish.bestItem.title,
-                        items = dish.bestItem.items.map { model ->
-                            model.copy(
-                                isCartAdded = model.detailHash in basketList.map { it.hash }
-                            )
-                        }
+    ): List<BestModel>? =
+        bestDishes?.map { dish ->
+            dish.copy(
+                title = dish.title,
+                items = dish.items.map { model ->
+                    model.copy(
+                        isCartAdded = model.detailHash in basketList.map { it.hash }
                     )
-                )
-            }
-            else {
-                dish
-            }
+                }
+            )
         }
 
 }
