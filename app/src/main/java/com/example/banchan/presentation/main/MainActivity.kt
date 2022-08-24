@@ -13,7 +13,6 @@ import com.example.banchan.databinding.ActivityMainBinding
 import com.example.banchan.presentation.basket.BasketFragment
 import com.example.banchan.presentation.home.HomeFragment
 import com.example.banchan.presentation.orderlist.OrderListFragment
-import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import com.example.banchan.presentation.recentlyproduct.RecentlyProductFragment
 import dagger.hilt.android.AndroidEntryPoint

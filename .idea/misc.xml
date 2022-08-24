@@ -5,6 +5,8 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.11018518518518519" />
         <entry key="app/src/main/res/drawable/background_line.xml" value="0.1135" />
+        <entry key="app/src/main/res/drawable/background_spinner.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/bg_amount_counter.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/bg_basket_checkbox.xml" value="0.223" />
         <entry key="app/src/main/res/drawable/bg_main_title_tv.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_error_24.xml" value="0.3495" />
@@ -19,6 +21,11 @@
         <entry key="app/src/main/res/drawable/ic_plus.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rounded_bottomsheet.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/rounded_dialog.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/sinner_icon_open.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/spinner_check.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/spinner_close.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/spinner_icon_close.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/spinner_open.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/amount_counter.xml" value="0.75" />
         <entry key="app/src/main/res/layout/appbar_ordering.xml" value="0.321875" />
@@ -46,6 +53,7 @@
         <entry key="app/src/main/res/layout/item_home_header.xml" value="0.33410672853828305" />
         <entry key="app/src/main/res/layout/item_home_loading.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_menu.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_menu_filter.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_menu_large.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_menu_medium.xml" value="0.12708333333333333" />
         <entry key="app/src/main/res/layout/item_order_header.xml" value="0.10507246376811594" />

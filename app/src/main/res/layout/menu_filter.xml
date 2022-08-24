@@ -20,12 +20,14 @@
         app:layout_constraintStart_toEndOf="@id/iv_grid"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
+    <com.example.banchan.presentation.custom.CustomSpinner
         android:id="@+id/spinner_main"
-        android:layout_width="wrap_content"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/spinner_close"
         android:dropDownWidth="145dp"
-        android:dropDownVerticalOffset="40dp"
+        android:dropDownVerticalOffset="10dp"
+        android:overlapAnchor="false"
         android:popupBackground="@drawable/background_spinner"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
