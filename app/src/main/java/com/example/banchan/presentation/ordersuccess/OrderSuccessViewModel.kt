@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.source.local.history.HistoryItem
 import com.example.banchan.domain.usecase.history.GetHistoryByIdUseCase
+import com.example.banchan.presentation.UiState
 import com.example.banchan.util.DEFAULT_DELIVERY_FEE
 import com.example.banchan.util.DEFAULT_DELIVERY_TIME
 import dagger.assisted.Assisted
@@ -22,43 +23,40 @@ class OrderSuccessViewModel @AssistedInject constructor(
 ) : ViewModel() {
     val history = getHistoryByIdUseCase(id)
     private val refresh = MutableSharedFlow<Boolean>(replay = 1)
-    val headerUiState = combine(history, refresh) { history, _ ->
-        history.getOrNull()?.let {
-            OrderCommonListModel.Header(
-                time = if (it.history.isSuccess) 0 else (DEFAULT_DELIVERY_TIME - (Date().time - it.history.date.time) / (1000 * 60)).toInt(),
-                count = it.items.size
-            )
-        }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = OrderCommonListModel.Header(0, 0)
-    )
 
-    val itemsUiState = history.map { result ->
-        result.getOrNull()?.let {
-            it.items.map { item -> OrderSuccessListModel.Item(item) }
-        }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = listOf()
-    )
+    private val _uiState: MutableStateFlow<UiState<OrderSuccessUiModel>> =
+        MutableStateFlow(UiState.Init)
+    val uiState: StateFlow<UiState<OrderSuccessUiModel>>
+        get() = _uiState
 
-    val footerUiState = history.map { result ->
-        result.getOrNull()?.let {
-            val orderPrice = it.items.sumOf { item -> item.originPrice * item.count }
-            OrderCommonListModel.Footer(
-                orderPrice = orderPrice,
-                deliveryFee = DEFAULT_DELIVERY_FEE,
-                totalPrice = orderPrice + DEFAULT_DELIVERY_FEE
-            )
+    init {
+        viewModelScope.launch {
+            refresh.emit(true)
+            combine(history, refresh) { history, _ ->
+                history.getOrNull()?.let {
+                    val orderPrice = it.items.sumOf { item -> item.originPrice * item.count }
+                    OrderSuccessUiModel(
+                        OrderSuccessListModel.Header(
+                            time = if (it.history.isSuccess) 0 else (DEFAULT_DELIVERY_TIME - (Date().time - it.history.date.time) / (1000 * 60)).toInt(),
+                            count = it.items.size
+                        ),
+                        OrderSuccessListModel.Body(it.items),
+                        OrderSuccessListModel.Footer(
+                            orderPrice = orderPrice,
+                            deliveryFee = DEFAULT_DELIVERY_FEE,
+                            totalPrice = orderPrice + DEFAULT_DELIVERY_FEE
+                        )
+                    )
+                }
+            }.collect { uiModel ->
+                uiModel?.let {
+                    _uiState.update {
+                        UiState.Success(uiModel)
+                    }
+                }
+            }
         }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = OrderCommonListModel.Footer(0, 0, 0)
-    )
+    }
 
     fun refresh() {
         viewModelScope.launch {
@@ -94,12 +92,15 @@ class OrderSuccessViewModel @AssistedInject constructor(
     }
 }
 
-sealed interface OrderCommonListModel {
-    data class Header(val time: Int, val count: Int) : OrderCommonListModel
+sealed interface OrderSuccessListModel {
+    data class Header(val time: Int, val count: Int) : OrderSuccessListModel
+    data class Body(val historyItem: List<HistoryItem>) : OrderSuccessListModel
     data class Footer(val orderPrice: Int, val deliveryFee: Int, val totalPrice: Int) :
-        OrderCommonListModel
+        OrderSuccessListModel
 }
 
-sealed interface OrderSuccessListModel {
-    data class Item(val historyItem: HistoryItem) : OrderSuccessListModel
-}
+data class OrderSuccessUiModel(
+    val header: OrderSuccessListModel.Header,
+    val body: OrderSuccessListModel.Body,
+    val footer: OrderSuccessListModel.Footer
+)

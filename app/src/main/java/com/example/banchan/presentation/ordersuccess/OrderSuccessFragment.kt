@@ -8,6 +8,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentOrderSuccessBinding
+import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.common.CommonOrderFooterAdapter
 import com.example.banchan.presentation.adapter.common.CommonOrderHeaderAdapter
 import com.example.banchan.presentation.adapter.ordersuccess.OrderSuccessItemAdapter
@@ -32,6 +33,8 @@ class OrderSuccessFragment :
     private val footerAdapter = CommonOrderFooterAdapter()
 
     override fun initViews() {
+        binding.viewModel = viewModel
+
         binding.rvOrderSuccess.apply {
             itemAnimator = null
             adapter = ConcatAdapter(
@@ -54,23 +57,14 @@ class OrderSuccessFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.headerUiState.collect {
-                        it?.let {
-                            headerAdapter.updateHeader(it)
-                        }
-                    }
-                }
-                launch {
-                    viewModel.itemsUiState.collect {
-                        it?.let {
-                            itemAdapter.submitList(it)
-                        }
-                    }
-                }
-                launch {
-                    viewModel.footerUiState.collect {
-                        it?.let {
-                            footerAdapter.updateFooter(it)
+                    viewModel.uiState.collect {
+                        when (it) {
+                            is UiState.Success -> {
+                                headerAdapter.updateHeader(it.item.header)
+                                itemAdapter.submitList(it.item.body.historyItem)
+                                footerAdapter.updateFooter(it.item.footer)
+                            }
+                            else -> {}
                         }
                     }
                 }

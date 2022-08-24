@@ -2,12 +2,12 @@ package com.example.banchan.presentation.adapter.common
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.banchan.presentation.ordersuccess.OrderCommonListModel
+import com.example.banchan.presentation.ordersuccess.OrderSuccessListModel
 
 class CommonOrderFooterAdapter : RecyclerView.Adapter<CommonOrderFooterViewHolder>() {
-    private var footerModel: OrderCommonListModel.Footer? = null
+    private var footerModel: OrderSuccessListModel.Footer? = null
 
-    fun updateFooter(footer: OrderCommonListModel.Footer){
+    fun updateFooter(footer: OrderSuccessListModel.Footer){
         footerModel = footer
         notifyItemChanged(0)
     }
