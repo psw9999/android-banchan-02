@@ -121,15 +121,15 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                 }
 
                 launch {
-                    basketListViewModel.isLoading.collectLatest { isLoading ->
-                        if (isLoading) {
-                            binding.pbBasketLoading.visibility = View.VISIBLE
-                            binding.rvBasketList.visibility = View.INVISIBLE
-                        } else {
-                            binding.pbBasketLoading.visibility = View.INVISIBLE
-                            binding.rvBasketList.visibility = View.VISIBLE
-                        }
-                    }
+//                    basketListViewModel.isLoading.collectLatest { isLoading ->
+//                        if (isLoading) {
+//                            binding.pbBasketLoading.visibility = View.VISIBLE
+//                            binding.rvBasketList.visibility = View.INVISIBLE
+//                        } else {
+//                            binding.pbBasketLoading.visibility = View.INVISIBLE
+//                            binding.rvBasketList.visibility = View.VISIBLE
+//                        }
+//                    }
                 }
 
                 launch {

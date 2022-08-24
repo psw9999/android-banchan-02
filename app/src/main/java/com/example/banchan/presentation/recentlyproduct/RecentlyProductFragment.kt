@@ -31,6 +31,7 @@ class RecentlyProductFragment :
     }
 
     override fun initViews() {
+        binding.viewModel = viewModel
         binding.rvRecentlyProduct.apply {
             adapter = recentlyProductAdapter
             addItemDecoration(CommonGridSpacingItemDecorator(dpToPx(requireActivity(), 16)))
@@ -38,6 +39,10 @@ class RecentlyProductFragment :
 
         binding.toolbarBack.setOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+
+        binding.layoutErrorRecent.btnHomeErrorReload.setOnClickListener {
+            viewModel.refresh()
         }
     }
 
