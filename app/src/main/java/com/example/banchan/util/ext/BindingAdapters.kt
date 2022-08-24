@@ -3,6 +3,7 @@ package com.example.banchan.util.ext
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.example.banchan.R
 
@@ -10,7 +11,7 @@ import com.example.banchan.R
 fun ImageView.setImageFromUrl(url: String) {
     Glide.with(this.context)
         .load(url)
-        .placeholder(R.drawable.ic_baseline_restaurant_menu_24)
+        .placeholder(R.drawable.placeholder)
         .error(R.drawable.ic_baseline_error_24)
         .into(this)
 }
@@ -19,7 +20,7 @@ fun ImageView.setImageFromUrl(url: String) {
 fun ImageView.setSectionImage(url: String) {
     Glide.with(this.context)
         .load(url)
-        .placeholder(R.drawable.ic_baseline_restaurant_menu_24)
+        .placeholder(R.drawable.placeholder)
         .skipMemoryCache(true)
         .error(R.drawable.ic_baseline_error_24)
         .override(SIZE_ORIGINAL, SIZE_ORIGINAL)
