@@ -3,29 +3,29 @@ package com.example.banchan.presentation.adapter.ordersuccess
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.banchan.presentation.ordersuccess.OrderSuccessListModel
+import com.example.banchan.data.source.local.history.HistoryItem
 
 class OrderSuccessItemAdapter :
-    ListAdapter<OrderSuccessListModel.Item, OrderSuccessItemViewHolder>(DiffCallback()) {
+    ListAdapter<HistoryItem, OrderSuccessItemViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderSuccessItemViewHolder =
         OrderSuccessItemViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: OrderSuccessItemViewHolder, position: Int) {
-        holder.bind(getItem(position).historyItem)
+        holder.bind(getItem(position))
     }
 
     companion object {
-        class DiffCallback : DiffUtil.ItemCallback<OrderSuccessListModel.Item>() {
+        class DiffCallback : DiffUtil.ItemCallback<HistoryItem>() {
             override fun areItemsTheSame(
-                oldItem: OrderSuccessListModel.Item,
-                newItem: OrderSuccessListModel.Item
+                oldItem: HistoryItem,
+                newItem: HistoryItem
             ): Boolean {
-                return oldItem.historyItem.itemId == newItem.historyItem.itemId
+                return oldItem.itemId == newItem.itemId
             }
 
             override fun areContentsTheSame(
-                oldItem: OrderSuccessListModel.Item,
-                newItem: OrderSuccessListModel.Item
+                oldItem: HistoryItem,
+                newItem: HistoryItem
             ): Boolean {
                 return oldItem == newItem
             }

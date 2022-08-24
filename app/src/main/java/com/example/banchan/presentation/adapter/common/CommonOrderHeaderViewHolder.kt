@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.databinding.ItemOrderHeaderBinding
-import com.example.banchan.presentation.ordersuccess.OrderCommonListModel
+import com.example.banchan.presentation.ordersuccess.OrderSuccessListModel
 
 class CommonOrderHeaderViewHolder(private val binding: ItemOrderHeaderBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(header: OrderCommonListModel.Header) {
+    fun bind(header: OrderSuccessListModel.Header) {
         binding.item = header
     }
 
