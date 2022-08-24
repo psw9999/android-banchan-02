@@ -22,9 +22,10 @@ class AlarmReceiver : BroadcastReceiver() {
             Context.NOTIFICATION_SERVICE
         ) as NotificationManager
 
-        setUpOrderWork(context, intent.getLongExtra(ID, 0L))
+        val id = intent.getLongExtra(ID, -1L)
+        setUpOrderWork(context, id)
         createNotificationChannel()
-        createNotification(context)
+        createNotification(context, id)
     }
 
     private fun createNotificationChannel() {
@@ -39,8 +40,11 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun createNotification(context: Context) {
-        val contentIntent = Intent(context, MainActivity::class.java)
+    private fun createNotification(context: Context, id: Long) {
+        val contentIntent = Intent(context, MainActivity::class.java).putExtra(
+            OPEN_ODER_ID, id
+        )
+
         val contentPendingIntent = PendingIntent.getActivity(
             context,
             NOTIFICATION_ID,
@@ -79,6 +83,8 @@ class AlarmReceiver : BroadcastReceiver() {
         const val CHANNEL_ID = "delivery channel"
         const val CHANNEL_NAME = "delivery channel"
         const val ID = "ID"
+
+        const val OPEN_ODER_ID = "OPEN_ODER_ID"
 
         const val ALARM_TIMER = DEFAULT_DELIVERY_TIME * 60 * 1000
     }

@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best) {
-
     private val bestViewModel: BestViewModel by viewModels()
     private val mainHeaderAdapter by lazy {
         HomeHeaderAdapter(isSubtitleVisible = true, titleRes = R.string.home_best_title)
@@ -67,4 +66,7 @@ class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best
         })
     }
 
+    companion object {
+        const val TAG = "best"
+    }
 }

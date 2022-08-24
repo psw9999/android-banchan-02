@@ -9,9 +9,9 @@ import com.example.banchan.domain.model.OrderListModel
 class OrderListViewHolder(private val binding: ItemOrderListBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(orderListModel: OrderListModel, onOrderItemClickListener: (()->Unit)) {
+    fun bind(orderListModel: OrderListModel, onOrderItemClickListener: ((Long) -> Unit)) {
         binding.orderListModel = orderListModel
-        binding.root.setOnClickListener { onOrderItemClickListener() }
+        binding.root.setOnClickListener { onOrderItemClickListener(orderListModel.id) }
     }
 
     companion object {

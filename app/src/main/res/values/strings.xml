@@ -71,4 +71,7 @@
 
     <string name="notification_title">[BanChan] 배달 완료</string>
     <string name="notification_content">배송이 완료되었습니다.</string>
+
+    <string name="network_disable">네트워크 연결을 확인해주세요</string>
+    <string name="network_enable">네트워크가 연결되었습니다</string>
 </resources>

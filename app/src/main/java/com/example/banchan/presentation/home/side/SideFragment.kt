@@ -1,6 +1,5 @@
 package com.example.banchan.presentation.home.side
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentSideBinding
-import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.common.CommonAdapter
 import com.example.banchan.presentation.adapter.common.CommonFilterAdapter

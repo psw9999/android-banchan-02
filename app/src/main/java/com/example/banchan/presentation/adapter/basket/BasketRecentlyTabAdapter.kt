@@ -4,7 +4,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.domain.model.ItemModel
 
-class BasketRecentlyTabAdapter(private val onClickRecentlyTab: () -> Unit) :
+class BasketRecentlyTabAdapter(
+    private val onClickRecentlyTab: () -> Unit,
+    private val onItemClick: (ItemModel) -> Unit
+) :
     RecyclerView.Adapter<BasketRecentlyTabHolder>() {
 
     private var recentlyViewedList: List<ItemModel> = listOf()
@@ -18,7 +21,7 @@ class BasketRecentlyTabAdapter(private val onClickRecentlyTab: () -> Unit) :
         BasketRecentlyTabHolder.create(parent)
 
     override fun onBindViewHolder(holder: BasketRecentlyTabHolder, position: Int) {
-        holder.initBind(recentlyViewedList, onClickRecentlyTab)
+        holder.initBind(recentlyViewedList, onClickRecentlyTab, onItemClick)
     }
 
     override fun onBindViewHolder(

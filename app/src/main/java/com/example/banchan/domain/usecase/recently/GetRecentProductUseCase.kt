@@ -1,7 +1,6 @@
 package com.example.banchan.domain.usecase.recently
 
 import com.example.banchan.data.repository.RecentlyProductRepository
-import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.domain.usecase.basket.GetBasketItemUseCase
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import kotlinx.coroutines.FlowPreview
@@ -17,12 +16,10 @@ class GetRecentProductUseCase @Inject constructor(
     operator fun invoke() = flow {
         combine(
             recentlyProductRepository.getRecentlyProducts(),
-            getBasketItemUseCase().distinctUntilChanged { old, new ->
-                old.getOrDefault(listOf()).size == new.getOrDefault(listOf()).size
-            }
+            getBasketItemUseCase()
         ) { products, basketList ->
             if (products.isSuccess && basketList.isSuccess) {
-                products.getOrNull()?.asFlow()?.flatMapMerge {
+                val result = products.getOrNull()?.asFlow()?.flatMapMerge {
                     flow {
                         getProductDetailUseCase(it.hash).getOrNull()?.let { response ->
                             emit(
@@ -34,9 +31,8 @@ class GetRecentProductUseCase @Inject constructor(
                             )
                         }
                     }
-                }?.scan(emptyList<ItemModel>()) { i1, i2 -> i1 + i2 }?.onEach {
-                    emit(it.sortedByDescending { it.originTime })
-                }?.collect()
+                }?.toList()?.sortedByDescending { it.originTime }
+                emit(result)
             }
         }.collect()
     }

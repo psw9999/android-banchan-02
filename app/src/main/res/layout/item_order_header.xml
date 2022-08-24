@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.example.banchan.presentation.ordersuccess.OrderCommonListModel.Header" />
+            type="com.example.banchan.presentation.ordersuccess.OrderSuccessListModel.Header" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

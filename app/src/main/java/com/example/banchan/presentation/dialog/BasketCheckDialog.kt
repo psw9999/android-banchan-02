@@ -7,21 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import com.example.banchan.R
 import com.example.banchan.databinding.DialogBasketBinding
-import com.example.banchan.presentation.main.FragmentType
-import com.example.banchan.presentation.main.MainViewModel
+import com.example.banchan.presentation.basket.BasketFragment
+import com.example.banchan.presentation.productdetail.ProductDetailFragment
 
 class BasketCheckDialog : DialogFragment() {
-
-    companion object {
-        const val TAG = "BasketCheckDialog"
-    }
-
     private var _binding: DialogBasketBinding? = null
     private val binding get() = _binding!!
-
-    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +41,14 @@ class BasketCheckDialog : DialogFragment() {
             }
             tvDialogBasketCheck.setOnClickListener {
                 this@BasketCheckDialog.dismiss()
-                mainViewModel.setCurrentFragment(FragmentType.Basket)
+                requireActivity().supportFragmentManager.popBackStack(
+                    BasketFragment.TAG,
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE
+                )
+                requireActivity().supportFragmentManager.commit {
+                    replace(R.id.layout_main_container, BasketFragment(), BasketFragment.TAG)
+                    addToBackStack(BasketFragment.TAG)
+                }
             }
         }
     }
@@ -53,5 +56,9 @@ class BasketCheckDialog : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val TAG = "basket_check"
     }
 }
