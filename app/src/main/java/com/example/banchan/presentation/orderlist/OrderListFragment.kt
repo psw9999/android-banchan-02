@@ -3,6 +3,7 @@ package com.example.banchan.presentation.orderlist
 import android.graphics.Rect
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -12,6 +13,7 @@ import com.example.banchan.databinding.FragmentOrderListBinding
 import com.example.banchan.presentation.adapter.orderlist.OrderListAdapter
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.home.OrderStateViewModel
+import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -19,14 +21,28 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragment_order_list) {
-
     private val orderStateViewModel: OrderStateViewModel by activityViewModels()
+    private val orderListAdapter by lazy {
+        OrderListAdapter {
+            navigateToOrderSuccess(it)
+        }
+    }
 
-    private val orderListAdapter by lazy { OrderListAdapter { } }
+    private fun navigateToOrderSuccess(id: Long) {
+        parentFragmentManager.run {
+            commit {
+                replace(
+                    R.id.layout_main_container,
+                    OrderSuccessFragment.newInstance(id)
+                )
+                addToBackStack(OrderSuccessFragment.TAG)
+            }
+        }
+    }
 
     override fun initViews() {
         initRecyclerView()
-        binding.tbOrderListBack.setOnClickListener { requireActivity().onBackPressed() }
+        binding.tbOrderListBack.setOnClickListener { parentFragmentManager.popBackStack() }
     }
 
     override fun observe() {
@@ -54,4 +70,7 @@ class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragme
         })
     }
 
+    companion object {
+        const val TAG = "order_list"
+    }
 }

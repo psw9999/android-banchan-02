@@ -1,6 +1,5 @@
 package com.example.banchan.presentation.home.soup
 
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -9,13 +8,11 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentSoupBinding
-import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.common.CommonAdapter
 import com.example.banchan.presentation.adapter.common.CommonFilterAdapter
 import com.example.banchan.presentation.adapter.home.HomeHeaderAdapter
 import com.example.banchan.presentation.adapter.main.MainDishGridItemDecorator
-import com.example.banchan.presentation.adapter.main.MainItemListModel
 import com.example.banchan.presentation.home.HomeTabFragment
 import com.example.banchan.util.dimen.dpToPx
 import dagger.hilt.android.AndroidEntryPoint
