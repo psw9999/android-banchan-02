@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentRecentlyProductBinding
+import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.common.CommonGridSpacingItemDecorator
 import com.example.banchan.presentation.adapter.recentlyproduct.RecentlyProductAdapter
 import com.example.banchan.presentation.home.HomeTabFragment
@@ -30,6 +31,7 @@ class RecentlyProductFragment :
     }
 
     override fun initViews() {
+        binding.viewModel = viewModel
         binding.rvRecentlyProduct.apply {
             adapter = recentlyProductAdapter
             addItemDecoration(CommonGridSpacingItemDecorator(dpToPx(requireActivity(), 16)))
@@ -38,14 +40,23 @@ class RecentlyProductFragment :
         binding.toolbarBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+
+        binding.layoutErrorRecent.btnHomeErrorReload.setOnClickListener {
+            viewModel.refresh()
+        }
     }
 
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.recentItems.collect {
-                    recentlyProductAdapter.submitList(it) {
-                        job?.start()
+                viewModel.uiState.collect {
+                    when (it) {
+                        is UiState.Success -> {
+                            recentlyProductAdapter.submitList(it.item) {
+                                job?.start()
+                            }
+                        }
+                        else -> {}
                     }
                 }
             }

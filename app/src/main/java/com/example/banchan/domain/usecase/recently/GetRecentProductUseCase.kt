@@ -1,10 +1,12 @@
 package com.example.banchan.domain.usecase.recently
 
+import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.repository.RecentlyProductRepository
 import com.example.banchan.domain.usecase.basket.GetBasketItemUseCase
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetRecentProductUseCase @Inject constructor(
@@ -12,16 +14,20 @@ class GetRecentProductUseCase @Inject constructor(
     private val getProductDetailUseCase: GetProductDetailUseCase,
     private val recentlyProductRepository: RecentlyProductRepository
 ) {
+    private val refresh = MutableSharedFlow<Boolean>(replay = 1)
+
     @OptIn(FlowPreview::class)
     operator fun invoke() = flow {
         combine(
+            refresh,
             recentlyProductRepository.getRecentlyProducts(),
             getBasketItemUseCase()
-        ) { products, basketList ->
+        ) { _, products, basketList ->
             if (products.isSuccess && basketList.isSuccess) {
-                val result = products.getOrNull()?.asFlow()?.flatMapMerge {
-                    flow {
-                        getProductDetailUseCase(it.hash).getOrNull()?.let { response ->
+                runCatching {
+                    val result = products.getOrNull()?.asFlow()?.flatMapMerge {
+                        flow {
+                            val response = getProductDetailUseCase(it.hash).getOrThrow()
                             emit(
                                 response.toItemModel(
                                     it.name,
@@ -30,10 +36,16 @@ class GetRecentProductUseCase @Inject constructor(
                                 )
                             )
                         }
-                    }
-                }?.toList()?.sortedByDescending { it.originTime }
-                emit(result)
+                    }?.toList()?.sortedByDescending { it.originTime }
+                    emit(result)
+                }.onFailure {
+                    emit(null)
+                }
             }
         }.collect()
+    }
+
+    suspend fun refresh() {
+        refresh.emit(true)
     }
 }

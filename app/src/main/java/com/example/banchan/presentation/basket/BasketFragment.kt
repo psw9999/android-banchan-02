@@ -19,6 +19,7 @@ import com.example.banchan.R
 import com.example.banchan.databinding.FragmentBasketBinding
 import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.domain.model.ItemModel
+import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.basket.BasketListAdapter
 import com.example.banchan.presentation.adapter.basket.BasketOrderAdapter
 import com.example.banchan.presentation.adapter.basket.BasketRecentlyTabAdapter
@@ -108,24 +109,27 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                 }
 
                 launch {
-                    recentlyProductViewModel.recentItems.collectLatest {
-                        it?.let {
-                            basketRecentlyTabAdapter.setRecentlyViewedList(it)
-                            basketListViewModel.setIsRecentlyLoading(false)
+                    recentlyProductViewModel.uiState.collect {
+                        when (it) {
+                            is UiState.Success -> {
+                                basketRecentlyTabAdapter.setRecentlyViewedList(it.item)
+                                basketListViewModel.setIsRecentlyLoading(false)
+                            }
+                            else -> {}
                         }
                     }
                 }
 
                 launch {
-                    basketListViewModel.isLoading.collectLatest { isLoading ->
-                        if (isLoading) {
-                            binding.pbBasketLoading.visibility = View.VISIBLE
-                            binding.rvBasketList.visibility = View.INVISIBLE
-                        } else {
-                            binding.pbBasketLoading.visibility = View.INVISIBLE
-                            binding.rvBasketList.visibility = View.VISIBLE
-                        }
-                    }
+//                    basketListViewModel.isLoading.collectLatest { isLoading ->
+//                        if (isLoading) {
+//                            binding.pbBasketLoading.visibility = View.VISIBLE
+//                            binding.rvBasketList.visibility = View.INVISIBLE
+//                        } else {
+//                            binding.pbBasketLoading.visibility = View.INVISIBLE
+//                            binding.rvBasketList.visibility = View.VISIBLE
+//                        }
+//                    }
                 }
 
                 launch {
