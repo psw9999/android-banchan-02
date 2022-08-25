@@ -11,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.banchan.databinding.BottomsheetBasketBinding
 import com.example.banchan.presentation.main.BasketViewModel
 import com.example.banchan.util.ext.toast
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,6 +26,12 @@ class BasketBottomSheet : BottomSheetDialogFragment() {
 
     private var _binding: BottomsheetBasketBinding? = null
     private val binding get() = _binding!!
+
+    override fun onStart() {
+        super.onStart()
+        val behavior = BottomSheetBehavior.from(requireView().parent as View)
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
