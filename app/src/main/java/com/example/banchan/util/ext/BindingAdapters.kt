@@ -9,12 +9,14 @@ import com.example.banchan.R
 import com.example.banchan.presentation.UiState
 
 @BindingAdapter("imageUrl")
-fun ImageView.setImageFromUrl(url: String) {
-    Glide.with(this.context)
-        .load(url)
-        .placeholder(R.drawable.placeholder)
-        .error(R.drawable.ic_baseline_error_24)
-        .into(this)
+fun ImageView.setImageFromUrl(url: String?) {
+    url?.let {
+        Glide.with(this.context)
+            .load(url)
+            .placeholder(R.drawable.placeholder)
+            .error(R.drawable.ic_baseline_error_24)
+            .into(this)
+    }
 }
 
 @BindingAdapter("sectionUrl")

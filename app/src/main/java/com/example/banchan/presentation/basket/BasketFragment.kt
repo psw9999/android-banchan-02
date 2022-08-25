@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_basket) {
-    private val recentlyProductViewModel: RecentlyProductViewModel by activityViewModels()
+    private val recentlyProductViewModel: BasketRecentlyProductViewModel by activityViewModels()
     private val basketViewModel: BasketViewModel by activityViewModels()
     private val basketListViewModel: BasketListViewModel by activityViewModels()
 

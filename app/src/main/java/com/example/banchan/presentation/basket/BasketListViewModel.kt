@@ -6,12 +6,10 @@ import com.example.banchan.data.response.detail.DetailResponse
 import com.example.banchan.data.source.local.basket.BasketItem
 import com.example.banchan.data.source.local.history.HistoryItem
 import com.example.banchan.domain.model.BasketModel
-import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.domain.model.OrderModel
 import com.example.banchan.domain.usecase.basket.*
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import com.example.banchan.domain.usecase.history.InsertHistoryItemsUseCase
-import com.example.banchan.domain.usecase.recently.GetRecentProductUseCase
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
