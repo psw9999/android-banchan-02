@@ -47,7 +47,7 @@
             tools:listitem="@layout/item_recent" />
 
         <ProgressBar
-            showOnLoading="@{viewModel.uiState}"
+            android:id="@+id/progress_recent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
@@ -57,9 +57,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            layout="@layout/item_home_empty"
-            android:visibility="invisible"
-            bind:uiState="@{viewModel.uiState}" />
+            android:id="@+id/layout_empty_recent"
+            layout="@layout/layout_recent_empty"
+            android:visibility="invisible" />
 
         <include
             android:id="@+id/layout_error_recent"
