@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
 import com.example.banchan.databinding.MenuFilterBinding
@@ -18,13 +19,6 @@ class MainFilterViewHolder(private val binding: MenuFilterBinding) :
         currentFilter: Filter,
         onFilterChanged: (Filter) -> Unit
     ) {
-        val grayColor = binding.root.resources.getColor(
-            R.color.greyscale_default, null
-        )
-        val blackColor = binding.root.resources.getColor(
-            R.color.black, null
-        )
-
         binding.spinnerMain.adapter = FilterAdapter(
             binding.root.context,
             currentFilter,
@@ -52,14 +46,39 @@ class MainFilterViewHolder(private val binding: MenuFilterBinding) :
             onTypeChanged(Type.Grid)
         }
 
+        val resource = binding.root.resources
         when (currentType) {
             Type.Grid -> {
-                binding.ivGrid.setColorFilter(blackColor)
-                binding.ivList.setColorFilter(grayColor)
+                binding.ivGrid.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resource,
+                        R.drawable.grid_type_check,
+                        null
+                    )
+                )
+                binding.ivList.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resource,
+                        R.drawable.linear_type_uncheck,
+                        null
+                    )
+                )
             }
             Type.Linear -> {
-                binding.ivGrid.setColorFilter(grayColor)
-                binding.ivList.setColorFilter(blackColor)
+                binding.ivGrid.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resource,
+                        R.drawable.grid_type_uncheck,
+                        null
+                    )
+                )
+                binding.ivList.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resource,
+                        R.drawable.linear_type_check,
+                        null
+                    )
+                )
             }
         }
     }

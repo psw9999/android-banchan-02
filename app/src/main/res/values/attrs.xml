@@ -7,6 +7,5 @@
 
     <declare-styleable name="AmountCounter">
         <attr name="amount" format="integer" />
-        <attr name="size" format="dimension" />
     </declare-styleable>
 </resources>

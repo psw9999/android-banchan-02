@@ -43,8 +43,8 @@ class OrderSuccessViewModel @AssistedInject constructor(
                         OrderSuccessListModel.Body(it.items),
                         OrderSuccessListModel.Footer(
                             orderPrice = orderPrice,
-                            deliveryFee = DEFAULT_DELIVERY_FEE,
-                            totalPrice = orderPrice + DEFAULT_DELIVERY_FEE
+                            deliveryFee = it.history.deliveryFee,
+                            totalPrice = orderPrice + it.history.deliveryFee
                         )
                     )
                 }

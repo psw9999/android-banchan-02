@@ -8,7 +8,7 @@
         android:id="@+id/iv_grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_grid"
+        android:src="@drawable/grid_type_uncheck"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -16,7 +16,7 @@
         android:id="@+id/iv_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_linear"
+        android:src="@drawable/linear_type_uncheck"
         app:layout_constraintStart_toEndOf="@id/iv_grid"
         app:layout_constraintTop_toTopOf="parent" />
 

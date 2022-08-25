@@ -16,11 +16,6 @@ class MediumMenuViewHolder(private val binding: ItemMenuMediumBinding) :
         binding.executePendingBindings()
     }
 
-    fun setItem(item: ItemModel) {
-        binding.item = item
-        binding.executePendingBindings()
-    }
-
     companion object {
         fun create(parent: ViewGroup) = MediumMenuViewHolder(
             ItemMenuMediumBinding.inflate(

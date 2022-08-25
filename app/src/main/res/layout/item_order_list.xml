@@ -43,7 +43,7 @@
             android:layout_marginTop="20dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{orderListModel.numberOfProduct > 1 ? @string/order_list_name_addition(orderListModel.name, orderListModel.numberOfProduct) : orderListModel.name}"
+            android:text="@{orderListModel.numberOfProduct > 1 ? @string/order_list_name_addition(orderListModel.name, orderListModel.numberOfProduct-1) : orderListModel.name}"
             app:layout_constraintEnd_toStartOf="@id/iv_order_item_right"
             app:layout_constraintStart_toEndOf="@+id/iv_order_item"
             app:layout_constraintTop_toTopOf="parent"

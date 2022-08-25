@@ -32,7 +32,7 @@ fun ImageView.setSectionImage(url: String) {
 
 @BindingAdapter("showOnSuccess")
 fun showOnSuccess(view: View, uiState: UiState<*>) {
-    view.visibility = if (uiState is UiState.Success) View.VISIBLE else View.INVISIBLE
+    view.visibility = if (uiState !is UiState.Error) View.VISIBLE else View.INVISIBLE
 }
 
 @BindingAdapter("showOnLoading")
