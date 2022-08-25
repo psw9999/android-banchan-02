@@ -5,10 +5,10 @@ import android.app.Application
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.SystemClock
-import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,13 +17,9 @@ import com.example.banchan.AlarmReceiver
 import com.example.banchan.AlarmReceiver.Companion.ID
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentBasketBinding
-import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.presentation.UiState
-import com.example.banchan.presentation.adapter.basket.BasketListAdapter
-import com.example.banchan.presentation.adapter.basket.BasketOrderAdapter
-import com.example.banchan.presentation.adapter.basket.BasketRecentlyTabAdapter
-import com.example.banchan.presentation.adapter.basket.BasketTabAdapter
+import com.example.banchan.presentation.adapter.basket.*
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.main.BasketViewModel
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
@@ -36,48 +32,38 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_basket) {
-    private val recentlyProductViewModel: RecentlyProductViewModel by activityViewModels()
+    private val recentlyProductViewModel: RecentlyProductViewModel by viewModels()
     private val basketViewModel: BasketViewModel by activityViewModels()
-    private val basketListViewModel: BasketListViewModel by activityViewModels()
-
-    private val onCheckBoxClick: ((BasketModel) -> Unit) = { basketModel ->
-        basketListViewModel.updateBasketItem(basketModel)
-    }
-
-    private val onClickCheckBoxTab: ((Int) -> Unit) = { isSelected ->
-        basketListViewModel.updateAllBasketIsSelected(isSelected)
-    }
-
-    private val onClickSelectedDeleteBtn: (() -> Unit) = {
-        basketListViewModel.deleteSelectedBasketItems()
-    }
-
-    private val onClickDeleteBtn: ((BasketModel) -> Unit) = { basketModel ->
-        basketListViewModel.deleteBasketItem(basketModel)
-    }
-
-    private val onClickMinusBtn: ((BasketModel) -> Unit) = { basketModel ->
-        basketListViewModel.decreaseBasketCount(basketModel)
-    }
-
-    private val onClickPlusBtn: ((BasketModel) -> Unit) = { basketModel ->
-        basketListViewModel.increaseBasketCount(basketModel)
-    }
+    private val basketListViewModel: BasketListViewModel by viewModels()
 
     private val basketListTabAdapter by lazy {
         BasketTabAdapter(
-            onClickCheckBoxTab,
-            onClickSelectedDeleteBtn
+            { isSelected -> basketListViewModel.updateAllBasketIsSelected(isSelected) },
+            { basketListViewModel.deleteSelectedBasketItems() }
         )
     }
+
     private val basketListAdapter by lazy {
         BasketListAdapter(
-            onCheckBoxClick,
-            onClickDeleteBtn,
-            onClickMinusBtn,
-            onClickPlusBtn
+            { basketModel -> basketListViewModel.updateBasketItem(basketModel) },
+            { basketModel -> basketListViewModel.deleteBasketItem(basketModel) },
+            { basketModel -> basketListViewModel.decreaseBasketCount(basketModel) },
+            { basketModel -> basketListViewModel.increaseBasketCount(basketModel) }
         )
     }
+
+    private val basketEmptyAdapter by lazy { BasketEmptyAdapter() }
+    private val basketLoadingAdapter by lazy { BasketLoadingAdapter() }
+    private val basketErrorAdapter by lazy { BasketErrorAdapter{ basketListViewModel.refresh() } }
+
+    private val basketConcatAdapter by lazy {
+        ConcatAdapter(
+            basketListTabAdapter,
+            basketLoadingAdapter,
+            basketRecentlyTabAdapter
+        )
+    }
+
     private val basketOrderAdapter by lazy {
         BasketOrderAdapter { deliveryFee -> basketListViewModel.insertHistoryItemList(deliveryFee) }
     }
@@ -87,6 +73,8 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                 navigateToRecent()
             }, onItemClick = { itemModel ->
                 navigateToDetail(itemModel)
+            }, onRefreshBtnClick = {
+                recentlyProductViewModel.refresh()
             }
         )
     }
@@ -102,34 +90,46 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    basketListViewModel.basketItemFlow.collectLatest {
-                        basketListAdapter.submitList(it)
-                        basketListViewModel.setIsBasketLoading(false)
-                    }
-                }
-
-                launch {
-                    recentlyProductViewModel.uiState.collect {
-                        when (it) {
-                            is UiState.Success -> {
-                                basketRecentlyTabAdapter.setRecentlyViewedList(it.item)
-                                basketListViewModel.setIsRecentlyLoading(false)
+                    basketListViewModel.basketUiState.collect { basketUiState ->
+                        val currentAdapter = basketConcatAdapter.adapters[1]
+                        when(basketUiState) {
+                            is UiState.Init, UiState.Loading -> {
+                                if(currentAdapter != basketLoadingAdapter) {
+                                    basketConcatAdapter.removeAdapter(currentAdapter)
+                                    basketConcatAdapter.removeAdapter(basketOrderAdapter)
+                                    basketConcatAdapter.addAdapter(1, basketLoadingAdapter)
+                                }
                             }
-                            else -> {}
+                            is UiState.Success -> {
+                                basketListAdapter.submitList(basketUiState.item)
+                                if(currentAdapter != basketListAdapter) {
+                                    basketConcatAdapter.removeAdapter(currentAdapter)
+                                    basketConcatAdapter.addAdapter(1, basketListAdapter)
+                                    basketConcatAdapter.addAdapter(2, basketOrderAdapter)
+                                }
+                            }
+                            is UiState.Empty -> {
+                                if(currentAdapter != basketEmptyAdapter) {
+                                    basketConcatAdapter.removeAdapter(currentAdapter)
+                                    basketConcatAdapter.removeAdapter(basketOrderAdapter)
+                                    basketConcatAdapter.addAdapter(1, basketEmptyAdapter)
+                                }
+                            }
+                            is UiState.Error -> {
+                                if(currentAdapter != basketErrorAdapter) {
+                                    basketConcatAdapter.removeAdapter(currentAdapter)
+                                    basketConcatAdapter.removeAdapter(basketOrderAdapter)
+                                    basketConcatAdapter.addAdapter(1, basketErrorAdapter)
+                                }
+                            }
                         }
                     }
                 }
 
                 launch {
-//                    basketListViewModel.isLoading.collectLatest { isLoading ->
-//                        if (isLoading) {
-//                            binding.pbBasketLoading.visibility = View.VISIBLE
-//                            binding.rvBasketList.visibility = View.INVISIBLE
-//                        } else {
-//                            binding.pbBasketLoading.visibility = View.INVISIBLE
-//                            binding.rvBasketList.visibility = View.VISIBLE
-//                        }
-//                    }
+                    recentlyProductViewModel.uiState.collect {
+                        basketRecentlyTabAdapter.setRecentlyViewedList(it)
+                    }
                 }
 
                 launch {
@@ -155,12 +155,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
     }
 
     private fun initRecyclerView() {
-        binding.rvBasketList.adapter = ConcatAdapter(
-            basketListTabAdapter,
-            basketListAdapter,
-            basketOrderAdapter,
-            basketRecentlyTabAdapter
-        )
+        binding.rvBasketList.adapter = basketConcatAdapter
         binding.rvBasketList.itemAnimator = null
     }
 
