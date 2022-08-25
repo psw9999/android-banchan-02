@@ -18,7 +18,7 @@ class BasketRecentlyTabHolder(private val binding: ItemBasketRecentlyTabBinding)
         onRefreshBtnClick: () -> Unit
     ) {
         binding.uiState = recentlyProductList
-        val list = if(recentlyProductList is UiState.Success) recentlyProductList.item else listOf()
+        val list = if(recentlyProductList is UiState.Success) recentlyProductList.item.take(7) else listOf()
         initRecyclerView(list, onItemClick)
         binding.tvBasketRecentlyProductPage.setOnClickListener {
             onClickRecentlyTab()
@@ -32,7 +32,7 @@ class BasketRecentlyTabHolder(private val binding: ItemBasketRecentlyTabBinding)
         binding.uiState = recentlyProductList
         if (recentlyProductList is UiState.Success) {
             val recentlyProductListAdapter = binding.rvBasketRecentlyList.adapter as BasketRecentlyListAdapter
-            recentlyProductListAdapter.submitList(recentlyProductList.item)
+            recentlyProductListAdapter.submitList(recentlyProductList.item.take(7))
         }
         binding.executePendingBindings()
     }
