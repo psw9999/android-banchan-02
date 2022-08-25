@@ -16,11 +16,15 @@ import androidx.recyclerview.widget.ConcatAdapter
 import com.example.banchan.AlarmReceiver
 import com.example.banchan.AlarmReceiver.Companion.ID
 import com.example.banchan.R
+import com.example.banchan.databinding.DialogAmountBinding
 import com.example.banchan.databinding.FragmentBasketBinding
+import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.basket.*
 import com.example.banchan.presentation.base.BaseFragment
+import com.example.banchan.presentation.dialog.BasketAmountDialog
+import com.example.banchan.presentation.dialog.BasketCheckDialog
 import com.example.banchan.presentation.main.BasketViewModel
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
@@ -47,7 +51,8 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
             { basketModel -> basketListViewModel.updateBasketItem(basketModel) },
             { basketModel -> basketListViewModel.deleteBasketItem(basketModel) },
             { basketModel -> basketListViewModel.decreaseBasketCount(basketModel) },
-            { basketModel -> basketListViewModel.increaseBasketCount(basketModel) }
+            { basketModel -> basketListViewModel.increaseBasketCount(basketModel) },
+            { basketModel -> showAmountDialog(basketModel)}
         )
     }
 
@@ -66,6 +71,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
     private val basketOrderAdapter by lazy {
         BasketOrderAdapter { deliveryFee -> basketListViewModel.insertHistoryItemList(deliveryFee) }
     }
+
     private val basketRecentlyTabAdapter by lazy {
         BasketRecentlyTabAdapter(
             onClickRecentlyTab = {
@@ -76,6 +82,15 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                 recentlyProductViewModel.refresh()
             }
         )
+    }
+
+    private fun showAmountDialog(basketModel: BasketModel) {
+        val targetDialog = parentFragmentManager.findFragmentByTag(BasketAmountDialog.TAG)
+        if (targetDialog == null) {
+            val checkDialog = BasketAmountDialog.newInstance(basketModel)
+            checkDialog.isCancelable = false
+            checkDialog.show(parentFragmentManager, BasketAmountDialog.TAG)
+        }
     }
 
     override fun initViews() {
