@@ -24,6 +24,7 @@
         <entry key="app/src/main/res/layout/amount_counter.xml" value="0.75" />
         <entry key="app/src/main/res/layout/appbar_ordering.xml" value="0.321875" />
         <entry key="app/src/main/res/layout/bottomsheet_basket.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialog_amount.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_basket.xml" value="0.67" />
         <entry key="app/src/main/res/layout/fragment_basket.xml" value="0.3766504517025712" />
         <entry key="app/src/main/res/layout/fragment_best.xml" value="0.2" />
@@ -37,7 +38,7 @@
         <entry key="app/src/main/res/layout/fragment_side.xml" value="0.16302083333333334" />
         <entry key="app/src/main/res/layout/fragment_soup.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_banchan.xml" value="0.5686782836914064" />
-        <entry key="app/src/main/res/layout/item_basket.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/item_basket.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_basket_list.xml" value="0.75" />
         <entry key="app/src/main/res/layout/item_basket_order.xml" value="0.10099637681159421" />
         <entry key="app/src/main/res/layout/item_basket_recently_product.xml" value="0.9" />

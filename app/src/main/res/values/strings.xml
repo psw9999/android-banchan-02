@@ -54,6 +54,10 @@
     <string name="basket_recently_product_page">전체보기</string>
     <string name="basket_empty">장바구니가 비어있어요</string>
     <string name="basket_recently_product_nothing">최근 본 상품이 존재하지 않습니다.</string>
+    <string name="basket_count_dialog_title">수량 입력</string>
+    <string name="basket_count_dialog_count_unit">개</string>
+    <string name="basket_count_dialog_cancel">취소</string>
+    <string name="basket_count_dialog_input">입력</string>
 
     <string name="order_list_name_addition">%s 외 %d개</string>
     <string name="order_proceeding">배송 준비중</string>
