@@ -112,7 +112,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                     recentlyProductViewModel.uiState.collect {
                         when (it) {
                             is UiState.Success -> {
-                                basketRecentlyTabAdapter.setRecentlyViewedList(it.item)
+                                basketRecentlyTabAdapter.setRecentlyViewedList(it.item.take(7))
                                 basketListViewModel.setIsRecentlyLoading(false)
                             }
                             else -> {}
