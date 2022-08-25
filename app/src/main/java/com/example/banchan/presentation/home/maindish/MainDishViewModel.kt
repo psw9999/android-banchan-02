@@ -78,7 +78,7 @@ class MainDishViewModel @Inject constructor(
     fun changeType(changedType: Type) {
         changeTypeJob?.cancel()
 
-        viewModelScope.launch {
+        changeTypeJob = viewModelScope.launch {
             delay(100L)
             _type.value = changedType
         }
