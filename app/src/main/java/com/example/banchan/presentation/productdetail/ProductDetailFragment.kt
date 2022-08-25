@@ -20,6 +20,7 @@ import com.example.banchan.presentation.basket.BasketFragment
 import com.example.banchan.presentation.dialog.BasketCheckDialog
 import com.example.banchan.presentation.home.OrderStateViewModel
 import com.example.banchan.presentation.main.BasketViewModel
+import com.example.banchan.presentation.orderlist.OrderListFragment
 import com.example.banchan.util.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -40,6 +41,7 @@ class ProductDetailFragment :
             name = basketViewModel.selectedBasketItem.value?.title ?: ""
         )
     }
+
 
     private val onMinusClick: (() -> Unit) = { basketViewModel.basketCountDecrease() }
     private val onPlusClick: (() -> Unit) = { basketViewModel.basketCountIncrease() }
@@ -83,6 +85,12 @@ class ProductDetailFragment :
                         else requireContext().toast(getString(R.string.basket_insert_error))
                     }
                 }
+
+                launch {
+                    orderStateViewModel.isOrderingStateFlow.collect { isAllOrderSuccess ->
+                        binding.abProductDetail.setIsShipping(!isAllOrderSuccess)
+                    }
+                }
             }
         }
 
@@ -92,11 +100,23 @@ class ProductDetailFragment :
     }
 
     override fun initViews() {
-        initRecyclerView()
         binding.viewModel = productDetailViewModel
+        initRecyclerView()
+        initAppBar()
 
-        binding.abProductDetail.setOnCartClickListener {
-            navigateToBasket()
+        binding.layoutErrorBest.btnHomeErrorReload.setOnClickListener {
+            productDetailViewModel.refresh()
+        }
+    }
+
+    private fun initAppBar() {
+        binding.abProductDetail.apply {
+            setOnCartClickListener {
+                navigateToBasket()
+            }
+            setOnProfileClickListener {
+                navigateToProfile()
+            }
         }
     }
 
@@ -105,9 +125,12 @@ class ProductDetailFragment :
             replace(R.id.layout_main_container, BasketFragment(), BasketFragment.TAG)
             addToBackStack(BasketFragment.TAG)
         }
+    }
 
-        binding.layoutErrorBest.btnHomeErrorReload.setOnClickListener {
-            productDetailViewModel.refresh()
+    private fun navigateToProfile() {
+        parentFragmentManager.commit {
+            replace(R.id.layout_main_container, OrderListFragment(), OrderListFragment.TAG)
+            addToBackStack(OrderListFragment.TAG)
         }
     }
 
