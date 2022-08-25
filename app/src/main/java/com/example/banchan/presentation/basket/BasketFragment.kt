@@ -25,14 +25,13 @@ import com.example.banchan.presentation.main.BasketViewModel
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import com.example.banchan.presentation.recentlyproduct.RecentlyProductFragment
-import com.example.banchan.presentation.recentlyproduct.RecentlyProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_basket) {
-    private val recentlyProductViewModel: RecentlyProductViewModel by viewModels()
+    private val recentlyProductViewModel: BasketRecentlyProductViewModel by viewModels()
     private val basketViewModel: BasketViewModel by activityViewModels()
     private val basketListViewModel: BasketListViewModel by viewModels()
 

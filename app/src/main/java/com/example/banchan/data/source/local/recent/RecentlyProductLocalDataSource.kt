@@ -18,6 +18,8 @@ class RecentlyProductLocalDataSource @Inject constructor(
         Result.failure<Exception>(exception)
     }
 
+    override fun getRecentlyProductPagingData() = recentlyProductDao.getRecentlyProductPagingSource()
+
     override suspend fun insertRecentlyProduct(vararg recentlyProduct: RecentlyProduct) =
         runCatching {
             withContext(ioDispatcher) {

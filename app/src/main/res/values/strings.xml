@@ -76,4 +76,5 @@
 
     <string name="network_disable">네트워크 연결을 확인해주세요</string>
     <string name="network_enable">네트워크가 연결되었습니다</string>
+    <string name="recent_empty">최근 본 상품이 없습니다</string>
 </resources>
