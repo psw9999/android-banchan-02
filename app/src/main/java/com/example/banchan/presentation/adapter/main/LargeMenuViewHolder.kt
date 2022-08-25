@@ -15,11 +15,6 @@ class LargeMenuViewHolder(private val binding: ItemMenuLargeBinding) :
         binding.executePendingBindings()
     }
 
-    fun setItem(item: ItemModel) {
-        binding.item = item
-        binding.executePendingBindings()
-    }
-
     companion object {
         fun create(parent: ViewGroup) = LargeMenuViewHolder(
             ItemMenuLargeBinding.inflate(

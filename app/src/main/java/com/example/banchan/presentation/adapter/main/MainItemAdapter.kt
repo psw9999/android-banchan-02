@@ -69,9 +69,17 @@ class MainItemAdapter(
         } else {
             val mainListItem = getItem(position)
             if (payloads[0] as Boolean && mainListItem is MainItemListModel.MediumItem) {
-                (holder as MediumMenuViewHolder).setItem(mainListItem.item)
+                (holder as MediumMenuViewHolder).bind(
+                    mainListItem.item,
+                    basketClickListener,
+                    productDetailListener
+                )
             } else if (payloads[0] as Boolean && mainListItem is MainItemListModel.LargeItem) {
-                (holder as LargeMenuViewHolder).setItem(mainListItem.item)
+                (holder as LargeMenuViewHolder).bind(
+                    mainListItem.item,
+                    basketClickListener,
+                    productDetailListener
+                )
             } else {
                 super.onBindViewHolder(holder, position, payloads)
             }
