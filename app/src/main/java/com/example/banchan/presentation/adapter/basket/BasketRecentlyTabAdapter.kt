@@ -3,16 +3,17 @@ package com.example.banchan.presentation.adapter.basket
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.domain.model.ItemModel
+import com.example.banchan.presentation.UiState
 
 class BasketRecentlyTabAdapter(
     private val onClickRecentlyTab: () -> Unit,
-    private val onItemClick: (ItemModel) -> Unit
-) :
-    RecyclerView.Adapter<BasketRecentlyTabHolder>() {
+    private val onItemClick: (ItemModel) -> Unit,
+    private val onRefreshBtnClick: () -> Unit
+) : RecyclerView.Adapter<BasketRecentlyTabHolder>() {
 
-    private var recentlyViewedList: List<ItemModel> = listOf()
+    private var recentlyViewedList: UiState<List<ItemModel>> = UiState.Loading
 
-    fun setRecentlyViewedList(recentlyViewedList: List<ItemModel>) {
+    fun setRecentlyViewedList(recentlyViewedList: UiState<List<ItemModel>>) {
         this.recentlyViewedList = recentlyViewedList
         notifyItemChanged(0, true)
     }
@@ -21,7 +22,7 @@ class BasketRecentlyTabAdapter(
         BasketRecentlyTabHolder.create(parent)
 
     override fun onBindViewHolder(holder: BasketRecentlyTabHolder, position: Int) {
-        holder.initBind(recentlyViewedList, onClickRecentlyTab, onItemClick)
+        holder.initBind(recentlyViewedList, onClickRecentlyTab, onItemClick, onRefreshBtnClick)
     }
 
     override fun onBindViewHolder(

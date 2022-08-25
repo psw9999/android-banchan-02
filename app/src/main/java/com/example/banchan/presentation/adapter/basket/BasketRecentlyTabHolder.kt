@@ -6,24 +6,35 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.databinding.ItemBasketRecentlyTabBinding
 import com.example.banchan.domain.model.ItemModel
+import com.example.banchan.presentation.UiState
 
 class BasketRecentlyTabHolder(private val binding: ItemBasketRecentlyTabBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun initBind(
-        recentlyProductList: List<ItemModel>,
+        recentlyProductList: UiState<List<ItemModel>>,
         onClickRecentlyTab: () -> Unit,
-        onItemClick: (ItemModel) -> Unit
+        onItemClick: (ItemModel) -> Unit,
+        onRefreshBtnClick: () -> Unit
     ) {
-        initRecyclerView(recentlyProductList, onItemClick)
+        binding.uiState = recentlyProductList
+        val list = if(recentlyProductList is UiState.Success) recentlyProductList.item.take(7) else listOf()
+        initRecyclerView(list, onItemClick)
         binding.tvBasketRecentlyProductPage.setOnClickListener {
             onClickRecentlyTab()
         }
+        binding.layoutErrorRecentProduct.btnHomeErrorReload.setOnClickListener {
+            onRefreshBtnClick()
+        }
     }
 
-    fun refreshBind(recentlyProductList: List<ItemModel>) {
-        val recentlyProductListAdapter = binding.rvBasketRecentlyList.adapter as BasketRecentlyListAdapter
-        recentlyProductListAdapter.submitList(recentlyProductList)
+    fun refreshBind(recentlyProductList: UiState<List<ItemModel>>) {
+        binding.uiState = recentlyProductList
+        if (recentlyProductList is UiState.Success) {
+            val recentlyProductListAdapter = binding.rvBasketRecentlyList.adapter as BasketRecentlyListAdapter
+            recentlyProductListAdapter.submitList(recentlyProductList.item.take(7))
+        }
+        binding.executePendingBindings()
     }
 
     private fun initRecyclerView(
