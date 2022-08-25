@@ -32,12 +32,6 @@ class AmountCounter(
 
     private fun setTypeArray(typedArray: TypedArray) {
         setAmount(typedArray.getInteger(R.styleable.AmountCounter_amount, 1))
-        setSize(
-            typedArray.getDimensionPixelSize(
-                R.styleable.AmountCounter_size,
-                dpToPx(this.context, 30)
-            )
-        )
     }
 
     fun setAmount(amount: Int) {
@@ -46,16 +40,11 @@ class AmountCounter(
         else binding.amount = amount
     }
 
-    fun setSize(size: Int) {
-        binding.fabPlus.customSize = size
-        binding.fabMinus.customSize = size
-    }
-
     fun setOnMinusClickListener(listener: OnClickListener) {
-        binding.fabMinus.setOnClickListener(listener)
+        binding.ibMinus.setOnClickListener(listener)
     }
 
     fun setOnPlusClickListener(listener: OnClickListener) {
-        binding.fabPlus.setOnClickListener(listener)
+        binding.ibPlus.setOnClickListener(listener)
     }
 }

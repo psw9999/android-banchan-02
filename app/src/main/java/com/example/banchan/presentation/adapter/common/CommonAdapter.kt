@@ -34,7 +34,11 @@ class CommonAdapter(
         } else {
             val commonListItem = getItem(position)
             if (payloads[0] as Boolean) {
-                holder.setItem(commonListItem)
+                holder.bind(
+                    commonListItem,
+                    basketClickListener,
+                    productDetailListener
+                )
             } else {
                 super.onBindViewHolder(holder, position, payloads)
             }

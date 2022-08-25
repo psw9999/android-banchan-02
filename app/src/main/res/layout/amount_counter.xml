@@ -15,21 +15,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_minus"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:alpha="@{amount &lt;= 1 ? 0.7f : 1.0f}"
-            android:backgroundTint="@color/white"
+            android:alpha="@{amount &lt;= 1 ? 0.5f : 1.0f}"
+            android:background="@drawable/bg_amount_counter"
             android:enabled="@{amount &lt;= 1 ? false : true}"
-            app:borderWidth="0dp"
-            app:elevation="2dp"
             app:fabCustomSize="44dp"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toStartOf="@id/tv_amount"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_minus" />
+            android:src="@drawable/ic_minus" />
 
         <TextView
             android:id="@+id/tv_amount"
@@ -37,30 +38,30 @@
             android:layout_height="0dp"
             android:gravity="center"
             android:text="@{amount.toString()}"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/fab_plus"
-            app:layout_constraintStart_toEndOf="@id/fab_minus"
+            app:layout_constraintEnd_toStartOf="@id/ib_plus"
+            app:layout_constraintStart_toEndOf="@id/ib_minus"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1" />
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_plus"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:alpha="@{amount >= 99 ? 0.7f : 1.0f}"
-            android:backgroundTint="@color/white"
+            android:alpha="@{amount >= 99 ? 0.5f : 1.0f}"
             android:enabled="@{amount >= 99 ? false : true}"
-            app:borderWidth="0dp"
+            android:background="@drawable/bg_amount_counter"
             app:elevation="2dp"
-            app:fabCustomSize="44dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_amount"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_plus" />
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_plus"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
