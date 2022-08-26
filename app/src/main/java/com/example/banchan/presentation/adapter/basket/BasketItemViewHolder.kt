@@ -14,9 +14,11 @@ class BasketItemViewHolder(private val binding: ItemBasketBinding) :
         onCheckBoxClick: ((BasketModel) -> Unit),
         onClickDeleteBtn: ((BasketModel) -> Unit),
         onClickMinusBtn: ((BasketModel) -> Unit),
-        onClickPlusBtn: ((BasketModel) -> Unit)
+        onClickPlusBtn: ((BasketModel) -> Unit),
+        onChangeCountListener: ((BasketModel) -> Unit)
     ) {
         binding.basketModel = basketModel
+        binding.tvBasketItemCount.setOnClickListener { onChangeCountListener(basketModel) }
         binding.cbBasketItem.setOnClickListener { onCheckBoxClick(basketModel) }
         binding.ivBasketItemDelete.setOnClickListener { onClickDeleteBtn(basketModel) }
         binding.ibBasketItemMinus.setOnClickListener { onClickMinusBtn(basketModel) }

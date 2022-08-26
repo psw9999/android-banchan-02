@@ -1,5 +1,9 @@
 package com.example.banchan.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class BasketModel(
     val detailHash : String,
     val count : Int,
@@ -7,4 +11,4 @@ data class BasketModel(
     val name : String,
     val price : Int,
     val image : String
-)
+): Parcelable

@@ -77,12 +77,10 @@
             app:layout_constraintStart_toStartOf="@id/tv_basket_item_price"
             app:layout_constraintTop_toBottomOf="@id/tv_basket_item_price" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/et_basket_item_count"
+        <TextView
+            android:id="@+id/tv_basket_item_count"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:inputType="numberDecimal"
             android:gravity="center"
             android:maxLines="1"
             android:textColor="@color/black"

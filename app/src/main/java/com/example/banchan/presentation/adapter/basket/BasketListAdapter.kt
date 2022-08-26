@@ -9,7 +9,8 @@ class BasketListAdapter(
     private val onCheckBoxClick: ((BasketModel) -> Unit),
     private val onClickDeleteBtn: ((BasketModel) -> Unit),
     private val onClickMinusBtn: ((BasketModel) -> Unit),
-    private val onClickPlusBtn: ((BasketModel) -> Unit)
+    private val onClickPlusBtn: ((BasketModel) -> Unit),
+    private val onChangeCountListener: ((BasketModel) -> Unit)
 ) : ListAdapter<BasketModel, BasketItemViewHolder>(diffUtil) {
 
     companion object {
@@ -37,7 +38,8 @@ class BasketListAdapter(
             onCheckBoxClick,
             onClickDeleteBtn,
             onClickMinusBtn,
-            onClickPlusBtn
+            onClickPlusBtn,
+            onChangeCountListener
         )
     }
 
@@ -54,7 +56,8 @@ class BasketListAdapter(
                 onCheckBoxClick,
                 onClickDeleteBtn,
                 onClickMinusBtn,
-                onClickPlusBtn
+                onClickPlusBtn,
+                onChangeCountListener
             )
             else super.onBindViewHolder(holder, position, payloads)
         }

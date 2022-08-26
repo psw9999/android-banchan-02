@@ -21,6 +21,23 @@ class RecentlyProductPagingAdapter(
         }
     }
 
+    override fun onBindViewHolder(
+        holder: RecentlyProductViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if(payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            if (payloads[0] as Boolean) {
+                val item = getItem(position) as RecentUiModel.Success
+                holder.bind(item.itemModel, cartClick, productClick)
+            } else {
+                super.onBindViewHolder(holder, position, payloads)
+            }
+        }
+    }
+
     companion object {
         class DiffCallback : DiffUtil.ItemCallback<RecentUiModel>() {
             override fun areItemsTheSame(
@@ -35,6 +52,13 @@ class RecentlyProductPagingAdapter(
                 newItem: RecentUiModel
             ): Boolean {
                 return oldItem == newItem
+            }
+
+            override fun getChangePayload(oldItem: RecentUiModel, newItem: RecentUiModel): Any? {
+                if (oldItem is RecentUiModel.Success && newItem is RecentUiModel.Success) {
+                    return (oldItem.itemModel.time != newItem.itemModel.time) || (oldItem.itemModel.isCartAdded != newItem.itemModel.isCartAdded)
+                }
+                return null
             }
         }
     }
