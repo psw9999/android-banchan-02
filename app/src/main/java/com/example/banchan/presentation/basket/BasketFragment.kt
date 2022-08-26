@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.ConcatAdapter
 import com.example.banchan.AlarmReceiver
 import com.example.banchan.AlarmReceiver.Companion.ID
 import com.example.banchan.R
-import com.example.banchan.databinding.DialogAmountBinding
 import com.example.banchan.databinding.FragmentBasketBinding
 import com.example.banchan.domain.model.BasketModel
 import com.example.banchan.domain.model.ItemModel
@@ -24,7 +23,6 @@ import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.basket.*
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.dialog.BasketAmountDialog
-import com.example.banchan.presentation.dialog.BasketCheckDialog
 import com.example.banchan.presentation.main.BasketViewModel
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
@@ -39,50 +37,16 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
     private val basketViewModel: BasketViewModel by activityViewModels()
     private val basketListViewModel: BasketListViewModel by viewModels()
 
-    private val basketListTabAdapter by lazy {
-        BasketTabAdapter(
-            { isSelected -> basketListViewModel.updateAllBasketIsSelected(isSelected) },
-            { basketListViewModel.deleteSelectedBasketItems() }
-        )
-    }
+    private lateinit var basketListTabAdapter: BasketTabAdapter
+    private lateinit var basketListAdapter: BasketListAdapter
 
-    private val basketListAdapter by lazy {
-        BasketListAdapter(
-            { basketModel -> basketListViewModel.updateBasketItem(basketModel) },
-            { basketModel -> basketListViewModel.deleteBasketItem(basketModel) },
-            { basketModel -> basketListViewModel.decreaseBasketCount(basketModel) },
-            { basketModel -> basketListViewModel.increaseBasketCount(basketModel) },
-            { basketModel -> showAmountDialog(basketModel)}
-        )
-    }
+    private lateinit var basketEmptyAdapter: BasketEmptyAdapter
+    private lateinit var basketLoadingAdapter: BasketLoadingAdapter
+    private lateinit var basketErrorAdapter: BasketErrorAdapter
 
-    private val basketEmptyAdapter by lazy { BasketEmptyAdapter() }
-    private val basketLoadingAdapter by lazy { BasketLoadingAdapter() }
-    private val basketErrorAdapter by lazy { BasketErrorAdapter{ basketListViewModel.refresh() } }
-
-    private val basketConcatAdapter by lazy {
-        ConcatAdapter(
-            basketListTabAdapter,
-            basketLoadingAdapter,
-            basketRecentlyTabAdapter
-        )
-    }
-
-    private val basketOrderAdapter by lazy {
-        BasketOrderAdapter { deliveryFee -> basketListViewModel.insertHistoryItemList(deliveryFee) }
-    }
-
-    private val basketRecentlyTabAdapter by lazy {
-        BasketRecentlyTabAdapter(
-            onClickRecentlyTab = {
-                navigateToRecent()
-            }, onItemClick = { itemModel ->
-                navigateToDetail(itemModel)
-            }, onRefreshBtnClick = {
-                recentlyProductViewModel.refresh()
-            }
-        )
-    }
+    private lateinit var basketConcatAdapter: ConcatAdapter
+    private lateinit var basketOrderAdapter: BasketOrderAdapter
+    private lateinit var basketRecentlyTabAdapter: BasketRecentlyTabAdapter
 
     private fun showAmountDialog(basketModel: BasketModel) {
         val targetDialog = parentFragmentManager.findFragmentByTag(BasketAmountDialog.TAG)
@@ -94,6 +58,40 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
     }
 
     override fun initViews() {
+        basketListTabAdapter = BasketTabAdapter(
+            { isSelected -> basketListViewModel.updateAllBasketIsSelected(isSelected) },
+            { basketListViewModel.deleteSelectedBasketItems() }
+        )
+        basketListAdapter = BasketListAdapter(
+            { basketModel -> basketListViewModel.updateBasketItem(basketModel) },
+            { basketModel -> basketListViewModel.deleteBasketItem(basketModel) },
+            { basketModel -> basketListViewModel.decreaseBasketCount(basketModel) },
+            { basketModel -> basketListViewModel.increaseBasketCount(basketModel) },
+            { basketModel -> showAmountDialog(basketModel) }
+        )
+        basketEmptyAdapter = BasketEmptyAdapter()
+        basketLoadingAdapter = BasketLoadingAdapter()
+        basketErrorAdapter = BasketErrorAdapter { basketListViewModel.refresh() }
+
+        basketOrderAdapter = BasketOrderAdapter { deliveryFee ->
+            basketListViewModel.insertHistoryItemList(deliveryFee)
+        }
+        basketRecentlyTabAdapter =
+            BasketRecentlyTabAdapter(
+                onClickRecentlyTab = {
+                    navigateToRecent()
+                }, onItemClick = { itemModel ->
+                    navigateToDetail(itemModel)
+                }, onRefreshBtnClick = {
+                    recentlyProductViewModel.refresh()
+                }
+            )
+        basketConcatAdapter = ConcatAdapter(
+            basketListTabAdapter,
+            basketLoadingAdapter,
+            basketRecentlyTabAdapter
+        )
+
         initRecyclerView()
         binding.tbBasketBack.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -106,9 +104,9 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                 launch {
                     basketListViewModel.basketUiState.collect { basketUiState ->
                         val currentAdapter = basketConcatAdapter.adapters[1]
-                        when(basketUiState) {
+                        when (basketUiState) {
                             is UiState.Init, UiState.Loading -> {
-                                if(currentAdapter != basketLoadingAdapter) {
+                                if (currentAdapter != basketLoadingAdapter) {
                                     basketConcatAdapter.removeAdapter(currentAdapter)
                                     basketConcatAdapter.removeAdapter(basketOrderAdapter)
                                     basketConcatAdapter.addAdapter(1, basketLoadingAdapter)
@@ -116,21 +114,21 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                             }
                             is UiState.Success -> {
                                 basketListAdapter.submitList(basketUiState.item)
-                                if(currentAdapter != basketListAdapter) {
+                                if (currentAdapter != basketListAdapter) {
                                     basketConcatAdapter.removeAdapter(currentAdapter)
                                     basketConcatAdapter.addAdapter(1, basketListAdapter)
                                     basketConcatAdapter.addAdapter(2, basketOrderAdapter)
                                 }
                             }
                             is UiState.Empty -> {
-                                if(currentAdapter != basketEmptyAdapter) {
+                                if (currentAdapter != basketEmptyAdapter) {
                                     basketConcatAdapter.removeAdapter(currentAdapter)
                                     basketConcatAdapter.removeAdapter(basketOrderAdapter)
                                     basketConcatAdapter.addAdapter(1, basketEmptyAdapter)
                                 }
                             }
                             is UiState.Error -> {
-                                if(currentAdapter != basketErrorAdapter) {
+                                if (currentAdapter != basketErrorAdapter) {
                                     basketConcatAdapter.removeAdapter(currentAdapter)
                                     basketConcatAdapter.removeAdapter(basketOrderAdapter)
                                     basketConcatAdapter.addAdapter(1, basketErrorAdapter)

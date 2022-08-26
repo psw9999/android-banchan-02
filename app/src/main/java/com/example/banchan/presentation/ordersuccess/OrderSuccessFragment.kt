@@ -28,11 +28,15 @@ class OrderSuccessFragment :
             id = arguments?.getLong(KEY_ID, 0) ?: 0
         )
     }
-    private val headerAdapter = CommonOrderHeaderAdapter()
-    private val itemAdapter = OrderSuccessItemAdapter()
-    private val footerAdapter = CommonOrderFooterAdapter()
+    private lateinit var headerAdapter: CommonOrderHeaderAdapter
+    private lateinit var itemAdapter: OrderSuccessItemAdapter
+    private lateinit var footerAdapter: CommonOrderFooterAdapter
 
     override fun initViews() {
+        headerAdapter = CommonOrderHeaderAdapter()
+        itemAdapter = OrderSuccessItemAdapter()
+        footerAdapter = CommonOrderFooterAdapter()
+
         binding.viewModel = viewModel
 
         binding.rvOrderSuccess.apply {

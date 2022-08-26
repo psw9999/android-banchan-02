@@ -21,22 +21,20 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SideFragment : HomeTabFragment<FragmentSideBinding>(R.layout.fragment_side) {
     private val viewModel by viewModels<SideViewModel>()
-    private val sideHeaderAdapter by lazy {
-        HomeHeaderAdapter(isSubtitleVisible = false, titleRes = R.string.home_side_title)
-    }
-    private val sideFilterAdapter by lazy {
-        CommonFilterAdapter { viewModel.changeFilter(it) }
-    }
-    private val sideItemAdapter by lazy {
-        CommonAdapter(
+    private lateinit var sideHeaderAdapter: HomeHeaderAdapter
+    private lateinit var sideFilterAdapter: CommonFilterAdapter
+    private lateinit var sideItemAdapter: CommonAdapter
+
+    override fun initViews() {
+        sideHeaderAdapter =
+            HomeHeaderAdapter(isSubtitleVisible = false, titleRes = R.string.home_side_title)
+        sideFilterAdapter = CommonFilterAdapter { viewModel.changeFilter(it) }
+        sideItemAdapter = CommonAdapter(
             basketClickListener = basketIconClickListener,
             productDetailListener = detailClickListener
         )
-    }
 
-    override fun initViews() {
         binding.viewModel = viewModel
-
         binding.rvSide.apply {
             adapter = ConcatAdapter(
                 sideHeaderAdapter,

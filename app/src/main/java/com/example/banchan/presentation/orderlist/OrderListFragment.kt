@@ -25,10 +25,15 @@ import kotlinx.coroutines.launch
 class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragment_order_list) {
     private val orderStateViewModel: OrderStateViewModel by activityViewModels()
 
-    private val orderListAdapter by lazy {
-        OrderListAdapter {
+    private lateinit var orderListAdapter: OrderListAdapter
+
+    override fun initViews() {
+        orderListAdapter = OrderListAdapter {
             navigateToOrderSuccess(it)
         }
+        binding.viewModel = orderStateViewModel
+        initRecyclerView()
+        binding.tbOrderListBack.setOnClickListener { parentFragmentManager.popBackStack() }
     }
 
     private fun navigateToOrderSuccess(id: Long) {
@@ -41,12 +46,6 @@ class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragme
                 addToBackStack(OrderSuccessFragment.TAG)
             }
         }
-    }
-
-    override fun initViews() {
-        binding.viewModel = orderStateViewModel
-        initRecyclerView()
-        binding.tbOrderListBack.setOnClickListener { parentFragmentManager.popBackStack() }
     }
 
     override fun observe() {

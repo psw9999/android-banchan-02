@@ -27,11 +27,14 @@ import kotlinx.coroutines.launch
 class MainDishFragment : HomeTabFragment<FragmentMainDishBinding>(R.layout.fragment_main_dish) {
     private val viewModel by viewModels<MainDishViewModel>()
     private var typeChangeJob: Job? = null
-    private val mainHeaderAdapter by lazy {
-        HomeHeaderAdapter(isSubtitleVisible = false, titleRes = R.string.home_main_cook_title)
-    }
-    private val mainFilterAdapter by lazy {
-        MainFilterAdapter(
+    private lateinit var mainHeaderAdapter: HomeHeaderAdapter
+    private lateinit var mainFilterAdapter: MainFilterAdapter
+    private lateinit var mainItemAdapter: MainItemAdapter
+
+    override fun initViews() {
+        mainHeaderAdapter =
+            HomeHeaderAdapter(isSubtitleVisible = false, titleRes = R.string.home_main_cook_title)
+        mainFilterAdapter = MainFilterAdapter(
             onTypeChanged = {
                 viewModel.changeType(it)
                 typeChangeJob =
@@ -43,17 +46,12 @@ class MainDishFragment : HomeTabFragment<FragmentMainDishBinding>(R.layout.fragm
                 viewModel.changeFilter(it)
             }
         )
-    }
-    private val mainItemAdapter by lazy {
-        MainItemAdapter(
+        mainItemAdapter = MainItemAdapter(
             basketClickListener = basketIconClickListener,
             productDetailListener = detailClickListener
         )
-    }
 
-    override fun initViews() {
         binding.viewModel = viewModel
-
         binding.rvMain.apply {
             adapter = ConcatAdapter(
                 mainHeaderAdapter,
