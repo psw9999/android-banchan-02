@@ -21,22 +21,20 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SoupFragment : HomeTabFragment<FragmentSoupBinding>(R.layout.fragment_soup) {
     private val viewModel by viewModels<SoupViewModel>()
-    private val soupHeaderAdapter by lazy {
-        HomeHeaderAdapter(isSubtitleVisible = false, titleRes = R.string.home_soup_title)
-    }
-    private val soupFilterAdapter by lazy {
-        CommonFilterAdapter { viewModel.changeFilter(it) }
-    }
-    private val soupItemAdapter by lazy {
-        CommonAdapter(
+    private lateinit var soupHeaderAdapter: HomeHeaderAdapter
+    private lateinit var soupFilterAdapter: CommonFilterAdapter
+    private lateinit var soupItemAdapter: CommonAdapter
+
+    override fun initViews() {
+        soupHeaderAdapter =
+            HomeHeaderAdapter(isSubtitleVisible = false, titleRes = R.string.home_soup_title)
+        soupFilterAdapter = CommonFilterAdapter { viewModel.changeFilter(it) }
+        soupItemAdapter = CommonAdapter(
             basketClickListener = basketIconClickListener,
             productDetailListener = detailClickListener
         )
-    }
 
-    override fun initViews() {
         binding.viewModel = viewModel
-
         binding.rvSoup.apply {
             adapter = ConcatAdapter(
                 soupHeaderAdapter,

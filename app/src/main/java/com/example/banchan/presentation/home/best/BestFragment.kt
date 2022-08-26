@@ -22,14 +22,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best) {
     private val bestViewModel: BestViewModel by viewModels()
-    private val mainHeaderAdapter by lazy {
-        HomeHeaderAdapter(isSubtitleVisible = true, titleRes = R.string.home_best_title)
-    }
-    private val bestWrapAdapter by lazy {
-        BestWrapAdapter(basketIconClickListener, detailClickListener)
-    }
+    private lateinit var mainHeaderAdapter: HomeHeaderAdapter
+    private lateinit var bestWrapAdapter: BestWrapAdapter
 
     override fun initViews() {
+        mainHeaderAdapter =
+            HomeHeaderAdapter(isSubtitleVisible = true, titleRes = R.string.home_best_title)
+        bestWrapAdapter = BestWrapAdapter(basketIconClickListener, detailClickListener)
+
         binding.viewModel = bestViewModel
         initRecyclerView()
         binding.layoutErrorBest.btnHomeErrorReload.setOnClickListener {
@@ -41,7 +41,7 @@ class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 bestViewModel.bestUiState.collectLatest { uiState ->
-                    if(uiState is UiState.Success) {
+                    if (uiState is UiState.Success) {
                         bestWrapAdapter.submitList(uiState.item)
                     }
                 }
@@ -49,9 +49,9 @@ class BestFragment : HomeTabFragment<FragmentBestBinding>(R.layout.fragment_best
         }
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         binding.rvBestList.adapter = ConcatAdapter(mainHeaderAdapter, bestWrapAdapter)
-        binding.rvBestList.addItemDecoration(object: RecyclerView.ItemDecoration() {
+        binding.rvBestList.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
                 view: View,

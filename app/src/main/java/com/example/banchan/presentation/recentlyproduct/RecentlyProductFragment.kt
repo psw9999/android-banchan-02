@@ -20,13 +20,12 @@ import kotlinx.coroutines.launch
 class RecentlyProductFragment :
     HomeTabFragment<FragmentRecentlyProductBinding>(R.layout.fragment_recently_product) {
     private val viewModel: RecentlyProductViewModel by activityViewModels()
-    private val recentlyProductAdapter by lazy {
-        RecentlyProductPagingAdapter(basketIconClickListener) {
-            detailClickListener(it)
-        }
-    }
+    private lateinit var recentlyProductAdapter: RecentlyProductPagingAdapter
 
     override fun initViews() {
+        recentlyProductAdapter = RecentlyProductPagingAdapter(basketIconClickListener) {
+            detailClickListener(it)
+        }
         binding.viewModel = viewModel
         binding.rvRecentlyProduct.apply {
             adapter = recentlyProductAdapter

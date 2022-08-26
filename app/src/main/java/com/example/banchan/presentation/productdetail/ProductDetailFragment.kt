@@ -1,6 +1,5 @@
 package com.example.banchan.presentation.productdetail
 
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -47,15 +46,27 @@ class ProductDetailFragment :
     private val onPlusClick: (() -> Unit) = { basketViewModel.basketCountIncrease() }
     private val onBasketAddClick: (() -> Unit) = { basketViewModel.insertSelectedBasketItem() }
 
-    private val thumbnailAdapter by lazy { ProductDetailThumbNailAdapter() }
-    private val productDetailAdapter by lazy {
-        ProductInfoAdapter(
+    private lateinit var thumbnailAdapter: ProductDetailThumbNailAdapter
+    private lateinit var productDetailAdapter: ProductInfoAdapter
+    private lateinit var productDetailSectionAdapter: ProductDetailSectionAdapter
+
+    override fun initViews() {
+        thumbnailAdapter = ProductDetailThumbNailAdapter()
+        productDetailAdapter = ProductInfoAdapter(
             onMinusClick,
             onPlusClick,
             onBasketAddClick
         )
+        productDetailSectionAdapter = ProductDetailSectionAdapter()
+
+        binding.viewModel = productDetailViewModel
+        initRecyclerView()
+        initAppBar()
+
+        binding.layoutErrorBest.btnHomeErrorReload.setOnClickListener {
+            productDetailViewModel.refresh()
+        }
     }
-    private val productDetailSectionAdapter by lazy { ProductDetailSectionAdapter() }
 
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -96,16 +107,6 @@ class ProductDetailFragment :
 
         basketViewModel.selectedBasketCount.observe(viewLifecycleOwner) {
             productDetailAdapter.notifyItemChanged(0, it)
-        }
-    }
-
-    override fun initViews() {
-        binding.viewModel = productDetailViewModel
-        initRecyclerView()
-        initAppBar()
-
-        binding.layoutErrorBest.btnHomeErrorReload.setOnClickListener {
-            productDetailViewModel.refresh()
         }
     }
 
