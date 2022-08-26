@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.example.banchan.presentation.ordersuccess.OrderSuccessListModel.Header" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:background="@color/greyscale_surface">
+
+        <TextView
+            android:id="@+id/tv_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{item.time != 0 ? @string/order_success : @string/delivery_success}"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_remain_time_description"
+            style="@style/tv_normal_14.GreyDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/remain_delivery_time"
+            android:visibility="@{item.time != 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="@id/tv_order"
+            app:layout_constraintTop_toBottomOf="@id/tv_order" />
+
+        <TextView
+            android:id="@+id/tv_remain_time"
+            style="@style/tv_normal_14.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{@string/minute_format(item.time)}"
+            android:textStyle="bold"
+            android:visibility="@{item.time != 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_remain_time_description"
+            app:layout_constraintStart_toEndOf="@id/tv_remain_time_description"
+            tools:text="20분" />
+
+        <TextView
+            android:id="@+id/tv_order_description"
+            style="@style/tv_normal_14.GreyDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/order_menu"
+            app:layout_constraintStart_toStartOf="@id/tv_remain_time_description"
+            app:layout_constraintTop_toBottomOf="@id/tv_remain_time_description" />
+
+        <TextView
+            android:id="@+id/tv_order_count"
+            style="@style/tv_normal_14.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{@string/total_count_format(item.count)}"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_order_description"
+            app:layout_constraintStart_toEndOf="@id/tv_order_description"
+            tools:text="총 2개" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="22dp"
+            android:background="@color/greyscale_line"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_description" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

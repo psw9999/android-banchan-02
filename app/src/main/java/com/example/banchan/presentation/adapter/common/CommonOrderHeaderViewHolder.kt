@@ -1,0 +1,24 @@
+package com.example.banchan.presentation.adapter.common
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.example.banchan.databinding.ItemOrderHeaderBinding
+import com.example.banchan.presentation.ordersuccess.OrderSuccessListModel
+
+class CommonOrderHeaderViewHolder(private val binding: ItemOrderHeaderBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(header: OrderSuccessListModel.Header) {
+        binding.item = header
+    }
+
+    companion object {
+        fun create(parent: ViewGroup) = CommonOrderHeaderViewHolder(
+            ItemOrderHeaderBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+    }
+}

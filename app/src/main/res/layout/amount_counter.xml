@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="amount"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/amount_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:alpha="@{amount &lt;= 1 ? 0.5f : 1.0f}"
+            android:background="@drawable/bg_amount_counter"
+            android:enabled="@{amount &lt;= 1 ? false : true}"
+            app:fabCustomSize="44dp"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toStartOf="@id/tv_amount"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_minus" />
+
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="44dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@{amount.toString()}"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ib_plus"
+            app:layout_constraintStart_toEndOf="@id/ib_minus"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1" />
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:alpha="@{amount >= 99 ? 0.5f : 1.0f}"
+            android:enabled="@{amount >= 99 ? false : true}"
+            android:background="@drawable/bg_amount_counter"
+            app:elevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_amount"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_plus"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,23 @@
+{
+  "hash": "H602F",
+  "data": {
+    "top_image": "http://public.codesquad.kr/jk/storeapp/data/side/84_ZIP_P_6006_T.jpg",
+    "thumb_images": [
+      "http://public.codesquad.kr/jk/storeapp/data/side/84_ZIP_P_6006_T.jpg",
+      "http://public.codesquad.kr/jk/storeapp/data/side/84_ZIP_P_6006_S.jpg"
+    ],
+    "product_description": "첨가물 없는 순수어묵과 야채의 만남",
+    "point": "44원",
+    "delivery_info": "서울 경기 새벽 배송 / 전국 택배 배송",
+    "delivery_fee": "2,500원 (40,000원 이상 구매 시 무료)",
+    "prices": [
+      "4,900원",
+      "4,410원"
+    ],
+    "detail_section": [
+      "http://public.codesquad.kr/jk/storeapp/data/side/84_ZIP_P_6006_D1.jpg",
+      "http://public.codesquad.kr/jk/storeapp/data/side/84_ZIP_P_6006_D2.jpg",
+      "http://public.codesquad.kr/jk/storeapp/data/pakage_small.jpg"
+    ]
+  }
+}

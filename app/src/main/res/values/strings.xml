@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">Banchan</string>
+
+    <string name="ordering_appbar_title">ORDERING</string>
+
+    <string name="home_best_subtitle">기획전</string>
+    <string name="home_best_title">한 번 주문하면\n두 번 반하는 반찬들</string>
+    <string name="home_main_cook_title">모두가 좋아하는 \n든든한 메인 요리</string>
+    <string name="home_soup_title">정성이 담긴\n뜨끈뜨끈 국물 요리</string>
+    <string name="home_side_title">식탁을 풍성하게\n정갈한 밑반찬</string>
+
+    <string name="home_error">데이터 로드에 실패하였습니다.</string>
+    <string name="home_error_btn_reload">다시 시도</string>
+    <string name="home_empty">주문 할 수 있는 음식이 없어요.</string>
+
+    <string name="total_format">총 %d개 상품</string>
+    <string name="total_price">총 결제 금액</string>
+    <string name="delivery_fee">배송료</string>
+    <string name="order_price">상품 주문 금액</string>
+    <string name="order_success">주문이 접수되었습니다.</string>
+    <string name="delivery_success">배송이 완료되었습니다.</string>
+    <string name="remain_delivery_time">배송까지 남은 시간</string>
+    <string name="order_menu">주문한 상품</string>
+
+    <string name="bottom_sheet_basket_title">장바구니 담기</string>
+    <string name="bottom_sheet_basket_cancel">취소</string>
+    <string name="bottom_sheet_sum_amount">%,d원</string>
+    <string name="bottom_sheet_basket_count">%d개 담기</string>
+
+    <string name="dialog_basket_comment">선택한 상품이 장바구니에 담겼습니다.</string>
+    <string name="dialog_basket_check">장바구니 확인</string>
+    <string name="dialog_basket_continue">계속 쇼핑하기</string>
+
+    <string name="product_detail_discount_percent">%d%%</string>
+    <string name="product_detail_price">%,d원</string>
+    <string name="product_detail_point">적립금</string>
+    <string name="product_detail_delivery_info">배송정보</string>
+    <string name="product_detail_delivery_fee">배송비</string>
+    <string name="product_detail_amount">수량</string>
+
+    <string name="basket_insert_error">장바구니 저장 중 오류가 발생하였습니다.</string>
+    <string name="basket_get_error">장바구니 불러오기 중 오류가 발생하였습니다.</string>
+
+
+    <string name="basket_list_all_check">전체 선택</string>
+    <string name="basket_list_uncheck">선택 해제</string>
+    <string name="basket_list_check_delete">선택 삭제</string>
+    <string name="basket_amount">%,d원</string>
+    <string name="basket_check_min_order_price">최소주문금액을 확인해주세요</string>
+    <string name="basket_amount_btn">%,d원 주문하기</string>
+    <string name="basket_guide_free_order">%,d원을 더 담으면 무료배송!</string>
+    <string name="basket_free_order">무료배송입니다!</string>
+    <string name="basket_recently_product">최근 본 상품</string>
+    <string name="basket_recently_product_page">전체보기</string>
+    <string name="basket_empty">장바구니가 비어있어요</string>
+    <string name="basket_recently_product_nothing">최근 본 상품이 존재하지 않습니다.</string>
+    <string name="basket_count_dialog_title">수량 입력</string>
+    <string name="basket_count_dialog_count_unit">개</string>
+    <string name="basket_count_dialog_cancel">취소</string>
+    <string name="basket_count_dialog_input">입력</string>
+
+    <string name="order_list_name_addition">%s 외 %d개</string>
+    <string name="order_proceeding">배송 준비중</string>
+    <string name="order_complete">배송 완료</string>
+    <string name="order_list_empty">주문 내역이 없습니다.</string>
+    <string name="order_list_error">주문 내역을 불러오던 중 오류가 발생하였습니다.</string>
+
+    <string-array name="home_tab_title_array">
+        <item>기획전</item>
+        <item>든든한 메인요리</item>
+        <item>뜨끈한 국물요리</item>
+        <item>정갈한 밑반찬</item>
+    </string-array>
+
+    <string name="count_format">%d개</string>
+    <string name="total_count_format">총 %d 개</string>
+    <string name="minute_format">%d분</string>
+    <string name="amount_format">%,d원</string>
+
+    <string name="notification_title">[BanChan] 배달 완료</string>
+    <string name="notification_content">배송이 완료되었습니다.</string>
+
+    <string name="network_disable">네트워크 연결을 확인해주세요</string>
+    <string name="network_enable">네트워크가 연결되었습니다</string>
+    <string name="recent_empty">최근 본 상품이 없습니다</string>
+</resources>

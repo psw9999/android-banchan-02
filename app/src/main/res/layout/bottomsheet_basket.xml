@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.example.banchan.presentation.main.BasketViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="275dp">
+
+        <TextView
+            android:id="@+id/tv_basket_title"
+            style="@style/tv_normal_14.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/bottom_sheet_basket_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_basket_cancel"
+            style="@style/tv_normal_14.Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/bottom_sheet_basket_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_basket_dish"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="59dp"
+            imageUrl="@{vm.selectedBasketItem.image}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_basket_dish_title"
+            style="@style/tv_bold_14"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical"
+            android:text="@{vm.selectedBasketItem.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_basket_dish"
+            app:layout_constraintTop_toTopOf="@id/iv_basket_dish"
+            tools:text="새콤달콤 오징어무침" />
+
+        <TextView
+            android:id="@+id/tv_basket_discount"
+            style="@style/tv_normal_14.Sale"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:gravity="center_vertical"
+            android:text="@{vm.selectedBasketItem.discountPercent}"
+            android:visibility="@{vm.selectedBasketItem.discountPercent == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="@id/tv_basket_dish_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_basket_dish_title"
+            tools:text="20%" />
+
+        <TextView
+            android:id="@+id/tv_basket_display_price"
+            style="@style/tv_bold_14"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:gravity="center_vertical"
+            android:text="@{vm.selectedBasketItem.discountPercent == null ? vm.selectedBasketItem.originPrice : vm.selectedBasketItem.discountPrice}"
+            app:layout_constraintStart_toEndOf="@id/tv_basket_discount"
+            app:layout_constraintTop_toTopOf="@id/tv_basket_discount"
+            tools:text="6,000원" />
+
+        <TextView
+            android:id="@+id/tv_basket_origin_price"
+            style="@style/tv_normal_12.GreyDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/background_line"
+            android:gravity="center_vertical"
+            android:text="@{vm.selectedBasketItem.originPrice}"
+            android:visibility="@{vm.selectedBasketItem.discountPercent == null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toEndOf="@id/tv_basket_display_price"
+            app:layout_constraintTop_toTopOf="@id/tv_basket_discount"
+            tools:text="7,500원" />
+
+        <TextView
+            android:id="@+id/tv_basket_price_sum"
+            style="@style/tv_bold_14"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:gravity="center_vertical"
+            android:text="@{@string/bottom_sheet_sum_amount(vm.getAmountSum(vm.selectedBasketCount))}"
+            app:layout_constraintEnd_toStartOf="@+id/amount_counter"
+            app:layout_constraintStart_toStartOf="@id/iv_basket_dish"
+            app:layout_constraintTop_toTopOf="@id/amount_counter"
+            app:layout_constraintBottom_toBottomOf="@id/amount_counter"
+            tools:text="6,000원" />
+
+        <com.example.banchan.presentation.custom.AmountCounter
+            android:id="@+id/amount_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:onMinusClick="@{()->vm.basketCountDecrease()}"
+            app:onPlusClick="@{()->vm.basketCountIncrease()}"
+            app:amount="@{vm.selectedBasketCount}"
+            app:layout_constraintTop_toBottomOf="@id/iv_basket_dish"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btn_basket_add"
+            style="@style/common_button_style"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="16dp"
+            android:text="@{@string/bottom_sheet_basket_count(vm.selectedBasketCount)}"
+            app:layout_constraintTop_toBottomOf="@id/amount_counter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="1개 담기" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
