@@ -10,11 +10,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentOrderListBinding
+import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.orderlist.OrderListAdapter
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.home.OrderStateViewModel
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.util.dimen.dpToPx
+import com.example.banchan.util.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,6 +24,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragment_order_list) {
     private val orderStateViewModel: OrderStateViewModel by activityViewModels()
+
     private val orderListAdapter by lazy {
         OrderListAdapter {
             navigateToOrderSuccess(it)
@@ -41,6 +44,7 @@ class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragme
     }
 
     override fun initViews() {
+        binding.viewModel = orderStateViewModel
         initRecyclerView()
         binding.tbOrderListBack.setOnClickListener { parentFragmentManager.popBackStack() }
     }
@@ -48,8 +52,12 @@ class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragme
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                orderStateViewModel.historyModelFlow.collectLatest {
-                    orderListAdapter.submitList(it)
+                orderStateViewModel.uiState.collectLatest { uiState ->
+                    if (uiState is UiState.Success) {
+                        orderListAdapter.submitList(uiState.item)
+                    } else if (uiState is UiState.Error) {
+                        requireContext().toast(getString(R.string.order_list_error))
+                    }
                 }
             }
         }

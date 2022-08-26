@@ -58,6 +58,8 @@
     <string name="order_list_name_addition">%s 외 %d개</string>
     <string name="order_proceeding">배송 준비중</string>
     <string name="order_complete">배송 완료</string>
+    <string name="order_list_empty">주문 내역이 없습니다.</string>
+    <string name="order_list_error">주문 내역을 불러오던 중 오류가 발생하였습니다.</string>
 
     <string-array name="home_tab_title_array">
         <item>기획전</item>
