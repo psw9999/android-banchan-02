@@ -2,7 +2,8 @@
 <resources>
     <style name="Theme.Banchan.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/primary_main</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_circle_cart</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="android:duration">700</item>
         <item name="postSplashScreenTheme">@style/Theme.Banchan</item>
     </style>
 </resources>
