@@ -4,29 +4,26 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.example.banchan.AlarmReceiver.Companion.OPEN_ODER_ID
 import com.example.banchan.R
 import com.example.banchan.databinding.ActivityMainBinding
 import com.example.banchan.presentation.home.HomeFragment
-import com.example.banchan.presentation.orderlist.OrderListFragment
-import com.example.banchan.presentation.productdetail.ProductDetailFragment
-import com.example.banchan.presentation.recentlyproduct.RecentlyProductFragment
+import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.util.NetworkConnectManager
 import com.google.android.material.snackbar.Snackbar
-import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+
     @Inject
     lateinit var networkConnectManager: NetworkConnectManager
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -67,12 +64,18 @@ class MainActivity : AppCompatActivity() {
 
         val id = intent?.getLongExtra(OPEN_ODER_ID, -1)
         if (id != null && id != -1L) {
-            supportFragmentManager.commit {
-                replace(
-                    R.id.layout_main_container,
-                    OrderSuccessFragment.newInstance(id)
-                )
-                addToBackStack(null)
+            supportFragmentManager.run {
+                commit {
+                    popBackStack(
+                        OrderSuccessFragment.TAG,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
+                    replace(
+                        R.id.layout_main_container,
+                        OrderSuccessFragment.newInstance(id)
+                    )
+                    addToBackStack(null)
+                }
             }
         }
     }
