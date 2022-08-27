@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -39,34 +39,34 @@
         <ImageView
             android:id="@+id/iv_none_recently_viewed"
             showOnEmpty="@{uiState}"
-            android:visibility="invisible"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:src="@drawable/none_recently_product"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/none_recently_product"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_none_recently_viewed"
             showOnEmpty="@{uiState}"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/basket_recently_product_nothing"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_none_recently_viewed"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_none_recently_viewed" />
 
         <ProgressBar
             android:id="@+id/pb_home_loading"
             style="?android:attr/progressBarStyle"
             showOnLoading="@{uiState}"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,8 +74,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_basket_recently_list"
-            android:layout_width="match_parent"
             showOnSuccess="@{uiState}"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
@@ -87,7 +87,13 @@
         <include
             android:id="@+id/layout_error_recent_product"
             layout="@layout/item_home_error"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
             android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_basket_recently_product"
             bind:uiState="@{uiState}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
