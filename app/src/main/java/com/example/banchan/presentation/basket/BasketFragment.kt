@@ -3,8 +3,8 @@ package com.example.banchan.presentation.basket
 import android.app.AlarmManager
 import android.app.Application
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -27,6 +27,7 @@ import com.example.banchan.presentation.main.BasketViewModel
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import com.example.banchan.presentation.recentlyproduct.RecentlyProductFragment
+import com.example.banchan.util.AlarmUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -158,7 +159,11 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
 
                 launch {
                     basketListViewModel.successHistoryId.collect {
-                        makeAlarm(it)
+                        AlarmUtil.makeAlarm(
+                            context = requireContext(),
+                            historyId = it,
+                            triggerTime = System.currentTimeMillis() + AlarmReceiver.ALARM_TIMER
+                        )
                         navigateToOrderSuccess(it)
                     }
                 }
@@ -171,24 +176,6 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
         binding.rvBasketList.itemAnimator = null
     }
 
-    private fun makeAlarm(id: Long) {
-        requireContext().run {
-            val alarmManager = getSystemService(Application.ALARM_SERVICE) as AlarmManager
-            val triggerTime = (SystemClock.elapsedRealtime() + AlarmReceiver.ALARM_TIMER)
-            val pendingIntent = PendingIntent.getBroadcast(
-                this, triggerTime.toInt(), Intent(this, AlarmReceiver::class.java).apply {
-                    putExtra(ID, id)
-                },
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-
-            alarmManager.setExact(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                triggerTime,
-                pendingIntent
-            )
-        }
-    }
 
     private fun navigateToRecent() {
         parentFragmentManager.run {

@@ -13,11 +13,13 @@ class HistoryLocalDataSource @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : HistoryDataSource {
 
-    override fun getHistoryList() = historyDao.getHistoryList().map {
+    override fun getHistoryStream() = historyDao.getHistoryStream().map {
         Result.success(it)
     }.catch { exception ->
         Result.failure<Exception>(exception)
     }
+
+    override suspend fun getHistoryList(): Result<List<History>> = runCatching { historyDao.getHistoryList() }
 
     override fun getHistoryWithItems() = historyDao.getHistoryWithItems().map {
         Result.success(it)

@@ -3,8 +3,8 @@ package com.example.banchan.domain.usecase.history
 import com.example.banchan.data.repository.HistoryRepository
 import javax.inject.Inject
 
-class GetHistoryListUseCase @Inject constructor(
+class GetHistoryStreamUseCase @Inject constructor(
     private val historyRepository: HistoryRepository
 ) {
-    suspend operator fun invoke() = historyRepository.getHistoryList()
+    operator fun invoke() = historyRepository.getHistoryStream()
 }
