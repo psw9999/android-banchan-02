@@ -145,7 +145,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
                 }
 
                 launch {
-                    basketListViewModel.basketAmountSumFlow.collectLatest {
+                    basketListViewModel.basketAmountSum.collectLatest {
                         basketOrderAdapter.setOrderModel(it)
                     }
                 }
