@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:gravity="center_vertical|right">
         <rotate
-            android:drawable="@drawable/spinner_check"
+            android:drawable="@drawable/spinner_arrow"
             android:fromDegrees="180"
             android:pivotX="50%"
             android:pivotY="50%"
