@@ -11,6 +11,7 @@ import com.example.banchan.domain.usecase.basket.*
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import com.example.banchan.domain.usecase.history.InsertHistoryItemsUseCase
 import com.example.banchan.presentation.UiState
+import com.example.banchan.util.DEFAULT_DELIVERY_FEE
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -84,27 +85,32 @@ class BasketListViewModel @Inject constructor(
                 return@map basketList?.all { it.isSelected } ?: false
             }
 
-    val basketAmountSumFlow: Flow<OrderModel> =
-        basketList
-            .map { basketList ->
-                var amount = 0
-                try {
-                    basketList?.forEach { basketItem ->
-                        if (basketItem.isSelected) {
-                            checkDetailApiMap(basketItem.hash)
-                            detailApiMap[basketItem.hash]?.let { detailResponse ->
-                                val priceList = detailResponse.data.prices
-                                amount += if (priceList.size == 1) (priceList[0].toNum() * basketItem.count)
-                                else (priceList[1].toNum() * basketItem.count)
-                            }
+    val basketAmountSum: StateFlow<OrderModel> = combine(
+        basketList, basketRefresh
+    ) { basketList, _ ->
+        var amount = 0
+        try {
+            basketList
+                ?.map { basketItem ->
+                    if (basketItem.isSelected) {
+                        checkDetailApiMap(basketItem.hash)
+                        detailApiMap[basketItem.hash]?.let { detailResponse ->
+                            val priceList = detailResponse.data.prices
+                            amount += if (priceList.size == 1) (priceList[0].toNum() * basketItem.count)
+                            else (priceList[1].toNum() * basketItem.count)
                         }
                     }
-                    if (amount >= 40000) OrderModel(orderPrice = amount, deliveryFee = 0)
-                    else OrderModel(orderPrice = amount, deliveryFee = 2500)
-                } catch(e : Exception) {
-                    OrderModel(orderPrice = 0, deliveryFee = 2500)
-                }
-            }
+                } ?: return@combine OrderModel(orderPrice = 0, deliveryFee = DEFAULT_DELIVERY_FEE)
+            if (amount >= 40000) OrderModel(orderPrice = amount, deliveryFee = 0)
+            else OrderModel(orderPrice = amount, deliveryFee = DEFAULT_DELIVERY_FEE)
+        } catch (e: Exception) {
+            return@combine OrderModel(orderPrice = 0, deliveryFee = DEFAULT_DELIVERY_FEE)
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = OrderModel(orderPrice = 0, deliveryFee = DEFAULT_DELIVERY_FEE)
+    )
 
     private suspend fun checkDetailApiMap(hash: String) {
         if (!(detailApiMap.containsKey(hash))) {

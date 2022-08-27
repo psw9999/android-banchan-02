@@ -40,9 +40,9 @@
         <entry key="app/src/main/res/layout/item_banchan.xml" value="0.5686782836914064" />
         <entry key="app/src/main/res/layout/item_basket.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_basket_list.xml" value="0.75" />
-        <entry key="app/src/main/res/layout/item_basket_order.xml" value="0.10099637681159421" />
+        <entry key="app/src/main/res/layout/item_basket_order.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_basket_recently_product.xml" value="0.9" />
-        <entry key="app/src/main/res/layout/item_basket_recently_tab.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_basket_recently_tab.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_basket_tab.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/item_best_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_home_empty.xml" value="0.1" />
