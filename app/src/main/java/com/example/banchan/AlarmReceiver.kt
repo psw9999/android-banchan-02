@@ -23,7 +23,7 @@ class AlarmReceiver : BroadcastReceiver() {
         ) as NotificationManager
 
         val id = intent.getLongExtra(ID, -1L)
-        setUpOrderWork(context, id)
+        setUpOrderSuccessWork(context, id)
         createNotificationChannel()
         createNotification(context, id)
     }
@@ -64,12 +64,12 @@ class AlarmReceiver : BroadcastReceiver() {
         notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
 
-    private fun setUpOrderWork(context: Context, id: Long) {
+    private fun setUpOrderSuccessWork(context: Context, id: Long) {
         val data = Data.Builder()
             .putLong(ID, id)
             .build()
 
-        val orderWork = OneTimeWorkRequestBuilder<OrderWorkManager>()
+        val orderWork = OneTimeWorkRequestBuilder<OrderSuccessWorkManager>()
             .setInputData(data)
             .build()
 

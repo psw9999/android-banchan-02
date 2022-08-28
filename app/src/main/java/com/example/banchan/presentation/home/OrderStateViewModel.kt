@@ -5,21 +5,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.source.local.history.History
 import com.example.banchan.domain.model.OrderListModel
 import com.example.banchan.domain.usecase.history.GetHistoryByIdUseCase
-import com.example.banchan.domain.usecase.history.GetHistoryListUseCase
+import com.example.banchan.domain.usecase.history.GetHistoryStreamUseCase
 import com.example.banchan.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OrderStateViewModel @Inject constructor(
-    getHistoryListUseCase: GetHistoryListUseCase,
+    getHistoryStreamUseCase: GetHistoryStreamUseCase,
     private val getHistoryByIdUseCase: GetHistoryByIdUseCase
 ) : ViewModel() {
 
     private val historyListFlow: Flow<List<History>?> =
-        getHistoryListUseCase().map { result ->
+        getHistoryStreamUseCase().map { result ->
             result.getOrNull()
         }
 

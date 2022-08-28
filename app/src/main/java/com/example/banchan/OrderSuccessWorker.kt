@@ -11,7 +11,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
 @HiltWorker
-class OrderWorkManager @AssistedInject constructor(
+class OrderSuccessWorkManager @AssistedInject constructor(
     private val updateHistoryUseCase: UpdateHistoryUseCase,
     @Assisted @NonNull appContext: Context,
     @Assisted @NonNull params: WorkerParameters
