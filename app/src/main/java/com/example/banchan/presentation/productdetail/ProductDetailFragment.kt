@@ -41,17 +41,20 @@ class ProductDetailFragment :
         )
     }
 
-
     private val onMinusClick: (() -> Unit) = { basketViewModel.basketCountDecrease() }
     private val onPlusClick: (() -> Unit) = { basketViewModel.basketCountIncrease() }
     private val onBasketAddClick: (() -> Unit) = { basketViewModel.insertSelectedBasketItem() }
+    private val onThumbNailChange: ((Int) -> Unit) = { productDetailViewModel.setSelectedImagePosition(it) }
 
     private lateinit var thumbnailAdapter: ProductDetailThumbNailAdapter
     private lateinit var productDetailAdapter: ProductInfoAdapter
     private lateinit var productDetailSectionAdapter: ProductDetailSectionAdapter
 
     override fun initViews() {
-        thumbnailAdapter = ProductDetailThumbNailAdapter()
+        thumbnailAdapter = ProductDetailThumbNailAdapter(
+            onThumbNailChange,
+            productDetailViewModel.selectedImagePosition
+        )
         productDetailAdapter = ProductInfoAdapter(
             onMinusClick,
             onPlusClick,

@@ -24,6 +24,14 @@ class ProductDetailViewModel @AssistedInject constructor(
         MutableStateFlow<UiState<ProductDetailModel>>(UiState.Init)
     val uiState = _uiState.asStateFlow()
 
+    private var _selectedImagePosition = 0
+    val selectedImagePosition
+        get() = _selectedImagePosition
+
+    fun setSelectedImagePosition(position: Int) {
+        this._selectedImagePosition = position
+    }
+
     init {
         refresh()
     }

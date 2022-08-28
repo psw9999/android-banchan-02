@@ -3,7 +3,10 @@ package com.example.banchan.presentation.adapter.productdetail
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class ProductDetailThumbNailAdapter: RecyclerView.Adapter<ProductThumbNailViewHolder>() {
+class ProductDetailThumbNailAdapter(
+    private val onThumbNailChange: ((Int) -> Unit),
+    private val ThumbNailPosition: Int
+): RecyclerView.Adapter<ProductThumbNailViewHolder>() {
 
     private val thumbImageUrls: MutableList<String> = mutableListOf()
 
@@ -20,7 +23,7 @@ class ProductDetailThumbNailAdapter: RecyclerView.Adapter<ProductThumbNailViewHo
         ProductThumbNailViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: ProductThumbNailViewHolder, position: Int) {
-        holder.bind(thumbImageUrls)
+        holder.bind(thumbImageUrls, onThumbNailChange, ThumbNailPosition)
     }
 
     override fun getItemCount(): Int = 1
