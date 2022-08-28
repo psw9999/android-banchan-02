@@ -33,7 +33,7 @@ data class DetailResponse(
         )
     }
 
-    fun toBasketModel(name: String, count: Int, isSelected: Boolean): BasketModel {
+    fun toBasketModel(name: String, count: Int, isSelected: Boolean, time: Long): BasketModel {
         return BasketModel(
             name = name,
             count = count,
@@ -41,6 +41,7 @@ data class DetailResponse(
             detailHash = hash,
             price = if (data.prices.size == 1) data.prices[0].toNum() else data.prices[1].toNum(),
             image = data.thumbImages[0],
+            time = time
         )
     }
 
