@@ -1,9 +1,9 @@
 package com.example.banchan.presentation.productdetail
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.banchan.data.source.local.basket.BasketItem
 import com.example.banchan.domain.model.ProductDetailModel
+import com.example.banchan.domain.usecase.basket.InsertBasketItemUseCase
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import com.example.banchan.domain.usecase.recently.SaveRecentProduct
 import com.example.banchan.presentation.UiState
@@ -17,12 +17,27 @@ class ProductDetailViewModel @AssistedInject constructor(
     @Assisted("hash") private val hash: String,
     @Assisted("name") private val name: String,
     private val productDetailUseCase: GetProductDetailUseCase,
-    private val saveRecentProduct: SaveRecentProduct
+    private val saveRecentProduct: SaveRecentProduct,
+    private val insertBasketItemUseCase: InsertBasketItemUseCase
 ) : ViewModel() {
 
     private val _uiState =
         MutableStateFlow<UiState<ProductDetailModel>>(UiState.Init)
     val uiState = _uiState.asStateFlow()
+
+    private val _productCount = MutableStateFlow(1)
+    val productCount = _productCount.asStateFlow()
+
+    fun productCountDecrease() {
+        _productCount.value = _productCount.value.dec()
+    }
+
+    fun productCountIncrease() {
+        _productCount.value = _productCount.value.inc()
+    }
+
+    private val _isInsertSuccess = MutableSharedFlow<Boolean>()
+    val isInsertSuccess: SharedFlow<Boolean> = _isInsertSuccess
 
     private var _selectedImagePosition = 0
     val selectedImagePosition
@@ -48,6 +63,21 @@ class ProductDetailViewModel @AssistedInject constructor(
                 .onFailure {
                     _uiState.emit(UiState.Error(Throwable("Network Error")))
                 }
+        }
+    }
+
+    fun insertSelectedBasketItem() {
+        viewModelScope.launch {
+            insertBasketItemUseCase.invoke(
+                BasketItem(
+                    hash = hash,
+                    count = productCount.value,
+                    name = name,
+                    isSelected = true,
+                )
+            )
+                .onSuccess { _isInsertSuccess.emit(true) }
+                .onFailure { _isInsertSuccess.emit(false) }
         }
     }
 

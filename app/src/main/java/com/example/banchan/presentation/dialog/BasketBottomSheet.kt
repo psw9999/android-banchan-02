@@ -4,34 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.banchan.databinding.BottomsheetBasketBinding
-import com.example.banchan.presentation.main.BasketViewModel
+import com.example.banchan.domain.model.ItemModel
 import com.example.banchan.util.ext.toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class BasketBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "BasketBottomSheet"
+        const val ITEM_MODEL = "item_model"
+        fun newInstance(itemModel: ItemModel) = BasketBottomSheet().apply {
+            arguments = Bundle().apply {
+                putParcelable(ITEM_MODEL, itemModel)
+            }
+        }
     }
 
-    private val basketViewModel: BasketViewModel by activityViewModels()
-
+    private val basketBottomSheetViewModel : BasketBottomSheetViewModel by viewModels()
+    private val itemModel : ItemModel by lazy {arguments!!.getParcelable(ITEM_MODEL)!!}
     private var _binding: BottomsheetBasketBinding? = null
     private val binding get() = _binding!!
-
-    override fun onStart() {
-        super.onStart()
-        val behavior = BottomSheetBehavior.from(requireView().parent as View)
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,10 +50,16 @@ class BasketBottomSheet : BottomSheetDialogFragment() {
         observe()
     }
 
+    override fun onStart() {
+        super.onStart()
+        val behavior = BottomSheetBehavior.from(requireView().parent as View)
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
     private fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                basketViewModel.isInsertSuccess.collectLatest { isInsertSuccess ->
+                basketBottomSheetViewModel.isInsertSuccess.collectLatest { isInsertSuccess ->
                     if (isInsertSuccess) {
                         showDialog()
                         this@BasketBottomSheet.dismiss()
@@ -65,12 +73,13 @@ class BasketBottomSheet : BottomSheetDialogFragment() {
 
     private fun initBottomSheet() {
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.vm = basketViewModel
+        binding.item = itemModel
+        binding.vm = basketBottomSheetViewModel
         binding.tvBasketCancel.setOnClickListener {
             this.dismiss()
         }
         binding.btnBasketAdd.setOnClickListener {
-            basketViewModel.insertSelectedBasketItem()
+            basketBottomSheetViewModel.insertSelectedBasketItem(itemModel)
         }
     }
 
@@ -88,4 +97,7 @@ class BasketBottomSheet : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
+
 }

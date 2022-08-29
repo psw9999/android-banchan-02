@@ -1,12 +1,6 @@
 package com.example.banchan.presentation.basket
 
-import android.app.AlarmManager
-import android.app.Application
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,7 +9,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.banchan.AlarmReceiver
-import com.example.banchan.AlarmReceiver.Companion.ID
 import com.example.banchan.R
 import com.example.banchan.databinding.FragmentBasketBinding
 import com.example.banchan.domain.model.BasketModel
@@ -24,7 +17,6 @@ import com.example.banchan.presentation.UiState
 import com.example.banchan.presentation.adapter.basket.*
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.dialog.BasketAmountDialog
-import com.example.banchan.presentation.main.BasketViewModel
 import com.example.banchan.presentation.ordersuccess.OrderSuccessFragment
 import com.example.banchan.presentation.productdetail.ProductDetailFragment
 import com.example.banchan.presentation.recentlyproduct.RecentlyProductFragment
@@ -36,7 +28,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_basket) {
     private val recentlyProductViewModel: BasketRecentlyProductViewModel by viewModels()
-    private val basketViewModel: BasketViewModel by activityViewModels()
     private val basketListViewModel: BasketListViewModel by viewModels()
 
     private val basketListTabAdapter: BasketTabAdapter by lazy {
@@ -212,7 +203,6 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
     }
 
     private fun navigateToDetail(itemModel: ItemModel) {
-        basketViewModel.setSelectedBasketItem(itemModel)
         parentFragmentManager.run {
             popBackStack(
                 ProductDetailFragment.TAG,
@@ -221,7 +211,10 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(R.layout.fragment_bas
             commit {
                 replace(
                     R.id.layout_main_container,
-                    ProductDetailFragment(),
+                    ProductDetailFragment.newInstance(
+                        hash = itemModel.detailHash,
+                        name = itemModel.title
+                    ),
                     ProductDetailFragment.TAG
                 )
                 addToBackStack(ProductDetailFragment.TAG)
