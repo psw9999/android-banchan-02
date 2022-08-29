@@ -108,32 +108,44 @@ class MainDishFragment : HomeTabFragment<FragmentMainDishBinding>(R.layout.fragm
         when (type) {
             Type.Linear -> {
                 binding.rvMain.apply {
-                    val state = (layoutManager as GridLayoutManager?)?.onSaveInstanceState()
-                    layoutManager = LinearLayoutManager(requireActivity())
-                    if (itemDecorationCount != 0) {
-                        removeItemDecorationAt(0)
+                    if (layoutManager is GridLayoutManager) {
+                        val state = (layoutManager as GridLayoutManager).onSaveInstanceState()
+                        layoutManager = LinearLayoutManager(requireActivity())
+                        if (itemDecorationCount != 0) {
+                            removeItemDecorationAt(0)
+                        }
+                        addItemDecoration(commonSpacingItemDecorator)
+                        state?.let {
+                            (layoutManager as LinearLayoutManager).onRestoreInstanceState(
+                                it
+                            )
+                        }
                     }
-                    addItemDecoration(commonSpacingItemDecorator)
-                    state?.let { (layoutManager as LinearLayoutManager).onRestoreInstanceState(it) }
                 }
             }
             Type.Grid -> {
                 binding.rvMain.apply {
-                    val state = (layoutManager as LinearLayoutManager?)?.onSaveInstanceState()
-                    layoutManager = GridLayoutManager(requireActivity(), 2)
-                    if (itemDecorationCount != 0) {
-                        removeItemDecorationAt(0)
-                    }
-                    addItemDecoration(gridSpacingItemDecorator)
-
-                    (layoutManager as GridLayoutManager).spanSizeLookup =
-                        object : GridLayoutManager.SpanSizeLookup() {
-                            override fun getSpanSize(position: Int): Int {
-                                if (position == 0 || position == 1) return 2
-                                return 1
-                            }
+                    if (layoutManager is LinearLayoutManager) {
+                        val state = (layoutManager as LinearLayoutManager).onSaveInstanceState()
+                        layoutManager = GridLayoutManager(requireActivity(), 2)
+                        if (itemDecorationCount != 0) {
+                            removeItemDecorationAt(0)
                         }
-                    state?.let { (layoutManager as LinearLayoutManager).onRestoreInstanceState(it) }
+                        addItemDecoration(gridSpacingItemDecorator)
+
+                        (layoutManager as GridLayoutManager).spanSizeLookup =
+                            object : GridLayoutManager.SpanSizeLookup() {
+                                override fun getSpanSize(position: Int): Int {
+                                    if (position == 0 || position == 1) return 2
+                                    return 1
+                                }
+                            }
+                        state?.let {
+                            (layoutManager as LinearLayoutManager).onRestoreInstanceState(
+                                it
+                            )
+                        }
+                    }
                 }
             }
         }
