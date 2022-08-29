@@ -22,15 +22,6 @@ class OrderStateViewModel @Inject constructor(
             result.getOrNull()
         }
 
-    val isOrderingStateFlow: StateFlow<Boolean> =
-        historyListFlow.map { historyList ->
-            historyList?.all { it.isSuccess } ?: return@map true
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = true
-        )
-
     val uiState: StateFlow<UiState<List<OrderListModel>>> =
         historyListFlow.map { historyList ->
             if (historyList == null) return@map UiState.Error(Throwable("DB Error"))

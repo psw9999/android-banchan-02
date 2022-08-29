@@ -2,8 +2,8 @@ package com.example.banchan.presentation.orderlist
 
 import android.graphics.Rect
 import android.view.View
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OrderListFragment : BaseFragment<FragmentOrderListBinding>(R.layout.fragment_order_list) {
-    private val orderStateViewModel: OrderStateViewModel by activityViewModels()
+    private val orderStateViewModel: OrderStateViewModel by viewModels()
 
     private lateinit var orderListAdapter: OrderListAdapter
 
