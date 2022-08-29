@@ -69,6 +69,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         val adapter =
             HomeViewPagerAdapter(this, resources.getStringArray(R.array.home_tab_title_array))
         binding.vpHome.adapter = adapter
+        binding.vpHome.offscreenPageLimit = 3
         TabLayoutMediator(binding.tlHome, binding.vpHome) { tab, position ->
             tab.text = adapter.homeTabTitleArray[position]
         }.attach()
