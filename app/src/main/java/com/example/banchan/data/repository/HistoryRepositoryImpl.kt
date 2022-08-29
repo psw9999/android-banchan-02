@@ -10,7 +10,9 @@ class HistoryRepositoryImpl @Inject constructor(
     private val localDataSource: HistoryDataSource
 ) : HistoryRepository {
 
-    override fun getHistoryList(): Flow<Result<List<History>>> = localDataSource.getHistoryList()
+    override fun getHistoryStream(): Flow<Result<List<History>>> = localDataSource.getHistoryStream()
+
+    override suspend fun getHistoryList(): Result<List<History>> = localDataSource.getHistoryList()
 
     override fun getHistoryWithItems() = localDataSource.getHistoryWithItems()
 

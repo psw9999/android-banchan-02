@@ -10,9 +10,8 @@ import com.example.banchan.databinding.FragmentHomeBinding
 import com.example.banchan.presentation.adapter.home.HomeViewPagerAdapter
 import com.example.banchan.presentation.base.BaseFragment
 import com.example.banchan.presentation.basket.BasketFragment
-import com.example.banchan.presentation.main.BasketViewModel
+import com.example.banchan.presentation.main.AppBarViewModel
 import com.example.banchan.presentation.orderlist.OrderListFragment
-import com.example.banchan.util.ext.toast
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -20,8 +19,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
-    private val basketViewModel: BasketViewModel by activityViewModels()
-    private val orderStateViewModel: OrderStateViewModel by activityViewModels()
+    private val appBarViewModel: AppBarViewModel by activityViewModels()
 
     override fun initViews() {
         initViewPager()
@@ -50,15 +48,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
                 launch {
-                    basketViewModel.basketFlow.collectLatest { result ->
-                        result.onSuccess { binding.abHome.setCartCount(it.size) }
-                        result.onFailure { requireContext().toast(getString(R.string.basket_get_error)) }
+                    appBarViewModel.basketCount.collectLatest { result ->
+                        binding.abHome.setCartCount(result)
                     }
                 }
 
                 launch {
-                    orderStateViewModel.isOrderingStateFlow.collect { isAllOrderSuccess ->
+                    appBarViewModel.isOrderingStateFlow.collect { isAllOrderSuccess ->
                         binding.abHome.setIsShipping(!isAllOrderSuccess)
                     }
                 }
@@ -71,6 +69,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         val adapter =
             HomeViewPagerAdapter(this, resources.getStringArray(R.array.home_tab_title_array))
         binding.vpHome.adapter = adapter
+        binding.vpHome.offscreenPageLimit = 3
         TabLayoutMediator(binding.tlHome, binding.vpHome) { tab, position ->
             tab.text = adapter.homeTabTitleArray[position]
         }.attach()

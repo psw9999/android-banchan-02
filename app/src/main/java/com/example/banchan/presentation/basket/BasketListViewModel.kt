@@ -11,13 +11,16 @@ import com.example.banchan.domain.usecase.basket.*
 import com.example.banchan.domain.usecase.detail.GetProductDetailUseCase
 import com.example.banchan.domain.usecase.history.InsertHistoryItemsUseCase
 import com.example.banchan.presentation.UiState
+import com.example.banchan.util.DEFAULT_DELIVERY_FEE
 import com.example.banchan.util.ext.toNum
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 @HiltViewModel
 class BasketListViewModel @Inject constructor(
     getBasketItemUseCase: GetBasketItemUseCase,
@@ -48,27 +51,33 @@ class BasketListViewModel @Inject constructor(
             basketRefresh.emit(true)
             combine(basketList, basketRefresh) { basketList, _ ->
                 basketList
-            }.collect { basketList ->
-                _basketUiState.update {
-                    if(basketList == null) return@update UiState.Error(Exception("DB Error"))
+            }.map { basketList ->
+                if (basketList == null) return@map (UiState.Error(Exception("DB Error")))
+                else {
+                    if (basketList.isEmpty()) return@map (UiState.Empty)
                     else {
-                        if (basketList.isEmpty()) return@update UiState.Empty
                         try {
-                            val result = basketList.mapNotNull { basketItem ->
-                                checkDetailApiMap(basketItem.hash)
-                                return@mapNotNull detailApiMap[basketItem.hash]?.toBasketModel(
-                                    name = basketItem.name,
-                                    count = basketItem.count,
-                                    isSelected = basketItem.isSelected
-                                )
-                            }
-                            return@update UiState.Success(result)
-                        } catch (e: Exception) {
-                            return@update UiState.Error(Exception("Network Error"))
+                            val result = basketList.asFlow()
+                                .flatMapMerge { basketItem ->
+                                    flow {
+                                        checkDetailApiMap(basketItem.hash)
+                                        emit(
+                                            detailApiMap[basketItem.hash]!!.toBasketModel(
+                                                name = basketItem.name,
+                                                count = basketItem.count,
+                                                isSelected = basketItem.isSelected,
+                                                time = basketItem.time
+                                            )
+                                        )
+                                    }
+                                }.toList().sortedBy { it.time }
+                            return@map UiState.Success(result)
+                        } catch(e: Exception) {
+                            return@map UiState.Error(Exception("Network Error"))
                         }
                     }
                 }
-            }
+            }.collectLatest { _basketUiState.emit(it) }
         }
     }
 
@@ -84,27 +93,32 @@ class BasketListViewModel @Inject constructor(
                 return@map basketList?.all { it.isSelected } ?: false
             }
 
-    val basketAmountSumFlow: Flow<OrderModel> =
-        basketList
-            .map { basketList ->
-                var amount = 0
-                try {
-                    basketList?.forEach { basketItem ->
-                        if (basketItem.isSelected) {
-                            checkDetailApiMap(basketItem.hash)
-                            detailApiMap[basketItem.hash]?.let { detailResponse ->
-                                val priceList = detailResponse.data.prices
-                                amount += if (priceList.size == 1) (priceList[0].toNum() * basketItem.count)
-                                else (priceList[1].toNum() * basketItem.count)
-                            }
+    val basketAmountSum: StateFlow<OrderModel> = combine(
+        basketList, basketRefresh
+    ) { basketList, _ ->
+        var amount = 0
+        try {
+            basketList
+                ?.map { basketItem ->
+                    if (basketItem.isSelected) {
+                        checkDetailApiMap(basketItem.hash)
+                        detailApiMap[basketItem.hash]!!.let { detailResponse ->
+                            val priceList = detailResponse.data.prices
+                            amount += if (priceList.size == 1) (priceList[0].toNum() * basketItem.count)
+                            else (priceList[1].toNum() * basketItem.count)
                         }
                     }
-                    if (amount >= 40000) OrderModel(orderPrice = amount, deliveryFee = 0)
-                    else OrderModel(orderPrice = amount, deliveryFee = 2500)
-                } catch(e : Exception) {
-                    OrderModel(orderPrice = 0, deliveryFee = 2500)
                 }
-            }
+            if (amount >= 40000) OrderModel(orderPrice = amount, deliveryFee = 0)
+            else OrderModel(orderPrice = amount, deliveryFee = DEFAULT_DELIVERY_FEE)
+        } catch (e: Exception) {
+            return@combine OrderModel(orderPrice = 0, deliveryFee = DEFAULT_DELIVERY_FEE)
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = OrderModel(orderPrice = 0, deliveryFee = DEFAULT_DELIVERY_FEE)
+    )
 
     private suspend fun checkDetailApiMap(hash: String) {
         if (!(detailApiMap.containsKey(hash))) {
@@ -118,7 +132,7 @@ class BasketListViewModel @Inject constructor(
         }
     }
 
-    fun updateBasketItem(basketModel: BasketModel) {
+    fun checkBasketItem(basketModel: BasketModel) {
         viewModelScope.launch {
             updateBasketItemUseCase.invoke(
                 BasketItem(
@@ -126,6 +140,7 @@ class BasketListViewModel @Inject constructor(
                     name = basketModel.name,
                     count = basketModel.count,
                     isSelected = !basketModel.isChecked,
+                    time = basketModel.time
                 )
             )
         }
@@ -151,6 +166,7 @@ class BasketListViewModel @Inject constructor(
                     name = basketModel.name,
                     count = basketModel.count,
                     isSelected = basketModel.isChecked,
+                    time = basketModel.time
                 )
             )
         }
@@ -164,6 +180,7 @@ class BasketListViewModel @Inject constructor(
                     name = basketModel.name,
                     count = basketModel.count + 1,
                     isSelected = basketModel.isChecked,
+                    time = basketModel.time
                 )
             )
         }
@@ -177,6 +194,7 @@ class BasketListViewModel @Inject constructor(
                     name = basketModel.name,
                     count = basketModel.count - 1,
                     isSelected = basketModel.isChecked,
+                    time = basketModel.time
                 )
             )
         }

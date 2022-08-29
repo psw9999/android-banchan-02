@@ -21,6 +21,7 @@
             showOnSuccess="@{viewModel.uiState}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/item_menu" />
 
         <ProgressBar

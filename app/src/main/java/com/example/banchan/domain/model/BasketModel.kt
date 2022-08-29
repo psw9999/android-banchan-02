@@ -5,10 +5,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BasketModel(
-    val detailHash : String,
-    val count : Int,
-    val isChecked : Boolean = true,
-    val name : String,
-    val price : Int,
-    val image : String
-): Parcelable
+    val detailHash: String,
+    val count: Int,
+    val isChecked: Boolean = true,
+    val name: String,
+    val price: Int,
+    val image: String,
+    val time: Long,
+) : Parcelable

@@ -40,6 +40,7 @@ class AmountDialogViewModel @Inject constructor(
                         name = basketModel.name,
                         count = amount.value,
                         isSelected = basketModel.isChecked,
+                        time = basketModel.time
                     )
                 )
             }

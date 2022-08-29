@@ -5,32 +5,22 @@ import androidx.lifecycle.viewModelScope
 import com.example.banchan.data.source.local.history.History
 import com.example.banchan.domain.model.OrderListModel
 import com.example.banchan.domain.usecase.history.GetHistoryByIdUseCase
-import com.example.banchan.domain.usecase.history.GetHistoryListUseCase
+import com.example.banchan.domain.usecase.history.GetHistoryStreamUseCase
 import com.example.banchan.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class OrderStateViewModel @Inject constructor(
-    getHistoryListUseCase: GetHistoryListUseCase,
+    getHistoryStreamUseCase: GetHistoryStreamUseCase,
     private val getHistoryByIdUseCase: GetHistoryByIdUseCase
 ) : ViewModel() {
 
     private val historyListFlow: Flow<List<History>?> =
-        getHistoryListUseCase().map { result ->
+        getHistoryStreamUseCase().map { result ->
             result.getOrNull()
         }
-
-    val isOrderingStateFlow: StateFlow<Boolean> =
-        historyListFlow.map { historyList ->
-            historyList?.all { it.isSuccess } ?: return@map true
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = true
-        )
 
     val uiState: StateFlow<UiState<List<OrderListModel>>> =
         historyListFlow.map { historyList ->

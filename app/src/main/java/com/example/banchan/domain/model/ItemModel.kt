@@ -1,5 +1,9 @@
 package com.example.banchan.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ItemModel(
     val description: String,
     val detailHash: String,
@@ -11,4 +15,4 @@ data class ItemModel(
     val isCartAdded: Boolean = false,
     val time: String = "",
     val originTime: Long = 0L
-)
+) : Parcelable

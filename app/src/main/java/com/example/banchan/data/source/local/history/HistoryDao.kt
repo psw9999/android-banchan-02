@@ -18,10 +18,10 @@ interface HistoryDao {
     suspend fun insertHistory(history: History): Long
 
     @Query("select * from history")
-    suspend fun getAllHistory(): List<History>
+    suspend fun getHistoryList(): List<History>
 
     @Query("select * from history order by id desc")
-    fun getHistoryList(): Flow<List<History>>
+    fun getHistoryStream(): Flow<List<History>>
     
     @Query("UPDATE history SET isSuccess = :isSuccess WHERE history.id = :id ")
     suspend fun updateHistory(id: Long, isSuccess: Boolean)

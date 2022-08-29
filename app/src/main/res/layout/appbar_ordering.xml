@@ -21,33 +21,34 @@
         android:layout_height="56dp"
         android:background="@color/primary_main">
 
-        <TextView
-            android:id="@+id/tv_ab_ordering_title"
-            style="@style/tv_bold_20.AppbarTitle"
+        <ImageView
+            android:id="@+id/iv_ab_ordering_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/ordering_appbar_title"
+            android:src="@drawable/ic_page_title_1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_ab_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="18dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="10dp"
             android:src="@{isShipping ? @drawable/ic_userbadge : @drawable/ic_user}"
-            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_user" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_ab_cart_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="34dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="28dp"
+            android:background="@android:color/transparent"
             android:visibility="@{cartCount > 0 ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/iv_ab_profile"
@@ -75,15 +76,18 @@
             tools:layout_constraintStart_toStartOf="@id/iv_ab_cart_action"
             tools:text="10+" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_ab_cart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@android:color/transparent"
             android:visibility="@{cartCount > 0 ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/iv_ab_cart_action"
             app:layout_constraintEnd_toEndOf="@id/iv_ab_cart_action"
             app:layout_constraintStart_toStartOf="@id/iv_ab_cart_action"
             app:layout_constraintTop_toTopOf="@id/iv_ab_cart_action"
             app:srcCompat="@drawable/ic_cart" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
