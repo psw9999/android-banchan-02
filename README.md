@@ -53,6 +53,9 @@ Etc | WorkManager, AlarmManager
 ## 발표자료
 - [발표자료 링크](https://drive.google.com/file/d/1ynRekkM5JVatiQIBFid2FaOl7IWy1At9/view)
 
+## wiki
+- [wiki 링크](https://github.com/woowa-techcamp-2022/android-banchan-02/wiki)
+
 ## 멤버
 |[박승운](https://github.com/psw9999)|[박해민](https://github.com/Haemin-Park)|
 |-------------------------------------|-------------------------------------| 
